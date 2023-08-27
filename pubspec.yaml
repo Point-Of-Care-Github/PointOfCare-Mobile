@@ -112,6 +112,9 @@ flutter:
     - family: League Spartan
       fonts:
         - asset: assets/fonts/LeagueSpartan-SemiBold.ttf
+    - family: Trap
+      fonts:
+        - asset: assets/fonts/Trap-Bold.otf
 
   #
   # For details regarding fonts from package dependencies,

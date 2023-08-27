@@ -188,7 +188,7 @@ class _AuthCardState extends State<AuthCard> {
                       'Login',
                       style: TextStyle(
                           fontSize: 40,
-                          fontFamily: 'Poppins',
+                          fontFamily: 'Trap',
                           fontWeight: FontWeight.bold),
                     ),
                   ),
@@ -204,7 +204,7 @@ class _AuthCardState extends State<AuthCard> {
                       'Create Account',
                       style: TextStyle(
                           fontSize: 34,
-                          fontFamily: 'Poppins',
+                          fontFamily: 'Trap',
                           fontWeight: FontWeight.bold),
                     ),
                   ),

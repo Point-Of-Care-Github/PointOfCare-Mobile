@@ -13,7 +13,6 @@ import './screens/homeScreen.dart';
 import './screens/profile.dart';
 import './screens/settings.dart';
 import 'models/user.dart';
-import 'models/users.dart';
 import './screens/xrayDiagnosis.dart';
 import './screens/aboutUs.dart';
 import './screens/ctscanDiagnosis.dart';
@@ -81,9 +80,9 @@ class MyApp extends StatelessWidget {
             debugShowCheckedModeBanner: false,
             title: 'Point-Of-Care',
             theme: ThemeData(
-              primarySwatch: createMaterialColor(Color(0xFF7F80D2)),
-              scaffoldBackgroundColor: Colors.white,
-            ),
+                primarySwatch: createMaterialColor(Color(0xFF7F80D2)),
+                scaffoldBackgroundColor: Colors.white,
+                fontFamily: 'Trap-Regular'),
             home: auth.isAuth ? TabsScreen() : Authentication(),
             routes: {
               TabsScreen.routeName: (ctx) => TabsScreen(),

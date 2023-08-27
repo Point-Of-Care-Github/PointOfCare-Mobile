@@ -1,7 +1,5 @@
 import 'dart:convert';
-
 import 'package:flutter/foundation.dart';
-
 import 'package:http/http.dart' as http;
 import '../models/http_exception.dart';
 
@@ -28,7 +26,7 @@ class Doctor with ChangeNotifier {
       required this.specialization});
 
   Future<void> addDoctor(Doctor doctor) async {
-    const url = "http://192.168.56.1:5000/api/profile";
+    const url = "http://192.168.56.1:5000/api/users/addDoctor";
     try {
       final response = await http.post(
         Uri.parse(url),
@@ -74,7 +72,7 @@ class Patient with ChangeNotifier {
       required this.image});
 
   Future<void> addPatient(Patient patient) async {
-    const url = "http://192.168.56.1:5000/api/profile/patient";
+    const url = "http://192.168.56.1:5000/api/users/addPatient";
     try {
       final response = await http.post(
         Uri.parse(url),
@@ -117,7 +115,7 @@ class Radiologist with ChangeNotifier {
       required this.image});
 
   Future<void> addRadiologist(Radiologist radiologist) async {
-    const url = "http://192.168.56.1:5000/api/profile/radiologist";
+    const url = "http://192.168.56.1:5000/api/users/addRadiologist";
     try {
       final response = await http.post(
         Uri.parse(url),

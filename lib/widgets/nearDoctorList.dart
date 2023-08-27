@@ -5,7 +5,7 @@ import 'dart:convert';
 import 'package:async/async.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import '../providers/maps_utils.dart';
+import '../utils/maps_utils.dart';
 
 class NearDoctorList extends StatefulWidget {
   @override
