@@ -1,24 +1,43 @@
-import 'package:flutter/foundation.dart';
+import 'dart:convert';
 
-class User with ChangeNotifier {
-  String? id;
-  String? name;
-  String? email;
-  String? contact;
-  String? age;
-  String? password;
-  String? gender;
-  String? pic;
+class User {
+  final String id;
+  final String name;
+  final String email;
+  final String role;
+  final String password;
+  final String token;
 
-  User.fromuser();
   User({
     required this.id,
     required this.name,
     required this.email,
-    required this.contact,
-    required this.age,
+    required this.role,
     required this.password,
-    required this.gender,
-    required this.pic,
+    required this.token,
   });
+
+  Map<String, dynamic> toMap() {
+    return {
+      'name': name,
+      'email': email,
+      'role': role,
+      'password': password,
+      'token': token,
+    };
+  }
+
+  factory User.fromMap(Map<String, dynamic> map) {
+    return User(
+      id: map['_id'] ?? '',
+      name: map['name'] ?? '',
+      email: map['email'] ?? '',
+      role: map['role'] ?? '',
+      password: map['password'] ?? '',
+      token: map['token'] ?? '',
+    );
+  }
+  String toJson() => json.encode(toMap());
+
+  factory User.fromJson(String source) => User.fromMap(json.decode(source));
 }
