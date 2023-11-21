@@ -1,30 +1,49 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:test/constants/const.dart';
+import 'package:test/providers/appointment_services.dart';
 import 'package:test/providers/auth.dart';
-import 'package:test/providers/profile.dart';
-import 'package:test/screens/diagnosis.dart';
-import 'package:test/screens/doctorsRecommendation.dart';
-import 'package:test/screens/email-otp.dart';
-import 'package:test/screens/resultScreen.dart';
-import 'package:test/screens/symptomsScreen.dart';
-import './screens/authentication.dart';
-import './screens/tabScreen.dart';
-import './screens/homeScreen.dart';
-import './screens/profile.dart';
-import './screens/settings.dart';
-import 'models/user.dart';
-import './screens/xrayDiagnosis.dart';
-import './screens/aboutUs.dart';
-import './screens/ctscanDiagnosis.dart';
-import './screens/nearbyDoctors.dart';
-import './screens/reportScreen.dart';
-import './screens/xrayUploadScreen.dart';
-import 'models/diseaseLabels.dart';
-import 'models/reports.dart';
-import 'screens/addProfile.dart';
+import 'package:test/providers/doctor.dart';
+import 'package:test/providers/doctor_profile.dart';
+import 'package:test/providers/patient.dart';
+import 'package:test/providers/patient_profile.dart';
+import 'package:test/providers/radiologist.dart';
+import 'package:test/providers/report.dart';
+import 'package:test/providers/user_provider.dart';
+import 'package:test/screens/Appointments/screens/availableDoctors.dart';
+import 'package:test/screens/Diagnosis/screens/ctscanDiagnosis.dart';
+import 'package:test/screens/Diagnosis/screens/diagnosis.dart';
+import 'package:test/screens/Diagnosis/screens/symptomsScreen.dart';
+import 'package:test/screens/Diagnosis/screens/xrayDiagnosis.dart';
+import 'package:test/screens/Diagnosis/screens/xrayUploadScreen.dart';
+import 'package:test/screens/Doctor%20Recommendation/screens/nearbyDoctors.dart';
+import 'package:test/screens/Feedback%20and%20Settings/screens/settings.dart';
+import 'package:test/screens/Main/screens/aboutUs.dart';
+import 'package:test/screens/Main/screens/homeScreen.dart';
+import 'package:test/screens/Main/screens/tabScreen.dart';
+import 'package:test/screens/Result%20and%20Reporting/screens/reportScreen.dart';
+import 'package:test/screens/Result%20and%20Reporting/screens/resultScreen.dart';
+import 'package:test/screens/User%20Profiling/screens/addProfile.dart';
+import 'package:test/screens/User%20Profiling/screens/authentication.dart';
+import 'package:test/screens/User%20Profiling/screens/email-otp.dart';
+import 'package:test/screens/User%20Profiling/screens/profile.dart';
+import 'utils/reports.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
+}
+
+extension on String {
+  bool toBoolean() {
+    print(this);
+    return (this.toLowerCase() == "true" || this.toLowerCase() == "1")
+        ? true
+        : (this.toLowerCase() == "false" || this.toLowerCase() == "0"
+            ? false
+            : false);
+  }
 }
 
 class MyApp extends StatelessWidget {
@@ -54,7 +73,10 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
         providers: [
           ChangeNotifierProvider<Auth>(
-            create: (ctx) => Auth(),
+            create: (ctx) => Auth.toauth(),
+          ),
+          ChangeNotifierProvider<Results>(
+            create: (ctx) => Results(),
           ),
           ChangeNotifierProvider<Doctor>(
             create: (ctx) => Doctor.fromdoc(),
@@ -65,11 +87,17 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider<Radiologist>(
             create: (ctx) => Radiologist.fromrad(),
           ),
-          ChangeNotifierProvider<User>(
-            create: (ctx) => User.fromuser(),
+          ChangeNotifierProvider(
+            create: (_) => UserProvider(),
           ),
-          ChangeNotifierProvider<DiseaseLabels>(
-            create: (ctx) => DiseaseLabels(),
+          ChangeNotifierProvider(
+            create: (_) => DoctorProvider(),
+          ),
+          ChangeNotifierProvider(
+            create: (_) => AppointmentServices(),
+          ),
+          ChangeNotifierProvider(
+            create: (_) => PatientProvider(),
           ),
           ChangeNotifierProvider<Reports>(
             create: (ctx) => Reports(),
@@ -80,10 +108,12 @@ class MyApp extends StatelessWidget {
             debugShowCheckedModeBanner: false,
             title: 'Point-Of-Care',
             theme: ThemeData(
-                primarySwatch: createMaterialColor(Color(0xFF7F80D2)),
+                primarySwatch: createMaterialColor(primaryColor),
                 scaffoldBackgroundColor: Colors.white,
-                fontFamily: 'Trap-Regular'),
-            home: auth.isAuth ? TabsScreen() : Authentication(),
+                fontFamily: 'Poppins'),
+            home:
+                // DoctorProfile(),
+                auth.userId != null ? TabsScreen() : Authentication(),
             routes: {
               TabsScreen.routeName: (ctx) => TabsScreen(),
               HomeScreen.routeName: (ctx) => HomeScreen(),
@@ -92,18 +122,20 @@ class MyApp extends StatelessWidget {
               XrayDiagnosis.routeName: (ctx) => XrayDiagnosis(),
               CTscanDiagnosis.routeName: (ctx) => CTscanDiagnosis(),
               AboutUs.routeName: (ctx) => AboutUs(),
-              DoctorRecommendationScreen.routeName: (ctx) =>
-                  DoctorRecommendationScreen(),
+              // DoctorRecommendationScreen.routeName: (ctx) =>
+              //     DoctorRecommendationScreen(),
               SymptomsScreen.routeName: (ctx) => SymptomsScreen(),
               Diagnosis.routeName: (ctx) => Diagnosis(),
-              NearbyDoctors.routeName: (ctx) => ReportScreen(),
+              NearbyDoctors.routeName: (ctx) => NearbyDoctors(),
               XrayUploadScreen.routeName: (ctx) => XrayUploadScreen(),
               ResultScreen.routeName: (ctx) => ResultScreen(),
               ReportScreen.routeName: (ctx) => ReportScreen(),
               DoctorProfile.routeName: (ctx) => DoctorProfile(),
               EmailOtp.routeName: (ctx) => EmailOtp(),
-              DoctorRecommendationScreen.routeName: (ctx) =>
-                  DoctorRecommendationScreen(),
+              // DoctorRecommendationScreen.routeName: (ctx) =>
+              //     DoctorRecommendationScreen(),
+              AvailableDoctorsScreen.routeName: (ctx) =>
+                  AvailableDoctorsScreen()
             },
             // onUnknownRoute: (settings) {
             //   return MaterialPageRoute(builder: (ctx) => HomeScreen());
