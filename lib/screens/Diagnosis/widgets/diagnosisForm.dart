@@ -1,9 +1,19 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:test/providers/auth.dart';
+import 'package:test/providers/doctor.dart';
+import 'package:test/providers/patient.dart';
 import 'package:test/screens/Diagnosis/screens/symptomsScreen.dart';
+import 'package:test/widgets/inputDecoration.dart';
+import 'package:test/widgets/myButton.dart';
+
+import '../../../providers/radiologist.dart';
 
 class DiagnosisForm extends StatefulWidget {
-  const DiagnosisForm({Key? key}) : super(key: key);
+  final user;
+  final type;
+  DiagnosisForm(this.user, this.type);
 
   @override
   State<DiagnosisForm> createState() => _DiagnosisFormState();
@@ -12,22 +22,37 @@ class DiagnosisForm extends StatefulWidget {
 class _DiagnosisFormState extends State<DiagnosisForm> {
   final GlobalKey<FormState> _formKey = GlobalKey();
 
-  final _passwordController = TextEditingController();
-  final Map<String, String> _authData = {
+  Map<String, String> _authData = {
     'email': '',
     'contact': '',
     'name': '',
     'age': '',
   };
+
+  String radioButtonItem = '';
+  int id = 2;
+
   bool _nameActive = false;
   bool _emailActive = false;
   bool _contactActive = false;
   bool _ageActive = false;
-  bool _typeActive = false;
-  String radioButtonItem = 'Male';
-  int id = 1;
+  @override
+  void initState() {
+    print(widget.user.toString());
+    _authData['email'] = widget.user.useremail;
+    _authData['contact'] = widget.type.contact;
+    _authData['name'] = widget.user.userName;
+    _authData['age'] = widget.type.age;
+    radioButtonItem = widget.type.gender;
+    radioButtonItem == "Male" ? id = 1 : 2;
+
+    _emailActive = true;
+    _contactActive = true;
+
+    super.initState();
+  }
+
   String type = '';
-  int id1 = 1;
   String _errorMessage = '';
   String _errorMessage1 = '';
   String _errorMessage2 = '';
@@ -56,7 +81,7 @@ class _DiagnosisFormState extends State<DiagnosisForm> {
                   child: Text(
                     'Diagnosis',
                     style: TextStyle(
-                      fontSize: deviceSize.width * 0.1067,
+                      fontSize: deviceSize.width * 0.09,
                       fontFamily: 'Poppins',
                       fontWeight: FontWeight.bold,
                     ),
@@ -88,16 +113,8 @@ class _DiagnosisFormState extends State<DiagnosisForm> {
               FocusScope(
                 child: Focus(
                   child: TextFormField(
-                    decoration: InputDecoration(
-                      labelText: 'Name',
-                      labelStyle: TextStyle(
-                        fontFamily: 'League Spartan',
-                        fontSize: deviceSize.width * 0.04,
-                        fontWeight: FontWeight.w600,
-                      ),
-                      prefixIcon: const Icon(Icons.account_circle_outlined),
-                      prefixIconColor: Colors.black,
-                    ),
+                    decoration: decoration("Name", Icons.account_circle),
+                    initialValue: _authData['name'],
                     style: TextStyle(
                       fontSize: deviceSize.width * 0.04,
                       fontWeight: FontWeight.w600,
@@ -106,9 +123,11 @@ class _DiagnosisFormState extends State<DiagnosisForm> {
                     keyboardType: TextInputType.emailAddress,
                     onChanged: (val) {
                       validateName(val);
+                      _authData['name'] = val;
                     },
                     onSaved: (value) {
-                      _authData['name'] = value!;
+                      validateAge(value!);
+                      _authData['name'] = value;
                     },
                   ),
                 ),
@@ -121,32 +140,29 @@ class _DiagnosisFormState extends State<DiagnosisForm> {
                     _errorMessage2,
                     style: TextStyle(
                       color: Colors.red,
-                      fontSize: deviceSize.width * 0.024,
+                      fontSize: deviceSize.width * 0.034,
                       fontFamily: 'League Spartan',
                     ),
                   ),
                 ),
               ),
 
+              SizedBox(
+                height: 10,
+              ),
               // Email field
               FocusScope(
                 child: Focus(
                   child: TextFormField(
-                    decoration: InputDecoration(
-                      labelText: 'Email',
-                      labelStyle: TextStyle(
-                        fontFamily: 'League Spartan',
-                        fontSize: deviceSize.width * 0.04,
-                        fontWeight: FontWeight.w600,
-                      ),
-                      prefixIcon: const Icon(Icons.email_outlined),
-                      prefixIconColor: Colors.black,
-                    ),
+                    decoration: decoration("Email", Icons.email),
+                    initialValue: _authData['email'],
                     onChanged: (val) {
                       validateEmail(val);
+                      _authData['email'] = val;
                     },
                     onSaved: (value) {
-                      _authData['email'] = value!;
+                      validateAge(value!);
+                      _authData['email'] = value;
                     },
                     style: TextStyle(
                       fontSize: deviceSize.width * 0.04,
@@ -165,27 +181,22 @@ class _DiagnosisFormState extends State<DiagnosisForm> {
                     _errorMessage,
                     style: TextStyle(
                       color: Colors.red,
-                      fontSize: deviceSize.width * 0.024,
+                      fontSize: deviceSize.width * 0.034,
                       fontFamily: 'League Spartan',
                     ),
                   ),
                 ),
               ),
 
+              SizedBox(
+                height: 10,
+              ),
               // Contact Field
               FocusScope(
                 child: Focus(
                   child: TextFormField(
-                    decoration: InputDecoration(
-                      labelText: 'Contact',
-                      labelStyle: TextStyle(
-                        fontFamily: 'League Spartan',
-                        fontSize: deviceSize.width * 0.04,
-                        fontWeight: FontWeight.w600,
-                      ),
-                      prefixIcon: const Icon(Icons.contact_phone_outlined),
-                      prefixIconColor: Colors.black,
-                    ),
+                    decoration: decoration("Contact", Icons.contact_phone),
+                    initialValue: _authData['contact'],
                     style: TextStyle(
                       fontSize: deviceSize.width * 0.04,
                       fontWeight: FontWeight.w600,
@@ -193,10 +204,12 @@ class _DiagnosisFormState extends State<DiagnosisForm> {
                     ),
                     keyboardType: TextInputType.phone,
                     onSaved: (value) {
-                      _authData['contact'] = value!;
+                      validateAge(value!);
+                      _authData['contact'] = value;
                     },
                     onChanged: (val) {
                       validatePhone(val);
+                      _authData['contact'] = val;
                     },
                   ),
                 ),
@@ -209,27 +222,23 @@ class _DiagnosisFormState extends State<DiagnosisForm> {
                     _errorMessage1,
                     style: TextStyle(
                       color: Colors.red,
-                      fontSize: deviceSize.width * 0.024,
+                      fontSize: deviceSize.width * 0.034,
                       fontFamily: 'League Spartan',
                     ),
                   ),
                 ),
               ),
 
+              SizedBox(
+                height: 10,
+              ),
               // Age
               FocusScope(
                 child: Focus(
                   child: TextFormField(
-                    decoration: InputDecoration(
-                      labelText: 'Age',
-                      labelStyle: TextStyle(
-                        fontFamily: 'League Spartan',
-                        fontSize: deviceSize.width * 0.04,
-                        fontWeight: FontWeight.w600,
-                      ),
-                      prefixIcon: const Icon(Icons.group_outlined),
-                      prefixIconColor: Colors.black,
-                    ),
+                    decoration:
+                        decoration("Age", Icons.supervisor_account_rounded),
+                    initialValue: _authData['age'],
                     style: TextStyle(
                       fontSize: deviceSize.width * 0.04,
                       fontWeight: FontWeight.w600,
@@ -238,8 +247,10 @@ class _DiagnosisFormState extends State<DiagnosisForm> {
                     keyboardType: TextInputType.number,
                     onSaved: (value) {
                       _authData['age'] = value!;
+                      validateAge(value);
                     },
                     onChanged: (val) {
+                      _authData['age'] = val;
                       validateAge(val);
                     },
                   ),
@@ -253,7 +264,7 @@ class _DiagnosisFormState extends State<DiagnosisForm> {
                     _errorMessage3,
                     style: TextStyle(
                       color: Colors.red,
-                      fontSize: deviceSize.width * 0.024,
+                      fontSize: deviceSize.width * 0.034,
                       fontFamily: 'League Spartan',
                     ),
                   ),
@@ -342,56 +353,25 @@ class _DiagnosisFormState extends State<DiagnosisForm> {
 
               // Next button
               Align(
-                alignment: Alignment.bottomRight,
-                child: ElevatedButton(
-                  onPressed: () {
-                    if (_ageActive &&
-                        _contactActive &&
-                        _emailActive &&
-                        _nameActive) {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) => const SymptomsScreen(),
-                        ),
-                      );
-                    }
-                  },
-                  style: ElevatedButton.styleFrom(
-                    padding: EdgeInsets.zero,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(50),
-                    ),
-                  ),
-                  child: Ink(
-                    decoration: BoxDecoration(
-                      gradient: const LinearGradient(
-                        begin: Alignment.topRight,
-                        end: Alignment.bottomLeft,
-                        colors: [
-                          Color(0xFFB9A0E6),
-                          Color(0xFF8587DC),
-                        ],
-                      ),
-                      borderRadius: BorderRadius.circular(50),
-                    ),
-                    child: Container(
-                      width: deviceSize.width * 0.85,
-                      height: deviceSize.height * 0.065,
-                      alignment: Alignment.center,
-                      child: Center(
-                        child: Text(
-                          'Next',
-                          style: TextStyle(
-                            fontSize: deviceSize.width * 0.048,
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.w600,
+                  alignment: Alignment.bottomRight,
+                  child: myButton1(
+                    () {
+                      // _formKey.currentState!.save();
+                      if (_authData['email'] != '' &&
+                          _authData['name'] != '' &&
+                          _contactActive &&
+                          _emailActive &&
+                          _authData['contact'] != '' &&
+                          _authData['age'] != '') {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => const SymptomsScreen(),
                           ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
+                        );
+                      }
+                    },
+                    "Next",
+                  )),
             ],
           ),
         ),
@@ -407,6 +387,9 @@ class _DiagnosisFormState extends State<DiagnosisForm> {
     } else if (!EmailValidator.validate(val, true)) {
       setState(() {
         _errorMessage = "Invalid Email Address";
+      });
+      setState(() {
+        _emailActive = false;
       });
     } else {
       setState(() {
@@ -441,6 +424,9 @@ class _DiagnosisFormState extends State<DiagnosisForm> {
     } else if (val.length < 10) {
       setState(() {
         _errorMessage1 = "Number can not be less than 11 digits";
+      });
+      setState(() {
+        _contactActive = false;
       });
     } else {
       setState(() {

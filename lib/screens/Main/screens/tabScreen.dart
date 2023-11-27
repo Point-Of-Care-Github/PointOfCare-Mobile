@@ -59,6 +59,7 @@ class _TabsScreenState extends State<TabsScreen> {
   }
 
   int _selectedIndex = 2;
+
   static List<Widget> _widgetOptions = <Widget>[
     Profile(),
     ScheduleScreen(),
@@ -80,11 +81,14 @@ class _TabsScreenState extends State<TabsScreen> {
       // drawer: AppDrawer(),
       body: _isLoading
           ? Center(
-              child: CircularProgressIndicator(),
+              child: Image.asset(
+                "assets/heart-beat.gif",
+                height: 100,
+                width: 100,
+              ),
             )
-          : Center(
-              child: _widgetOptions.elementAt(_selectedIndex),
-            ),
+          : _widgetOptions.elementAt(_selectedIndex),
+
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Colors.white,
         type: BottomNavigationBarType.fixed,

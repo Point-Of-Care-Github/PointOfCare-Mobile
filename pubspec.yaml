@@ -53,7 +53,7 @@ dependencies:
   geocoding: ^2.1.0
   syncfusion_flutter_pdf: ^23.1.39
   geolocator: ^9.0.2
-
+  cloud_firestore: ^4.13.2
   flutter_rating_bar: ^4.0.1
   image_cropper: ^5.0.0
   open_file: ^3.3.2
@@ -86,6 +86,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/images/
+    - assets/heart-beat.gif
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

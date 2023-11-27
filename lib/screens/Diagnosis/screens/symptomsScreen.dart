@@ -26,28 +26,12 @@ class SymptomsScreen extends StatelessWidget {
               alignment: Alignment.topRight,
               child: Image.asset(
                 'assets/images/authLogo.png',
-                height: 100,
-                width: 100,
+                height: 80,
+                width: 80,
               ),
             ),
           ),
-          SingleChildScrollView(
-            child: Container(
-              height: deviceSize.height,
-              width: deviceSize.width,
-              child: SafeArea(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    Flexible(
-                      flex: deviceSize.width > 600 ? 2 : 1,
-                      child: SymptomsForm(),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
+          SymptomsForm(),
           Container(
             margin: EdgeInsets.only(
               top: deviceSize.height * 0.0973,

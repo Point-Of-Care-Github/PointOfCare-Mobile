@@ -24,8 +24,8 @@ class UploadScreen extends StatelessWidget {
               alignment: Alignment.topRight,
               child: Image.asset(
                 'assets/images/authLogo.png',
-                height: 100,
-                width: 100,
+                height: 80,
+                width: 80,
               ),
             ),
           ),

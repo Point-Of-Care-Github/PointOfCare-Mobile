@@ -13,6 +13,7 @@ import 'package:test/screens/Result%20and%20Reporting/screens/reportScreen.dart'
 import 'package:test/screens/Main/widgets/categoryItems.dart';
 import 'package:test/screens/Doctor%20Recommendation/widgets/doctorsGrid.dart';
 import 'package:test/screens/Main/widgets/doctorsHomeGrid.dart';
+import 'package:test/utils/customProgess.dart';
 import 'package:test/widgets/title.dart';
 import 'package:test/screens/Appointments/widgets/upcomingAppointmentList.dart';
 
@@ -28,10 +29,22 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // final deviceSize = MediaQuery.of(context).size;
+    final user = Provider.of<Auth>(context);
+    final type;
+
+    if (user.role == 'Doctor') {
+      type = Provider.of<Doctor>(context).getDoctor(user.userId!);
+    } else if (user.role == 'Patient') {
+      type = Provider.of<Patient>(context).getPatient(user.userId!);
+    } else {
+      type = Provider.of<Radiologist>(context).getRadiologist(user.userId!);
+    }
     final items = [
       Service("assets/images/diagnostic.png", "Diagnose\nNow",
           Colors.green.withOpacity(0.05), () {
-        Navigator.of(context).pushNamed(Diagnosis.routeName);
+        Navigator.of(context).pushNamed(Diagnosis.routeName,
+            arguments: {"type": type, "user": user});
       }),
       Service("assets/images/appointment.png", "Book\nAppointment",
           Colors.blue.withOpacity(0.05), () {
@@ -47,17 +60,6 @@ class _HomeScreenState extends State<HomeScreen> {
       }),
     ];
 
-    // final deviceSize = MediaQuery.of(context).size;
-    final user = Provider.of<Auth>(context);
-    final type;
-
-    if (user.role == 'Doctor') {
-      type = Provider.of<Doctor>(context).getDoctor(user.userId!);
-    } else if (user.role == 'Patient') {
-      type = Provider.of<Patient>(context).getPatient(user.userId!);
-    } else {
-      type = Provider.of<Radiologist>(context).getRadiologist(user.userId!);
-    }
     return Scaffold(
       key: scaffoldKey,
       body: SingleChildScrollView(
@@ -101,7 +103,14 @@ class _HomeScreenState extends State<HomeScreen> {
                         color: primaryColor.withOpacity(0.1),
                         borderRadius: BorderRadius.circular(40)),
                     child: IconButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          showDialog(
+                            context: context,
+                            builder: (context) => CustomProgress(
+                              message: "Please wait!",
+                            ),
+                          );
+                        },
                         icon: Icon(
                           Icons.notifications,
                           size: 26,

@@ -48,3 +48,50 @@ class myButton extends StatelessWidget {
     );
   }
 }
+
+class myButton1 extends StatelessWidget {
+  final onTap;
+  final title;
+  const myButton1(this.onTap, this.title);
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      onPressed: onTap,
+      style: ElevatedButton.styleFrom(
+        padding: EdgeInsets.zero,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(50),
+        ),
+      ),
+      child: Ink(
+        decoration: BoxDecoration(
+          gradient: const LinearGradient(
+            begin: Alignment.topRight,
+            end: Alignment.bottomLeft,
+            colors: [
+              Color(0xFFB9A0E6),
+              Color(0xFF8587DC),
+            ],
+          ),
+          borderRadius: BorderRadius.circular(50),
+        ),
+        child: Container(
+          height: 55,
+          width: 400,
+          alignment: Alignment.center,
+          child: Center(
+            child: Text(
+              title,
+              style: TextStyle(
+                fontFamily: 'Poppins',
+                fontSize: 20,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}

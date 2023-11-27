@@ -1,7 +1,9 @@
+// import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:test/constants/const.dart';
+import 'package:test/firebase_options.dart';
 import 'package:test/providers/appointment_services.dart';
 import 'package:test/providers/auth.dart';
 import 'package:test/providers/doctor.dart';
@@ -30,20 +32,12 @@ import 'package:test/screens/User%20Profiling/screens/email-otp.dart';
 import 'package:test/screens/User%20Profiling/screens/profile.dart';
 import 'utils/reports.dart';
 
-Future<void> main() async {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const MyApp());
-}
-
-extension on String {
-  bool toBoolean() {
-    print(this);
-    return (this.toLowerCase() == "true" || this.toLowerCase() == "1")
-        ? true
-        : (this.toLowerCase() == "false" || this.toLowerCase() == "0"
-            ? false
-            : false);
-  }
 }
 
 class MyApp extends StatelessWidget {

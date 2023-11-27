@@ -3,10 +3,12 @@ import 'package:test/screens/Diagnosis/widgets/diagnosisForm.dart';
 
 class Diagnosis extends StatelessWidget {
   static const routeName = '/diagnosis-screen';
-
   @override
   Widget build(BuildContext context) {
     final deviceSize = MediaQuery.of(context).size;
+    final route = ModalRoute.of(context)!.settings.arguments as Map;
+    final user = route['user'];
+    final type = route['type'];
 
     return Scaffold(
       //appBar: AppBar(),
@@ -25,8 +27,8 @@ class Diagnosis extends StatelessWidget {
               alignment: Alignment.topRight,
               child: Image.asset(
                 'assets/images/authLogo.png',
-                height: 100,
-                width: 100,
+                height: 80,
+                width: 80,
               ),
             ),
           ),
@@ -40,7 +42,7 @@ class Diagnosis extends StatelessWidget {
                   children: <Widget>[
                     Flexible(
                       flex: deviceSize.width > 600 ? 2 : 1,
-                      child: const DiagnosisForm(),
+                      child: DiagnosisForm(user, type),
                     ),
                   ],
                 ),
@@ -49,7 +51,7 @@ class Diagnosis extends StatelessWidget {
           ),
           Container(
             margin: EdgeInsets.only(
-              top: deviceSize.height * 0.0973,
+              top: deviceSize.height * 0.0773,
               left: deviceSize.width * 0.0533,
             ),
             child: SizedBox(

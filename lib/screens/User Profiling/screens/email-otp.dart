@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:provider/provider.dart';
 import 'package:test/providers/auth.dart';
+import 'package:test/widgets/myButton.dart';
 
-import '../../../widgets/MyButton.dart';
 import 'addProfile.dart';
 
 class EmailOtp extends StatefulWidget {

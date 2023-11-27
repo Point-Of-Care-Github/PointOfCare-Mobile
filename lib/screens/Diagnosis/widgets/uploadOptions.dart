@@ -5,6 +5,8 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:test/providers/report.dart';
+import 'package:test/utils/customProgess.dart';
+import 'package:test/widgets/myButton.dart';
 
 class UploadOptions extends StatefulWidget {
   @override
@@ -62,156 +64,118 @@ class _UploadOptionsState extends State<UploadOptions> {
   @override
   Widget build(BuildContext context) {
     final deviceSize = MediaQuery.of(context).size;
-    return _isLoading
-        ? Center(
-            child: CircularProgressIndicator(),
-          )
-        : Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Container(
-                    width: deviceSize.width * 0.3,
-                    height: deviceSize.height * 0.15,
-                    child: DottedBorder(
-                        borderType: BorderType.RRect,
-                        dashPattern: [5, 5],
-                        color: Colors.grey,
-                        strokeWidth: 2,
-                        child: Center(
-                          child: TextButton.icon(
-                              icon: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(
-                                    Icons.collections,
-                                    size: 35,
-                                    color: Colors.grey,
-                                  ),
-                                  Text('upload xray',
-                                      style: TextStyle(
-                                        color: Colors.grey,
-                                        fontFamily: 'Poppins',
-                                        fontSize: 11,
-                                        fontWeight: FontWeight.w500,
-                                      )),
-                                ],
-                              ),
-                              label: Text(''),
-                              onPressed: () {
-                                getImage(ImageSource.gallery);
-                              }),
-                        )),
-                  ),
-                  Container(
-                    width: deviceSize.width * 0.3,
-                    height: deviceSize.height * 0.15,
-                    child: DottedBorder(
-                        borderType: BorderType.RRect,
-                        dashPattern: [5, 5],
-                        color: Colors.grey,
-                        strokeWidth: 2,
-                        child: Center(
-                          child: TextButton.icon(
-                              icon: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(
-                                    Icons.camera_alt,
-                                    size: 35,
-                                    color: Colors.grey,
-                                  ),
-                                  Text('Take Photo',
-                                      style: TextStyle(
-                                        color: Colors.grey,
-                                        fontFamily: 'Poppins',
-                                        fontSize: 11,
-                                        fontWeight: FontWeight.w500,
-                                      )),
-                                ],
-                              ),
-                              label: Text(''),
-                              onPressed: () {
-                                getImage(ImageSource.camera);
-                              }),
-                        )),
-                  ),
-                ],
-              ),
-              // ignore: unnecessary_null_comparison
-              SizedBox(
-                height: 20,
-              ),
-              image != null
-                  ? Container(
-                      // margin: EdgeInsets.only(top: 20),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(3),
-                        child: Image.file(
-                          //to show image, you type like this.
-                          File(image!.path),
-                          fit: BoxFit.cover,
-                          // width: deviceSize.width * 0.7,
-                          // height: deviceSize.height * 0.3,
+    return Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Container(
+              width: deviceSize.width * 0.3,
+              height: deviceSize.height * 0.15,
+              child: DottedBorder(
+                  borderType: BorderType.RRect,
+                  dashPattern: [5, 5],
+                  color: Colors.grey,
+                  strokeWidth: 2,
+                  child: Center(
+                    child: TextButton.icon(
+                        icon: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.collections,
+                              size: 35,
+                              color: Colors.grey,
+                            ),
+                            Text('upload xray',
+                                style: TextStyle(
+                                  color: Colors.grey,
+                                  fontFamily: 'Poppins',
+                                  fontSize: 11,
+                                  fontWeight: FontWeight.w500,
+                                )),
+                          ],
                         ),
-                      ),
-                    )
-                  : Container(),
-              const SizedBox(
-                height: 50,
-              ),
-
-              //next button
-              Align(
-                alignment: Alignment.bottomRight,
-                child: ElevatedButton(
-                  onPressed: () async {
-                    setState(() {
-                      _isLoading = true;
-                    });
-                    await Provider.of<Results>(context, listen: false)
-                        .diagnose(image)
-                        .then((_) {
-                      setState(() {
-                        _isLoading = false;
-                      });
-                      Navigator.pushNamed(context, '/result-screen',
-                          arguments: {'image': image!.path});
-                    });
-                  },
-                  style: ElevatedButton.styleFrom(
-                      padding: EdgeInsets.zero,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(50))),
-                  child: Ink(
-                    decoration: BoxDecoration(
-                        gradient: const LinearGradient(
-                            begin: Alignment.topRight,
-                            end: Alignment.bottomLeft,
-                            colors: [
-                              Color(0xFFB9A0E6),
-                              Color(0xFF8587DC),
-                            ]),
-                        borderRadius: BorderRadius.circular(50)),
-                    child: Container(
-                      width: deviceSize.width * 0.85,
-                      height: 52,
-                      alignment: Alignment.center,
-                      child: Center(
-                        child: Text(
-                          'Submit',
-                          style: const TextStyle(
-                              fontSize: 24,
-                              fontFamily: 'Poppins',
-                              fontWeight: FontWeight.w600),
+                        label: Text(''),
+                        onPressed: () {
+                          getImage(ImageSource.gallery);
+                        }),
+                  )),
+            ),
+            Container(
+              width: deviceSize.width * 0.3,
+              height: deviceSize.height * 0.15,
+              child: DottedBorder(
+                  borderType: BorderType.RRect,
+                  dashPattern: [5, 5],
+                  color: Colors.grey,
+                  strokeWidth: 2,
+                  child: Center(
+                    child: TextButton.icon(
+                        icon: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.camera_alt,
+                              size: 35,
+                              color: Colors.grey,
+                            ),
+                            Text('Take Photo',
+                                style: TextStyle(
+                                  color: Colors.grey,
+                                  fontFamily: 'Poppins',
+                                  fontSize: 11,
+                                  fontWeight: FontWeight.w500,
+                                )),
+                          ],
                         ),
-                      ),
-                    ),
+                        label: Text(''),
+                        onPressed: () {
+                          getImage(ImageSource.camera);
+                        }),
+                  )),
+            ),
+          ],
+        ),
+        // ignore: unnecessary_null_comparison
+        SizedBox(
+          height: 20,
+        ),
+        image != null
+            ? Container(
+                // margin: EdgeInsets.only(top: 20),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(3),
+                  child: Image.file(
+                    //to show image, you type like this.
+                    File(image!.path),
+                    fit: BoxFit.cover,
+                    // width: deviceSize.width * 0.7,
+                    // height: deviceSize.height * 0.3,
                   ),
                 ),
-              ),
-            ],
-          );
+              )
+            : Container(),
+        const SizedBox(
+          height: 50,
+        ),
+
+        //next button
+        myButton1(() async {
+          showDialog(
+              context: context,
+              builder: (context) => CustomProgress(
+                    message: "Please wait...\n(This might take 2-4 minutes)",
+                  ));
+          await Provider.of<Results>(context, listen: false)
+              .diagnose(image)
+              .then((_) {
+            Navigator.pop(context);
+            Navigator.pushNamed(context, '/result-screen',
+                arguments: {'image': image!.path});
+          });
+        }, "Submit")
+      ],
+    );
   }
 }

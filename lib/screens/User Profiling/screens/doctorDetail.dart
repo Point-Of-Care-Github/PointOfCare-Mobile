@@ -7,7 +7,7 @@ import 'package:test/models/allDoctors.dart';
 import 'package:test/providers/doctor.dart';
 import 'package:test/providers/doctor_profile.dart';
 import 'package:test/screens/Appointments/screens/bookAppointment.dart';
-import 'package:test/screens/Chats/screens/chatScreen.dart';
+import 'package:test/screens/Chats/screens/chatScreen2.dart';
 
 class DoctorDetail extends StatefulWidget {
   static const routeName = '/doctor-detail';

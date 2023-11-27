@@ -5,6 +5,8 @@ import 'package:provider/provider.dart';
 import 'package:email_otp/email_otp.dart';
 import 'package:test/constants/const.dart';
 import 'package:test/screens/User%20Profiling/screens/email-otp.dart';
+import 'package:test/utils/customProgess.dart';
+import 'package:test/widgets/inputDecoration.dart';
 
 import '../../../providers/auth.dart';
 import '../../../widgets/MyButton.dart';
@@ -99,14 +101,17 @@ class _AuthCardState extends State<AuthCard> {
   }
 
   void login() {
-    setState(() {
-      _isLoading = true;
-    });
+    showDialog(
+        context: context,
+        builder: (context) => CustomProgress(
+              message: "Please wait...",
+            ));
     // Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
     if (_authMode == AuthMode.Login) {
       if (_emailActive && _passwordActive) {
         Provider.of<Auth>(context, listen: false)
-            .login(_emailController.text, _passwordController.text);
+            .login(_emailController.text, _passwordController.text)
+            .then((value) => Navigator.of(context).pop());
       }
     }
     if (_authMode == AuthMode.Signup) {
@@ -115,16 +120,13 @@ class _AuthCardState extends State<AuthCard> {
           _sPasswordActive &&
           _semailActive) {
         sendOTP(_emailController.text).then((_) {
+          Navigator.of(context).pop();
           Navigator.of(context).pushNamed(EmailOtp.routeName, arguments: {
             "name": _nameController.text,
             "email": _emailController.text,
             "password": _passwordController.text,
             "role": selectedValue,
             "myauth": myauth
-          });
-
-          setState(() {
-            _isLoading = false;
           });
         });
       }
@@ -382,15 +384,13 @@ class _AuthCardState extends State<AuthCard> {
                 ),
 
               //Login and signup button
-              _isLoading
-                  ? CircularProgressIndicator()
-                  : Align(
-                      alignment: Alignment.bottomRight,
-                      child: myButton(
-                        _authMode == AuthMode.Login ? 'LOGIN' : 'SIGN UP',
-                        login,
-                      ),
-                    ),
+              Align(
+                alignment: Alignment.bottomRight,
+                child: myButton(
+                  _authMode == AuthMode.Login ? 'LOGIN' : 'SIGN UP',
+                  login,
+                ),
+              ),
               SizedBox(
                 height: 50,
               ),
@@ -552,28 +552,6 @@ class _AuthCardState extends State<AuthCard> {
         });
       }
     }
-  }
-
-  InputDecoration decoration(name, icon) {
-    return InputDecoration(
-      border: OutlineInputBorder(
-          borderSide: BorderSide(width: 1, color: primaryColor)),
-      enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.grey.shade400)),
-      labelText: name,
-      labelStyle: TextStyle(
-        // fontFamily: 'League Spartan',
-        fontSize: 16,
-        color: Colors.grey.shade400,
-        fontWeight: FontWeight.w600,
-      ),
-      floatingLabelStyle: TextStyle(color: primaryColor),
-      prefixIconColor: primaryColor,
-      prefixIcon: Icon(
-        icon,
-        // color: Colors.grey.shade400,
-      ),
-    );
   }
 
   void validateName(String val) {

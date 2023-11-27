@@ -1,6 +1,7 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:test/screens/Diagnosis/screens/xrayUploadScreen.dart';
+import 'package:test/widgets/inputDecoration.dart';
 
 class XrayForm extends StatefulWidget {
   const XrayForm({super.key});
@@ -76,16 +77,7 @@ class _XrayFormState extends State<XrayForm> {
               FocusScope(
                 child: Focus(
                   child: TextFormField(
-                      decoration: const InputDecoration(
-                        labelText: 'Name',
-                        labelStyle: TextStyle(
-                          fontFamily: 'League Spartan',
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                        ),
-                        prefixIcon: Icon(Icons.account_circle_outlined),
-                        prefixIconColor: Colors.black,
-                      ),
+                      decoration: decoration("Name", Icons.account_circle),
                       style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
@@ -118,16 +110,7 @@ class _XrayFormState extends State<XrayForm> {
               FocusScope(
                 child: Focus(
                   child: TextFormField(
-                    decoration: const InputDecoration(
-                      labelText: 'Email',
-                      labelStyle: TextStyle(
-                        fontFamily: 'League Spartan',
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                      ),
-                      prefixIcon: Icon(Icons.email_outlined),
-                      prefixIconColor: Colors.black,
-                    ),
+                    decoration: decoration("Email", Icons.email),
                     onChanged: (val) {
                       validateEmail(val);
                     },
@@ -161,16 +144,7 @@ class _XrayFormState extends State<XrayForm> {
               FocusScope(
                 child: Focus(
                   child: TextFormField(
-                    decoration: const InputDecoration(
-                      labelText: 'Contact',
-                      labelStyle: TextStyle(
-                        fontFamily: 'League Spartan',
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                      ),
-                      prefixIcon: Icon(Icons.contact_phone_outlined),
-                      prefixIconColor: Colors.black,
-                    ),
+                    decoration: decoration("Contact", Icons.contact_phone),
                     style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w600,

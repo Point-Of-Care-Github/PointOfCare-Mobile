@@ -19,9 +19,12 @@ class Results extends ChangeNotifier {
 
     if (image == null) return;
     String base64Image = base64Encode(image!.readAsBytesSync());
-    await http.post(api, body: {
-      'file': base64Image,
-    }).then((res) {
+    await http.post(
+      api,
+      body: {
+        'file': base64Image,
+      },
+    ).then((res) {
       print(res.statusCode);
       print(res.body);
       final response = json.decode(res.body);
