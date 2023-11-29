@@ -6,6 +6,7 @@ import '../models/http_exception.dart';
 
 class Doctor with ChangeNotifier {
   String? userId;
+  String? userName;
   String? time;
   String? fees;
   String? contact;
@@ -21,6 +22,7 @@ class Doctor with ChangeNotifier {
 
   Doctor(
       {required this.userId,
+      required this.userName,
       required this.time,
       required this.fees,
       required this.contact,
@@ -57,6 +59,7 @@ class Doctor with ChangeNotifier {
         var doc = extractedData[i];
         loadedDoctors.add(Doctor(
             contact: doc['contact'],
+            userName: doc['userName'],
             description: doc['description'],
             experience: doc['experience'],
             gender: doc['gender'],

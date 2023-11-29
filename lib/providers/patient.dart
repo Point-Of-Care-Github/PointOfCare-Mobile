@@ -8,6 +8,7 @@ import 'package:test/models/http_exception.dart';
 class Patient with ChangeNotifier {
   String? userId;
   String? age;
+  String? userName;
   String? contact;
   String? gender;
   String? image;
@@ -18,6 +19,7 @@ class Patient with ChangeNotifier {
 
   Patient(
       {required this.userId,
+      required this.userName,
       required this.age,
       required this.contact,
       required this.gender,
@@ -25,6 +27,10 @@ class Patient with ChangeNotifier {
 
   Patient getPatient(String id) {
     return _patients.firstWhere((element) => element.userId == id);
+  }
+
+  List get patients {
+    return [..._patients];
   }
 
   Future<void> fetchPatients() async {
@@ -47,6 +53,7 @@ class Patient with ChangeNotifier {
         loadedPatients.add(Patient(
           age: doc['age'].toString(),
           contact: doc['contact'],
+          userName: doc['userName'],
           gender: doc['gender'],
           image: doc['image'],
           userId: doc['userId'],

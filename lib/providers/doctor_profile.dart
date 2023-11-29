@@ -5,6 +5,7 @@ import '../models/doctor.dart';
 class DoctorProvider extends ChangeNotifier {
   Doctor _doctor = Doctor(
       userId: '',
+      userName: '',
       gender: '',
       contact: '',
       experience: '',

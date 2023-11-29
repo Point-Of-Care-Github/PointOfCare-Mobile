@@ -29,32 +29,14 @@ class _TabsScreenState extends State<TabsScreen> {
       _isLoading = true;
     });
     final auth = Provider.of<Auth>(context, listen: false);
-    if (auth.role == 'Doctor') {
-      Provider.of<Doctor>(context, listen: false)
-          .fetchDoctors()
-          .then((value) => setState(() {
-                _isLoading = false;
-              }));
-      ;
-    } else if (auth.role == 'Patient') {
-      Provider.of<Patient>(context, listen: false)
-          .fetchPatients()
-          .then((value) => setState(() {
-                _isLoading = false;
-              }));
-      ;
-    } else {
-      Provider.of<Radiologist>(context, listen: false)
-          .fetchRadiologists()
-          .then((value) => setState(() {
-                _isLoading = false;
-              }));
-    }
     auth.fetchUsers();
     Provider.of<Doctor>(context, listen: false).fetchDoctors();
+    Provider.of<Patient>(context, listen: false).fetchPatients();
     Provider.of<AppointmentServices>(context, listen: false)
         .getAppointments(context: context);
-
+    setState(() {
+      _isLoading = false;
+    });
     super.initState();
   }
 
@@ -79,6 +61,7 @@ class _TabsScreenState extends State<TabsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       // drawer: AppDrawer(),
+      backgroundColor: Color(0xFFFCFCFF),
       body: _isLoading
           ? Center(
               child: Image.asset(

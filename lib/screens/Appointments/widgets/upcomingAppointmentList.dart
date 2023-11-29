@@ -229,6 +229,11 @@ class UpcomingSchedule extends StatelessWidget {
                         scrollDirection: flag ? Axis.horizontal : Axis.vertical,
                         itemCount: userAppointments.length,
                         itemBuilder: (context, index) {
+                          if (userAppointments.length == 0) {
+                            return Center(
+                              child: Text("No upcomming appointments..."),
+                            );
+                          }
                           final appointment = userAppointments[index];
                           final doc = doctor.firstWhere((element) =>
                               element.userId == appointment.doctorId);

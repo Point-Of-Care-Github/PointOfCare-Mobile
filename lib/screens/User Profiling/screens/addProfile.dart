@@ -130,11 +130,12 @@ class _DoctorProfileState extends State<DoctorProfile> {
       return;
     }
 
-    final id = Provider.of<Auth>(context, listen: false).userId;
+    final user = Provider.of<Auth>(context, listen: false);
     try {
       Provider.of<Doctor>(context, listen: false)
           .addDoctor(Doctor(
-              userId: id,
+              userId: user.userId,
+              userName: user.userName,
               fees: _feeController.text,
               time: _time1Controller.text + "-" + _time2Controller.text,
               contact: _contactController.text,
@@ -201,12 +202,12 @@ class _DoctorProfileState extends State<DoctorProfile> {
       _isLoading = true;
     });
 
-    final id = Provider.of<Auth>(context, listen: false).userId;
+    final user = Provider.of<Auth>(context, listen: false);
     try {
       if (role == 'Radiologist') {
         Provider.of<Radiologist>(context, listen: false)
             .addRadiologist(Radiologist(
-          userId: id,
+          userId: user.userId,
           age: _ageController.text,
           contact: _contactController.text,
           gender: _genderController.text,
@@ -221,7 +222,8 @@ class _DoctorProfileState extends State<DoctorProfile> {
       } else {
         Provider.of<Patient>(context, listen: false)
             .addPatient(Patient(
-          userId: id,
+          userId: user.userId,
+          userName: user.userName,
           age: _ageController.text,
           contact: _contactController.text,
           gender: _genderController.text,

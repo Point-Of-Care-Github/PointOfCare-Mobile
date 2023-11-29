@@ -1,19 +1,23 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:test/providers/auth.dart';
 import 'package:test/screens/Chats/widgets/chatBubble.dart';
 
 class ChatMessage extends StatelessWidget {
-  const ChatMessage({super.key});
+  final userId;
+  final receiverId;
+  ChatMessage(this.userId, this.receiverId);
 
   @override
   Widget build(BuildContext context) {
-    final user = Provider.of<Auth>(context, listen: false);
+    List<String> ids = [userId.toString(), receiverId];
+    ids.sort();
+    String chatRoomId = ids.join("_");
 
     return StreamBuilder(
         stream: FirebaseFirestore.instance
-            .collection('chat')
+            .collection('chatRooms')
+            .doc(chatRoomId)
+            .collection("messages")
             .orderBy("createdAt", descending: true)
             .snapshots(),
         builder: (ctx, chatSnapshots) {
@@ -54,13 +58,13 @@ class ChatMessage extends StatelessWidget {
                 if (nextUserIsSame) {
                   return MessageBubble.next(
                       message: chatMessage['text'],
-                      isMe: user.userId == currentMessageUserId);
+                      isMe: userId == currentMessageUserId);
                 } else {
                   return MessageBubble.first(
                       userImage: chatMessage['userImage'],
                       username: chatMessage['username'],
                       message: chatMessage['text'],
-                      isMe: user.userId == currentMessageUserId);
+                      isMe: userId == currentMessageUserId);
                 }
               });
         });

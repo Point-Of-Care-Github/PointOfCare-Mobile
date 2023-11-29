@@ -8,7 +8,9 @@ import 'package:test/providers/patient.dart';
 import 'package:test/providers/radiologist.dart';
 
 class NewMessage extends StatefulWidget {
-  const NewMessage({super.key});
+  final userId;
+  final receiverId;
+  NewMessage(this.userId, this.receiverId);
 
   @override
   State<NewMessage> createState() => _NewMessageState();
@@ -23,7 +25,7 @@ class _NewMessageState extends State<NewMessage> {
     super.dispose();
   }
 
-  void _submitMessage(String receiverId) {
+  void _submitMessage() {
     final enteredMessage = _messageController.text;
 
     if (enteredMessage.trim().isEmpty) {
@@ -47,7 +49,7 @@ class _NewMessageState extends State<NewMessage> {
           .getRadiologist(user.userId!);
     }
 
-    List<String> ids = [user.userId.toString(), receiverId];
+    List<String> ids = [user.userId.toString(), widget.receiverId];
     ids.sort();
     String chatRoomId = ids.join("_");
 
@@ -59,7 +61,6 @@ class _NewMessageState extends State<NewMessage> {
       'text': enteredMessage,
       'createdAt': Timestamp.now(),
       'userId': user.userId,
-      'receiverId': receiverId,
       'username': user.userName,
       'userImage': type.image
     });
@@ -80,9 +81,7 @@ class _NewMessageState extends State<NewMessage> {
             decoration: InputDecoration(labelText: "Send a message..."),
           )),
           IconButton(
-              onPressed: () {
-                _submitMessage("receiverId");
-              },
+              onPressed: _submitMessage,
               color: primaryColor,
               icon: Icon(Icons.send))
         ],

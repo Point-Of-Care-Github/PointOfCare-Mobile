@@ -2,6 +2,7 @@ import 'dart:convert';
 
 class Doctor {
   final String userId;
+  final String userName;
   final String gender;
   final String contact;
   final String experience;
@@ -15,6 +16,7 @@ class Doctor {
   Doctor({
     required this.id,
     required this.userId,
+    required this.userName,
     required this.gender,
     required this.contact,
     required this.experience,
@@ -44,6 +46,7 @@ class Doctor {
     return Doctor(
       id: map['_id'] ?? '',
       userId: map['userId'] ?? '',
+      userName: map['userName'] ?? '',
       gender: map['gender'] ?? '',
       contact: map['contact'] ?? '',
       experience: map['experience'] ?? '',

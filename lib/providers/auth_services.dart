@@ -183,6 +183,7 @@ class AuthService {
   void addDoctor({
     required BuildContext context,
     required String userId,
+    required String userName,
     required String gender,
     required String contact,
     required String experience,
@@ -196,6 +197,7 @@ class AuthService {
       Doctor doctor = Doctor(
         id: '',
         userId: userId,
+        userName: userName,
         gender: gender,
         contact: contact,
         experience: experience,
