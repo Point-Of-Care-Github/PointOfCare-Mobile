@@ -330,8 +330,8 @@ class AppointmentServices extends ChangeNotifier {
 
       final Map<String, dynamic> responseMap = json.decode(res.body);
 
+      final appointmentData = responseMap;
       if (responseMap != null) {
-        final appointmentData = responseMap;
         final updateAppointmentList = [
           Appointment(
             id: appointmentData['_id'],

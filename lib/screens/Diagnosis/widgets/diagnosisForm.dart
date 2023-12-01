@@ -36,6 +36,7 @@ class _DiagnosisFormState extends State<DiagnosisForm> {
   bool _emailActive = false;
   bool _contactActive = false;
   bool _ageActive = false;
+
   @override
   void initState() {
     print(widget.user.toString());
@@ -53,6 +54,7 @@ class _DiagnosisFormState extends State<DiagnosisForm> {
   }
 
   String type = '';
+
   String _errorMessage = '';
   String _errorMessage1 = '';
   String _errorMessage2 = '';
@@ -146,10 +148,10 @@ class _DiagnosisFormState extends State<DiagnosisForm> {
                   ),
                 ),
               ),
-
               SizedBox(
                 height: 10,
               ),
+
               // Email field
               FocusScope(
                 child: Focus(
@@ -187,10 +189,10 @@ class _DiagnosisFormState extends State<DiagnosisForm> {
                   ),
                 ),
               ),
-
               SizedBox(
                 height: 10,
               ),
+
               // Contact Field
               FocusScope(
                 child: Focus(
@@ -232,6 +234,7 @@ class _DiagnosisFormState extends State<DiagnosisForm> {
               SizedBox(
                 height: 10,
               ),
+
               // Age
               FocusScope(
                 child: Focus(
@@ -247,10 +250,12 @@ class _DiagnosisFormState extends State<DiagnosisForm> {
                     keyboardType: TextInputType.number,
                     onSaved: (value) {
                       _authData['age'] = value!;
+
                       validateAge(value);
                     },
                     onChanged: (val) {
                       _authData['age'] = val;
+
                       validateAge(val);
                     },
                   ),

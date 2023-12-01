@@ -48,6 +48,7 @@ class myButton extends StatelessWidget {
     );
   }
 }
+<<<<<<< HEAD
 
 class myButton1 extends StatelessWidget {
   final onTap;
@@ -95,3 +96,5 @@ class myButton1 extends StatelessWidget {
     );
   }
 }
+=======
+>>>>>>> kulsoom

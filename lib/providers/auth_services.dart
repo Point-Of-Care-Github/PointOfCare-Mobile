@@ -8,12 +8,17 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:test/constants/const.dart';
 import 'package:test/models/allDoctors.dart';
 import 'package:test/models/doctor.dart';
+
+import 'package:test/providers/auth.dart';
 import 'package:test/providers/user_provider.dart';
 import 'package:test/providers/doctor_profile.dart';
 // import 'package:test/screens/addUserDetail.dart';
 // import 'package:test/screens/emailOTP.dart';
 import 'package:test/screens/Main/screens/tabScreen.dart';
 import 'package:test/screens/User%20Profiling/screens/authentication.dart';
+
+import 'package:test/screens/User%20Profiling/screens/emailOTP.dart';
+
 import 'package:test/screens/User%20Profiling/screens/profile.dart';
 import '../models/patient.dart';
 import '../models/user.dart';
@@ -301,9 +306,11 @@ class AuthService {
     try {
       var userProvider = Provider.of<UserProvider>(context, listen: false);
       final navigator = Navigator.of(context);
+
+      final url = "$nodeApi/api/users/emailVerification";
       EmailOTP myauth = EmailOTP();
       http.Response res = await http.post(
-        Uri.parse('${nodeApi}/api/emailVerification'),
+        Uri.parse(url),
         body: jsonEncode({
           'email': email,
         }),
@@ -324,7 +331,7 @@ class AuthService {
           } else {
             userProvider.setUser(res.body);
             myauth.setConfig(
-                appEmail: "me@rohitchouhan.com",
+                appEmail: "Hashir@POC.com",
                 appName: "Point-Of-Care",
                 userEmail: email,
                 otpLength: 6,
@@ -340,12 +347,13 @@ class AuthService {
                 content: Text("Oops, OTP send failed"),
               ));
             }
-            // navigator.pushAndRemoveUntil(
-            //   MaterialPageRoute(
-            //     builder: (context) => EmailOtp(myauth: myauth),
-            //   ),
-            //   (route) => true,
-            // );
+
+            navigator.pushAndRemoveUntil(
+              MaterialPageRoute(
+                builder: (context) => EmailOtp(myauth: myauth),
+              ),
+              (route) => true,
+            );
           }
         },
       );
@@ -364,7 +372,7 @@ class AuthService {
     try {
       final navigator = Navigator.of(context);
       http.Response res = await http.post(
-        Uri.parse('${nodeApi}/api/passwordReset'),
+        Uri.parse('${nodeApi}/api/users/passwordReset'),
         body: jsonEncode({
           'email': email,
           'password': password,
@@ -471,9 +479,10 @@ class AuthService {
       required String image,
       required String gender}) async {
     try {
+      print(name);
       final navigator = Navigator.of(context);
       http.Response res = await http.post(
-        Uri.parse('${nodeApi}/api/updatePatient'),
+        Uri.parse('${nodeApi}/api/users/updatePatient'),
         body: jsonEncode({
           'email': email,
           'name': name,
@@ -486,9 +495,10 @@ class AuthService {
           'Content-Type': 'application/json; charset=UTF-8',
         },
       );
-      var patientProvider =
-          Provider.of<PatientProvider>(context, listen: false);
-      var userProvider = Provider.of<UserProvider>(context, listen: false);
+
+      var patientProvider = Provider.of<Patient>(context, listen: false);
+      var userProvider = Provider.of<Auth>(context, listen: false);
+
       httpErrorHandle(
         response: res,
         context: context,
@@ -497,15 +507,16 @@ class AuthService {
 
           // ignore: unnecessary_null_comparison
           if (res.body != null) {
-            userProvider.setUser(jsonEncode(responseData['updatedUser']));
-            patientProvider
-                .setPatient(jsonEncode(responseData['updatedPatient']));
-            navigator.pushAndRemoveUntil(
-              MaterialPageRoute(
-                builder: (context) => Profile(),
-              ),
-              (route) => false,
-            );
+            userProvider.userid = responseData['updatedUser']['_id'];
+            userProvider.useremail = responseData['updatedUser']['email'];
+            userProvider.userName = responseData['updatedUser']['name'];
+            userProvider.Role = responseData['updatedUser']['role'];
+            patientProvider.userId = responseData['updatedPatient']['userId'];
+            patientProvider.age = responseData['updatedPatient']['age'];
+            patientProvider.contact = responseData['updatedPatient']['contact'];
+            patientProvider.gender = responseData['updatedPatient']['gender'];
+            patientProvider.image = responseData['updatedPatient']['image'];
+            Navigator.of(context).pushReplacementNamed(TabsScreen.routeName);
             showSnackBar(
               context,
               'Information updated successfully!!',

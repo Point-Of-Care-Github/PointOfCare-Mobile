@@ -1,9 +1,12 @@
 // import 'package:firebase_core/firebase_core.dart';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:test/constants/const.dart';
+
 import 'package:test/firebase_options.dart';
+
 import 'package:test/providers/appointment_services.dart';
 import 'package:test/providers/auth.dart';
 import 'package:test/providers/doctor.dart';
@@ -42,6 +45,7 @@ void main() async {
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     MaterialColor createMaterialColor(Color color) {
@@ -106,7 +110,9 @@ class MyApp extends StatelessWidget {
                 scaffoldBackgroundColor: Colors.white,
                 fontFamily: 'Poppins'),
             home:
-                // DoctorProfile(),
+
+                // AddProfile(),
+
                 auth.userId != null ? TabsScreen() : Authentication(),
             routes: {
               TabsScreen.routeName: (ctx) => TabsScreen(),
@@ -124,7 +130,9 @@ class MyApp extends StatelessWidget {
               XrayUploadScreen.routeName: (ctx) => XrayUploadScreen(),
               ResultScreen.routeName: (ctx) => ResultScreen(),
               ReportScreen.routeName: (ctx) => ReportScreen(),
-              DoctorProfile.routeName: (ctx) => DoctorProfile(),
+
+              //AddProfile.routeName: (ctx) => AddProfile(),
+
               EmailOtp.routeName: (ctx) => EmailOtp(),
               // DoctorRecommendationScreen.routeName: (ctx) =>
               //     DoctorRecommendationScreen(),

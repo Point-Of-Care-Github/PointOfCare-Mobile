@@ -13,7 +13,9 @@ import 'package:test/screens/Result%20and%20Reporting/screens/reportScreen.dart'
 import 'package:test/screens/Main/widgets/categoryItems.dart';
 import 'package:test/screens/Doctor%20Recommendation/widgets/doctorsGrid.dart';
 import 'package:test/screens/Main/widgets/doctorsHomeGrid.dart';
+
 import 'package:test/utils/customProgess.dart';
+
 import 'package:test/widgets/title.dart';
 import 'package:test/screens/Appointments/widgets/upcomingAppointmentList.dart';
 
@@ -59,7 +61,6 @@ class _HomeScreenState extends State<HomeScreen> {
         Navigator.of(context).pushNamed(ReportScreen.routeName);
       }),
     ];
-
     return Scaffold(
       key: scaffoldKey,
       body: SingleChildScrollView(
