@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:test/providers/user_provider.dart';
 import 'package:test/screens/Appointments/widgets/canceledAppointment.dart';
-import 'package:test/screens/Appointments/widgets/completedAppointment.dart';
+
+import 'package:test/screens/Appointments/widgets/completedAppointmentList.dart';
+
 import 'package:test/screens/Appointments/widgets/upcomingAppointmentList.dart';
 
 class ScheduleScreen extends StatefulWidget {
@@ -19,8 +21,8 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
 
   final _scheduleWidgets = [
     UpcomingSchedule(flag: false),
-    const CompletedAppointment(),
-    const CanceledAppointment(),
+    CompletedSchedule(flag: false),
+    CanceledAppointment(flag: false),
   ];
 
   @override

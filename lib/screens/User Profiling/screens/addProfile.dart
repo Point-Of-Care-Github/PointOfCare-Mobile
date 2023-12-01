@@ -201,8 +201,8 @@ class _DoctorProfileState extends State<DoctorProfile> {
     setState(() {
       _isLoading = true;
     });
-
     final user = Provider.of<Auth>(context, listen: false);
+
     try {
       if (role == 'Radiologist') {
         Provider.of<Radiologist>(context, listen: false)
@@ -269,6 +269,7 @@ class _DoctorProfileState extends State<DoctorProfile> {
     // var route =
     //     ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
     final route = {'role': "Doctor"};
+
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -421,6 +422,7 @@ class _DoctorProfileState extends State<DoctorProfile> {
                       SizedBox(
                         height: 10,
                       ),
+
                       route['role'] != 'Doctor'
                           ? Container()
                           : TextFormField(

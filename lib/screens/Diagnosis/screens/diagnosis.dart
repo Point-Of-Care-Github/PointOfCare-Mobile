@@ -3,6 +3,7 @@ import 'package:test/screens/Diagnosis/widgets/diagnosisForm.dart';
 
 class Diagnosis extends StatelessWidget {
   static const routeName = '/diagnosis-screen';
+
   @override
   Widget build(BuildContext context) {
     final deviceSize = MediaQuery.of(context).size;

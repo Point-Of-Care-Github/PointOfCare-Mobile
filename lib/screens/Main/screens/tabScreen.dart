@@ -37,11 +37,11 @@ class _TabsScreenState extends State<TabsScreen> {
     setState(() {
       _isLoading = false;
     });
+
     super.initState();
   }
 
   int _selectedIndex = 2;
-
   static List<Widget> _widgetOptions = <Widget>[
     Profile(),
     ScheduleScreen(),

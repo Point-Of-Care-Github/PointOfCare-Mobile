@@ -1,9 +1,12 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:test/providers/doctor.dart';
 import 'package:test/providers/auth.dart';
 import 'package:test/providers/patient.dart';
 import 'package:test/screens/User%20Profiling/widgets/profileInfo.dart';
+
+import 'package:test/screens/User%20Profiling/screens/editProfile.dart';
 import '../../../providers/radiologist.dart';
 
 class Profile extends StatelessWidget {

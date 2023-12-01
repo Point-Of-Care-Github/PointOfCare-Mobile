@@ -86,7 +86,9 @@ class _RescheduleAppointmentState extends State<RescheduleAppointment> {
     timeList.add(DateFormat.jm().format(endTime));
     var appointmentProvider =
         Provider.of<AppointmentServices>(context).singleAppointmentData;
-    var appointment = appointmentProvider[0];
+
+    var appointment = appointmentProvider;
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Stack(
@@ -103,7 +105,7 @@ class _RescheduleAppointmentState extends State<RescheduleAppointment> {
                 left: deviceSize.width * 0.2,
               ),
               child: Text(
-                'Schedule Appointment',
+                'Reschedule Appointment',
                 style: TextStyle(
                   color: const Color(0xff200E32).withOpacity(0.8),
                   fontFamily: 'Poppins',
@@ -517,8 +519,8 @@ class _RescheduleAppointmentState extends State<RescheduleAppointment> {
                     alignment: Alignment.bottomRight,
                     child: ElevatedButton(
                       onPressed: () {
-                        updateAppointment(appointment.id, appointment.userId,
-                            appointment.doctorId);
+                        updateAppointment(appointment[0].id,
+                            appointment[0].userId, appointment[0].doctorId);
                       },
                       style: ElevatedButton.styleFrom(
                         padding: EdgeInsets.zero,

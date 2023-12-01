@@ -8,6 +8,8 @@ import 'package:test/screens/User%20Profiling/screens/email-otp.dart';
 import 'package:test/utils/customProgess.dart';
 import 'package:test/widgets/inputDecoration.dart';
 
+import 'package:test/screens/User%20Profiling/screens/passwordReset.dart';
+
 import '../../../providers/auth.dart';
 import '../../../widgets/MyButton.dart';
 
@@ -43,18 +45,18 @@ class _AuthenticationState extends State<Authentication> {
                     ),
                     Container(
                       margin: const EdgeInsets.only(
-                          left: 0.0, top: 40.0, right: 25.0),
+                          left: 0.0, top: 20.0, right: 25.0),
                       child: Align(
                           alignment: Alignment.topRight,
                           child: Image.asset(
                             'assets/images/authLogo.png',
-                            height: 75,
-                            width: 75,
+                            height: 60,
+                            width: 60,
                           )),
                     ),
+                    AuthCard(),
                   ],
                 ),
-                AuthCard(),
               ],
             ),
           ),
@@ -106,6 +108,7 @@ class _AuthCardState extends State<AuthCard> {
         builder: (context) => CustomProgress(
               message: "Please wait...",
             ));
+
     // Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
     if (_authMode == AuthMode.Login) {
       if (_emailActive && _passwordActive) {
@@ -121,6 +124,7 @@ class _AuthCardState extends State<AuthCard> {
           _semailActive) {
         sendOTP(_emailController.text).then((_) {
           Navigator.of(context).pop();
+
           Navigator.of(context).pushNamed(EmailOtp.routeName, arguments: {
             "name": _nameController.text,
             "email": _emailController.text,
@@ -176,19 +180,20 @@ class _AuthCardState extends State<AuthCard> {
 
               if (_authMode == AuthMode.Login)
                 Container(
+                  margin: const EdgeInsets.only(top: 80),
                   child: const Align(
                     alignment: Alignment.topLeft,
                     child: Text(
                       'Login',
                       style:
-                          TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+                          TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
                     ),
                   ),
                 ),
               //signup Heading
               if (_authMode == AuthMode.Signup)
                 Container(
-                  margin: const EdgeInsets.only(left: 7, bottom: 20),
+                  margin: const EdgeInsets.only(top: 80),
                   child: const Align(
                     alignment: Alignment.topLeft,
                     child: Text(
@@ -208,16 +213,21 @@ class _AuthCardState extends State<AuthCard> {
                   child: Text(
                     'Please Sign in to continue',
                     style: TextStyle(
-                      fontSize: 17,
+                      fontSize: 15,
                       fontWeight: FontWeight.w600,
                       color: Colors.black38,
                     ),
                   ),
                 ),
 
-              SizedBox(
-                height: 40,
-              ),
+              if (_authMode == AuthMode.Login)
+                SizedBox(
+                  height: 40,
+                ),
+              if (_authMode == AuthMode.Signup)
+                SizedBox(
+                  height: 20,
+                ),
 
               //Signup name field
               if (_authMode == AuthMode.Signup)
@@ -238,7 +248,7 @@ class _AuthCardState extends State<AuthCard> {
                     }),
               if (_authMode == AuthMode.Signup)
                 Padding(
-                  padding: const EdgeInsets.only(top: 3.0, bottom: 5),
+                  padding: const EdgeInsets.only(top: 2.0, bottom: 4),
                   child: Align(
                     alignment: Alignment.topLeft,
                     child: Text(
@@ -344,35 +354,59 @@ class _AuthCardState extends State<AuthCard> {
                     ),
                   ),
                 ),
-              // FittedBox(
-              //   fit: BoxFit.cover,
-              //   child: Row(children: <Widget>[
-              //     const Text(
-              //       'Select the user type:',
-              //       style: TextStyle(
-              //           fontFamily: 'League Spartan',
-              //           fontSize: 15,
-              //           color: Color(0xFF949494),
-              //           fontWeight: FontWeight.w500),
-              //     ),
-              //     SizedBox(
-              //       width: 29,
-              //     ),
-              //     DropdownButton(
-              //       value: selectedValue,
-              //       style: const TextStyle(
-              //           color: Color(0xFF8587DC),
-              //           fontSize: 16,
-              //           fontFamily: 'League Spartan'),
-              //       items: dropdownItems,
-              //       onChanged: (String? newValue) {
-              //         setState(() {
-              //           selectedValue = newValue!;
-              //         });
-              //       },
-              //     ),
-              //   ]),
-              // ),
+              if (_authMode == AuthMode.Signup)
+                FittedBox(
+                  fit: BoxFit.cover,
+                  child: Row(children: <Widget>[
+                    const Text(
+                      'Select the user type:',
+                      style: TextStyle(
+                          fontFamily: 'League Spartan',
+                          fontSize: 15,
+                          color: Color(0xFF949494),
+                          fontWeight: FontWeight.w500),
+                    ),
+                    SizedBox(
+                      width: 29,
+                    ),
+                    DropdownButton(
+                      value: selectedValue,
+                      style: const TextStyle(
+                          color: Color(0xFF8587DC),
+                          fontSize: 16,
+                          fontFamily: 'League Spartan'),
+                      items: dropdownItems,
+                      onChanged: (String? newValue) {
+                        setState(() {
+                          selectedValue = newValue!;
+                        });
+                      },
+                    ),
+                  ]),
+                ),
+
+              if (_authMode == AuthMode.Login)
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => const PasswordReset(),
+                      ),
+                    );
+                  },
+                  child: Align(
+                    alignment: Alignment.topRight,
+                    child: Text(
+                      'Forgot Password?',
+                      style: TextStyle(
+                        fontFamily: 'League Spartan',
+                        fontSize: 12,
+                        color: Theme.of(context).primaryColor,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                ),
 
               if (_authMode == AuthMode.Login)
                 const SizedBox(
@@ -497,7 +531,7 @@ class _AuthCardState extends State<AuthCard> {
               //switch between signup and sign in
               Container(
                 margin: EdgeInsets.only(
-                    left: MediaQuery.of(context).size.width / 5),
+                    left: MediaQuery.of(context).size.width / 9),
                 child: Row(children: <Widget>[
                   Text(
                     _authMode == AuthMode.Login
@@ -552,6 +586,28 @@ class _AuthCardState extends State<AuthCard> {
         });
       }
     }
+  }
+
+  InputDecoration decoration(name, icon) {
+    return InputDecoration(
+      border: OutlineInputBorder(
+          borderSide: BorderSide(width: 1, color: primaryColor)),
+      enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.grey.shade400)),
+      labelText: name,
+      labelStyle: TextStyle(
+        // fontFamily: 'League Spartan',
+        fontSize: 16,
+        color: Colors.grey.shade400,
+        fontWeight: FontWeight.w600,
+      ),
+      floatingLabelStyle: TextStyle(color: primaryColor),
+      prefixIconColor: primaryColor,
+      prefixIcon: Icon(
+        icon,
+        // color: Colors.grey.shade400,
+      ),
+    );
   }
 
   void validateName(String val) {

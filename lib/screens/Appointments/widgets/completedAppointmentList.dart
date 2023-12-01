@@ -1,21 +1,18 @@
-// ignore_for_file: file_names
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:test/models/appointment.dart';
-import 'package:test/providers/appointment_services.dart';
 import 'package:test/providers/auth.dart';
 import 'package:test/providers/doctor.dart';
-import 'package:test/providers/user_provider.dart';
+import 'package:test/providers/appointment_services.dart';
 import 'package:test/screens/Appointments/widgets/upcomingAppointmentCard.dart';
 
-class CanceledAppointment extends StatelessWidget {
+class CompletedSchedule extends StatelessWidget {
   final bool flag;
 
-  CanceledAppointment({required this.flag});
-  bool isCancelledAppointment(List<Appointment> appointmentsList) {
+  CompletedSchedule({required this.flag});
+  bool isCompletedAppointment(List<Appointment> appointmentsList) {
     for (final appointment in appointmentsList) {
-      if (appointment.status != 'cancelled') {
+      if (appointment.status != 'completed') {
         continue;
       } else {
         return false;
@@ -53,7 +50,7 @@ class CanceledAppointment extends StatelessWidget {
                     itemCount: doctorAppointments.length,
                     itemBuilder: (context, index) {
                       final appointment = doctorAppointments[index];
-                      return appointment.status == 'cancelled'
+                      return appointment.status == 'completed'
                           ? Container(
                               padding: const EdgeInsets.symmetric(vertical: 5),
                               decoration: BoxDecoration(
@@ -163,7 +160,7 @@ class CanceledAppointment extends StatelessWidget {
                             element.userId == appointment.doctorId);
                         final us = user.users.firstWhere((element) =>
                             element.userId == appointment.doctorId);
-                        return appointment.status == 'cancelled'
+                        return appointment.status == 'completed'
                             ? UpcomingAppointmentCard(
                                 us: us, doc: doc, appointment: appointment)
                             : Container();

@@ -47,13 +47,16 @@ dependencies:
   flutter_spinkit: ^5.2.0
   animated_text_kit: ^4.2.2
   firebase_storage: ^11.2.8
+
   firebase_core: ^2.17.0
+
   shimmer: ^3.0.0
   archive: ^3.3.8
   geocoding: ^2.1.0
   syncfusion_flutter_pdf: ^23.1.39
   geolocator: ^9.0.2
   cloud_firestore: ^4.13.2
+
   flutter_rating_bar: ^4.0.1
   image_cropper: ^5.0.0
   open_file: ^3.3.2
@@ -61,6 +64,8 @@ dependencies:
   shared_preferences: ^2.1.1
   custom_clippers: ^2.0.0
   syncfusion_flutter_datepicker: ^23.1.40
+
+
 
 dev_dependencies:
   flutter_test:
@@ -87,6 +92,7 @@ flutter:
   assets:
     - assets/images/
     - assets/heart-beat.gif
+
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
