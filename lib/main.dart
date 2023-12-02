@@ -130,7 +130,7 @@ class MyApp extends StatelessWidget {
               XrayUploadScreen.routeName: (ctx) => XrayUploadScreen(),
               ResultScreen.routeName: (ctx) => ResultScreen(),
               ReportScreen.routeName: (ctx) => ReportScreen(),
-
+              DoctorProfile.routeName: (ctx) => DoctorProfile(),
               //AddProfile.routeName: (ctx) => AddProfile(),
 
               EmailOtp.routeName: (ctx) => EmailOtp(),

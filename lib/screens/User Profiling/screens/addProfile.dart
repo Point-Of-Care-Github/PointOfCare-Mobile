@@ -28,8 +28,6 @@ class _DoctorProfileState extends State<DoctorProfile> {
   TextEditingController _genderController = TextEditingController();
   TextEditingController _experienceController = TextEditingController();
   TextEditingController _feeController = TextEditingController();
-  TextEditingController _time1Controller = TextEditingController();
-  TextEditingController _time2Controller = TextEditingController();
   TextEditingController _specializationController = TextEditingController();
   bool _isLoading = false;
   TimeOfDay selectedTime = TimeOfDay.now();
@@ -108,8 +106,6 @@ class _DoctorProfileState extends State<DoctorProfile> {
         _descriptionController.text.isEmpty ||
         _genderController.text.isEmpty ||
         _experienceController.text.isEmpty ||
-        _time1Controller.text.isEmpty ||
-        _time2Controller.text.isEmpty ||
         _specializationController.text.isEmpty) {
       _showErrorDialog("Some fields are empty!");
       return;
@@ -137,7 +133,7 @@ class _DoctorProfileState extends State<DoctorProfile> {
               userId: user.userId,
               userName: user.userName,
               fees: _feeController.text,
-              time: _time1Controller.text + "-" + _time2Controller.text,
+              time: selectedTime.toString() + "-" + selectedTime1.toString(),
               contact: _contactController.text,
               description: _descriptionController.text,
               experience: _experienceController.text,
@@ -145,7 +141,8 @@ class _DoctorProfileState extends State<DoctorProfile> {
               image: url,
               specialization: _specializationController.text))
           .then((_) {
-        Navigator.of(context).pushReplacementNamed(TabsScreen.routeName);
+        int count = 0;
+        Navigator.of(context).popUntil((_) => count++ >= 2);
         setState(() {
           _isLoading = false;
         });
@@ -208,6 +205,7 @@ class _DoctorProfileState extends State<DoctorProfile> {
         Provider.of<Radiologist>(context, listen: false)
             .addRadiologist(Radiologist(
           userId: user.userId,
+          userName: user.userName,
           age: _ageController.text,
           contact: _contactController.text,
           gender: _genderController.text,

@@ -56,9 +56,8 @@ class Auth with ChangeNotifier {
         ),
       );
       final responseData = json.decode(response.body);
-      print(responseData);
-      if (responseData['error'] != null) {
-        throw HttpException(responseData['message']);
+      if (response.statusCode == 401 || response.statusCode == 500) {
+        throw responseData['message'].toString();
       }
       userid = responseData['user']['_id'];
       useremail = responseData['user']['email'];
@@ -66,7 +65,7 @@ class Auth with ChangeNotifier {
       Role = responseData['user']['role'];
       notifyListeners();
     } catch (e) {
-      print("Error:" + e.toString());
+      // print(e);
       throw e;
     }
   }
@@ -81,8 +80,8 @@ class Auth with ChangeNotifier {
             {"name": name, "email": email, "password": password, "role": role},
           ));
       final responseData = json.decode(response.body);
-      if (responseData['error'] != null) {
-        throw HttpException(responseData['error']['message']);
+      if (response.statusCode == 500 || response.statusCode == 422) {
+        throw responseData['message'].toString();
       }
       userid = responseData['user']['_id'];
       useremail = responseData['user']['email'];

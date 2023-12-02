@@ -28,6 +28,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  bool _isLoading = true;
 
   @override
   Widget build(BuildContext context) {
@@ -42,6 +43,10 @@ class _HomeScreenState extends State<HomeScreen> {
     } else {
       type = Provider.of<Radiologist>(context).getRadiologist(user.userId!);
     }
+    setState(() {
+      _isLoading = false;
+    });
+
     final items = [
       Service("assets/images/diagnostic.png", "Diagnose\nNow",
           Colors.green.withOpacity(0.05), () {
@@ -65,150 +70,164 @@ class _HomeScreenState extends State<HomeScreen> {
       key: scaffoldKey,
       body: SingleChildScrollView(
         child: SafeArea(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(
-                height: 20,
-              ),
+          child: _isLoading
+              ? Center(
+                  child: Image.asset(
+                    "assets/heart-beat.gif",
+                    height: 100,
+                    width: 100,
+                  ),
+                )
+              : Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      height: 20,
+                    ),
 
-              Container(
-                margin: EdgeInsets.symmetric(horizontal: 15),
-                child: ListTile(
-                  leading: CircleAvatar(
-                    radius: 25,
-                    backgroundImage: NetworkImage(type.image!),
-                  ),
-                  title: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Welcome 🎉',
-                        style: TextStyle(
-                            fontFamily: 'Poppins',
-                            fontSize: 13,
-                            color: Colors.grey.shade700,
-                            fontWeight: FontWeight.normal),
-                      ),
-                      Text(
-                        "${user.username}",
-                        style: TextStyle(
-                            fontFamily: 'Poppins',
-                            fontSize: 20,
-                            fontWeight: FontWeight.w700),
-                      ),
-                    ],
-                  ),
-                  trailing: Container(
-                    decoration: BoxDecoration(
-                        color: primaryColor.withOpacity(0.1),
-                        borderRadius: BorderRadius.circular(40)),
-                    child: IconButton(
-                        onPressed: () {
-                          showDialog(
-                            context: context,
-                            builder: (context) => CustomProgress(
-                              message: "Please wait!",
+                    Container(
+                      margin: EdgeInsets.symmetric(horizontal: 15),
+                      child: ListTile(
+                        leading: CircleAvatar(
+                          radius: 25,
+                          backgroundImage: NetworkImage(type.image!),
+                        ),
+                        title: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Welcome 🎉',
+                              style: TextStyle(
+                                  fontFamily: 'Poppins',
+                                  fontSize: 13,
+                                  color: Colors.grey.shade700,
+                                  fontWeight: FontWeight.normal),
                             ),
-                          );
-                        },
-                        icon: Icon(
-                          Icons.notifications,
-                          size: 26,
-                          color: primaryColor,
-                        )),
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 30),
-                child: TextFormField(
-                  decoration: InputDecoration(
-                    hintText: 'Search for doctors...',
-                    hintStyle: TextStyle(
-                      fontFamily: 'League Spartan',
-                      fontSize: 16,
-                      color: Colors.grey.shade400,
-                      fontWeight: FontWeight.w600,
+                            Text(
+                              "${user.username}",
+                              style: TextStyle(
+                                  fontFamily: 'Poppins',
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w700),
+                            ),
+                          ],
+                        ),
+                        trailing: Container(
+                          decoration: BoxDecoration(
+                              color: primaryColor.withOpacity(0.1),
+                              borderRadius: BorderRadius.circular(40)),
+                          child: IconButton(
+                              onPressed: () {
+                                showDialog(
+                                  context: context,
+                                  builder: (context) => CustomProgress(
+                                    message: "Please wait!",
+                                  ),
+                                );
+                              },
+                              icon: Icon(
+                                Icons.notifications,
+                                size: 26,
+                                color: primaryColor,
+                              )),
+                        ),
+                      ),
                     ),
-                    fillColor: const Color.fromARGB(255, 245, 245, 245),
-                    filled: true,
-                    border: UnderlineInputBorder(
-                        borderSide: BorderSide.none,
-                        borderRadius: BorderRadius.circular(20)),
-                    contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 10.0),
-                    suffixIcon: Icon(
-                      Icons.search_outlined,
-                      color: primaryColor,
+                    SizedBox(
+                      height: 20,
                     ),
-                  ),
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                    fontFamily: 'League Spartan',
-                  ),
+
+                    Container(
+                      padding: EdgeInsets.symmetric(horizontal: 30),
+                      child: TextFormField(
+                        decoration: InputDecoration(
+                          hintText: 'Search for doctors...',
+                          hintStyle: TextStyle(
+                            fontFamily: 'League Spartan',
+                            fontSize: 16,
+                            color: Colors.grey.shade400,
+                            fontWeight: FontWeight.w600,
+                          ),
+                          fillColor: const Color.fromARGB(255, 245, 245, 245),
+                          filled: true,
+                          border: UnderlineInputBorder(
+                              borderSide: BorderSide.none,
+                              borderRadius: BorderRadius.circular(20)),
+                          contentPadding:
+                              EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 10.0),
+                          suffixIcon: Icon(
+                            Icons.search_outlined,
+                            color: primaryColor,
+                          ),
+                        ),
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                          fontFamily: 'League Spartan',
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Container(
+                        padding: EdgeInsets.only(left: 20),
+                        height: 150,
+                        child: ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: 4,
+                            itemBuilder: (context, index) =>
+                                user.role == 'Doctor' && index == 1
+                                    ? Container()
+                                    : CategoryItem(
+                                        items[index].image,
+                                        items[index].label,
+                                        items[index].color,
+                                        items[index].onTap))),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    MainTitle("Upcoming Appointments"),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    UpcomingSchedule(flag: true),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    user.role == "Doctor"
+                        ? Container()
+                        : MainTitle("Top Doctors"),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    user.role == "Doctor" ? Container() : DoctorsHomeGrid(),
+
+                    // Container(
+                    //   padding: EdgeInsets.only(left: 20),
+                    //   height: 150,
+                    //   child: ListView.builder(
+                    //       scrollDirection: Axis.horizontal,
+                    //       itemCount: 4,
+                    //       itemBuilder: (context, index) => GestureDetector(
+                    //           onTap: () {
+                    //             Navigator.of(context).push(
+                    //               MaterialPageRoute(
+                    //                   builder: (context) => Diagnosis()),
+                    //             );
+                    //           },
+                    //           child: ServiceItem(
+                    //               items[index].image, items[index].label))),
+                    // ),
+                    SizedBox(
+                      height: 30,
+                    ),
+                    // Container(height: 300, child: HomeGrid())
+
+                    // MainTitle("Top Doctors"),
+                    // DoctorsGrid()
+                  ],
                 ),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              Container(
-                  padding: EdgeInsets.only(left: 20),
-                  height: 150,
-                  child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: 4,
-                      itemBuilder: (context, index) => CategoryItem(
-                          items[index].image,
-                          items[index].label,
-                          items[index].color,
-                          items[index].onTap))),
-              SizedBox(
-                height: 20,
-              ),
-              MainTitle("Upcoming Appointments"),
-              SizedBox(
-                height: 10,
-              ),
-              UpcomingSchedule(flag: true),
-              SizedBox(
-                height: 20,
-              ),
-              MainTitle("Top Doctors"),
-              SizedBox(
-                height: 10,
-              ),
-              DoctorsHomeGrid(),
-
-              // Container(
-              //   padding: EdgeInsets.only(left: 20),
-              //   height: 150,
-              //   child: ListView.builder(
-              //       scrollDirection: Axis.horizontal,
-              //       itemCount: 4,
-              //       itemBuilder: (context, index) => GestureDetector(
-              //           onTap: () {
-              //             Navigator.of(context).push(
-              //               MaterialPageRoute(
-              //                   builder: (context) => Diagnosis()),
-              //             );
-              //           },
-              //           child: ServiceItem(
-              //               items[index].image, items[index].label))),
-              // ),
-              SizedBox(
-                height: 30,
-              ),
-              // Container(height: 300, child: HomeGrid())
-
-              // MainTitle("Top Doctors"),
-              // DoctorsGrid()
-            ],
-          ),
         ),
       ),
     );

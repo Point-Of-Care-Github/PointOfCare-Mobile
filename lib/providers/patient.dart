@@ -76,6 +76,7 @@ class Patient with ChangeNotifier {
         body: json.encode(
           {
             "userId": patient.userId,
+            "userName": patient.userName,
             "age": patient.age,
             "contact": patient.contact,
             "gender": patient.gender,

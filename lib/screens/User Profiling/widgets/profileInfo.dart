@@ -22,7 +22,7 @@ class ProfileInfo extends StatelessWidget {
             subtitle,
             textAlign: TextAlign.right,
             style: TextStyle(
-              fontWeight: FontWeight.w700,
+              fontWeight: FontWeight.w600,
               fontSize: 16,
             ),
           ),

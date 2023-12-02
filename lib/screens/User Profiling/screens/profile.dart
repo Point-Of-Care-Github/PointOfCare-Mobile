@@ -81,14 +81,20 @@ class Profile extends StatelessWidget {
                 Divider(),
                 ProfileInfo("Email", user.userEmail),
                 Divider(),
-                ProfileInfo("Age", type.age),
+                user.role == 'Patient'
+                    ? ProfileInfo("Age", type.age)
+                    : Container(),
+                user.role == 'Doctor'
+                    ? ProfileInfo("Specialization", type.specialization)
+                    : Container(),
                 Divider(),
                 ProfileInfo("Gender", type.gender),
                 Divider(),
                 ProfileInfo("Contact", type.contact),
-                if (user.role == "Doctor") Divider(),
-                if (user.role == "Doctor")
-                  ProfileInfo("Contact", type.specialization),
+                Divider(),
+                user.role == 'Doctor'
+                    ? ProfileInfo("Experience", type.experience + " yrs")
+                    : Container(),
               ],
             ),
           ),

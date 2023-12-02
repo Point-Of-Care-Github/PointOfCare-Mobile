@@ -6,6 +6,7 @@ import 'package:email_otp/email_otp.dart';
 import 'package:test/constants/const.dart';
 import 'package:test/screens/User%20Profiling/screens/email-otp.dart';
 import 'package:test/utils/customProgess.dart';
+import 'package:test/utils/snack_bar_util.dart';
 import 'package:test/widgets/inputDecoration.dart';
 
 import 'package:test/screens/User%20Profiling/screens/passwordReset.dart';
@@ -104,6 +105,7 @@ class _AuthCardState extends State<AuthCard> {
 
   void login() {
     showDialog(
+        barrierDismissible: false,
         context: context,
         builder: (context) => CustomProgress(
               message: "Please wait...",
@@ -114,7 +116,11 @@ class _AuthCardState extends State<AuthCard> {
       if (_emailActive && _passwordActive) {
         Provider.of<Auth>(context, listen: false)
             .login(_emailController.text, _passwordController.text)
-            .then((value) => Navigator.of(context).pop());
+            .then((value) => Navigator.of(context).pop())
+            .catchError((c) {
+          Navigator.of(context).pop();
+          showSnackBar(context, c);
+        });
       }
     }
     if (_authMode == AuthMode.Signup) {
@@ -177,23 +183,23 @@ class _AuthCardState extends State<AuthCard> {
           child: Column(
             children: <Widget>[
               //Login Heading
-
+              SizedBox(
+                height: 130,
+              ),
               if (_authMode == AuthMode.Login)
                 Container(
-                  margin: const EdgeInsets.only(top: 80),
                   child: const Align(
                     alignment: Alignment.topLeft,
                     child: Text(
                       'Login',
                       style:
-                          TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                          TextStyle(fontSize: 34, fontWeight: FontWeight.bold),
                     ),
                   ),
                 ),
               //signup Heading
               if (_authMode == AuthMode.Signup)
                 Container(
-                  margin: const EdgeInsets.only(top: 80),
                   child: const Align(
                     alignment: Alignment.topLeft,
                     child: Text(
@@ -354,6 +360,28 @@ class _AuthCardState extends State<AuthCard> {
                     ),
                   ),
                 ),
+              if (_authMode == AuthMode.Login)
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => const PasswordReset(),
+                      ),
+                    );
+                  },
+                  child: Align(
+                    alignment: Alignment.topRight,
+                    child: Text(
+                      'Forgot Password?',
+                      style: TextStyle(
+                        fontFamily: 'League Spartan',
+                        fontSize: 12,
+                        color: Theme.of(context).primaryColor,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                ),
               if (_authMode == AuthMode.Signup)
                 FittedBox(
                   fit: BoxFit.cover,
@@ -383,29 +411,6 @@ class _AuthCardState extends State<AuthCard> {
                       },
                     ),
                   ]),
-                ),
-
-              if (_authMode == AuthMode.Login)
-                TextButton(
-                  onPressed: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => const PasswordReset(),
-                      ),
-                    );
-                  },
-                  child: Align(
-                    alignment: Alignment.topRight,
-                    child: Text(
-                      'Forgot Password?',
-                      style: TextStyle(
-                        fontFamily: 'League Spartan',
-                        fontSize: 12,
-                        color: Theme.of(context).primaryColor,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ),
                 ),
 
               if (_authMode == AuthMode.Login)
@@ -531,7 +536,7 @@ class _AuthCardState extends State<AuthCard> {
               //switch between signup and sign in
               Container(
                 margin: EdgeInsets.only(
-                    left: MediaQuery.of(context).size.width / 9),
+                    left: MediaQuery.of(context).size.width / 5),
                 child: Row(children: <Widget>[
                   Text(
                     _authMode == AuthMode.Login

@@ -87,6 +87,7 @@ class Doctor with ChangeNotifier {
         body: json.encode(
           {
             "userId": doctor.userId,
+            "userName": doctor.userName,
             "fees": doctor.fees,
             "time": doctor.time,
             "contact": doctor.contact,

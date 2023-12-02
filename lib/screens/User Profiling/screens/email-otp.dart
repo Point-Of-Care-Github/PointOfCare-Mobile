@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:provider/provider.dart';
 import 'package:test/providers/auth.dart';
+import 'package:test/utils/snack_bar_util.dart';
 
 import 'package:test/widgets/myButton.dart';
 
@@ -41,11 +42,11 @@ class _EmailOtpState extends State<EmailOtp> {
         setState(() {
           _isLoading = false;
         });
-        Navigator.of(context).pushReplacementNamed(DoctorProfile.routeName,
-
-            //Navigator.of(context).pushReplacementNamed(AddProfile.routeName,
-
-            arguments: {"role": role});
+        Navigator.of(context)
+            .pushNamed(DoctorProfile.routeName, arguments: {"role": role});
+      }).catchError((c) {
+        Navigator.of(context).pop();
+        showSnackBar(context, c);
       });
     } else {
       setState(() {

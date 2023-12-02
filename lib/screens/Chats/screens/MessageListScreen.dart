@@ -127,7 +127,7 @@ class _MessagesScreenState extends State<MessagesScreen> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => ChatScreen(doctor.userId),
+                                builder: (context) => ChatScreen(doctor),
                               ));
                         },
                         leading: CircleAvatar(

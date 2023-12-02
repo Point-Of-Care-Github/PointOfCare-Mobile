@@ -10,17 +10,17 @@ import '../../../providers/auth.dart';
 import '../../../providers/radiologist.dart';
 
 class ChatScreen extends StatelessWidget {
-  final receiverId;
-  ChatScreen(this.receiverId);
+  final doctor;
+  ChatScreen(this.doctor);
 
   @override
   Widget build(BuildContext context) {
     final userId = Provider.of<Auth>(context, listen: false).userId;
     return Scaffold(
-      appBar: AppBar(title: Text("Flutter Chat Screen!")),
+      appBar: AppBar(title: Text(doctor.userName)),
       body: Column(children: [
-        Expanded(child: ChatMessage(userId, receiverId)),
-        NewMessage(userId, receiverId)
+        Expanded(child: ChatMessage(userId, doctor.userId)),
+        NewMessage(userId, doctor.userId)
       ]),
     );
   }

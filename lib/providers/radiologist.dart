@@ -7,6 +7,7 @@ import 'package:test/models/http_exception.dart';
 
 class Radiologist with ChangeNotifier {
   String? userId;
+  String? userName;
   String? age;
   String? contact;
   String? gender;
@@ -18,6 +19,7 @@ class Radiologist with ChangeNotifier {
 
   Radiologist(
       {required this.userId,
+      required this.userName,
       required this.age,
       required this.contact,
       required this.gender,
@@ -46,6 +48,7 @@ class Radiologist with ChangeNotifier {
         var doc = extractedData[i];
         loadedRadiologists.add(Radiologist(
           age: doc['age'],
+          userName: doc['userName'],
           contact: doc['contact'],
           gender: doc['gender'],
           image: doc['image'],
@@ -69,6 +72,7 @@ class Radiologist with ChangeNotifier {
         body: json.encode(
           {
             "userId": radiologist.userId,
+            "userName": radiologist.userName,
             "age": radiologist.age,
             "contact": radiologist.contact,
             "gender": radiologist.gender,

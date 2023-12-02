@@ -33,10 +33,10 @@ class _TabsScreenState extends State<TabsScreen> {
     Provider.of<Doctor>(context, listen: false).fetchDoctors();
     Provider.of<Patient>(context, listen: false).fetchPatients();
     Provider.of<AppointmentServices>(context, listen: false)
-        .getAppointments(context: context);
-    setState(() {
-      _isLoading = false;
-    });
+        .getAppointments(context: context)
+        .then((value) => setState(() {
+              _isLoading = false;
+            }));
 
     super.initState();
   }
