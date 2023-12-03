@@ -52,14 +52,14 @@ class _BookAppointmentState extends State<BookAppointment> {
 
   final AppointmentServices appointmentService = AppointmentServices();
 
-  void addAppointment(String doctorId) {
+  void addAppointment(String doctorId, String userId) {
     setState(() {
       _isLoading = true;
     });
     appointmentService
         .addAppointment(
       context: context,
-      userId: widget.user.userId,
+      userId: userId,
       doctorId: doctorId,
       gender: radioButtonItem,
       contact: _contactController.text,
@@ -89,7 +89,8 @@ class _BookAppointmentState extends State<BookAppointment> {
   @override
   Widget build(BuildContext context) {
     final deviceSize = MediaQuery.of(context).size;
-
+    final user = Provider.of<Auth>(context);
+    print(user.userId);
     DateTime parseTime(String timeStr) {
       final parts = timeStr.split(' ');
       final timeParts = parts[0].split(':');
@@ -557,7 +558,8 @@ class _BookAppointmentState extends State<BookAppointment> {
                           )
                         : ElevatedButton(
                             onPressed: () {
-                              addAppointment(widget.doctor.userId!);
+                              addAppointment(
+                                  widget.doctor.userId!, user.userId!);
                             },
                             style: ElevatedButton.styleFrom(
                               padding: EdgeInsets.zero,

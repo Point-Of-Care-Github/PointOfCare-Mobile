@@ -67,11 +67,14 @@ class Profile extends StatelessWidget {
             ),
           ),
           Container(
+            margin: EdgeInsets.only(
+              top: deviceSize.height * 0.09,
+            ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 CircleAvatar(
-                  radius: 70,
+                  radius: 50,
                   backgroundImage: NetworkImage(type.image!),
                 ),
                 SizedBox(
