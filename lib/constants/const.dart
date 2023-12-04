@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-String flaskApi = 'http://192.168.0.100:4000';
+String flaskApi = 'http://192.168.18.14:4000';
 String nodeApi = 'http://192.168.18.14:5000';
 
 final primaryColor = Color(0xFF7F80D2);

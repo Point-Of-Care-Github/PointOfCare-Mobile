@@ -26,26 +26,29 @@ class _UploadOptionsState extends State<UploadOptions> {
     var pickedImage = await picker.pickImage(source: media);
     if (pickedImage == null) return;
 
-    final croppedImage = await ImageCropper()
-        .cropImage(sourcePath: pickedImage.path, aspectRatioPresets: [
-      CropAspectRatioPreset.square,
-      CropAspectRatioPreset.ratio3x2,
-      CropAspectRatioPreset.original,
-      CropAspectRatioPreset.ratio4x3,
-      CropAspectRatioPreset.ratio16x9
-    ], uiSettings: [
-      AndroidUiSettings(
-        toolbarTitle: 'Crop Image',
-        toolbarColor: Colors.deepOrange,
-        toolbarWidgetColor: Colors.white,
-        initAspectRatio: CropAspectRatioPreset.original,
-        lockAspectRatio: false,
-      ),
-      IOSUiSettings(
-        title: 'Crop Image',
-        aspectRatioLockEnabled: false,
-      ),
-    ]);
+    final croppedImage = await ImageCropper().cropImage(
+        sourcePath: pickedImage.path,
+        aspectRatio: CropAspectRatio(ratioX: 1, ratioY: 1),
+        aspectRatioPresets: [
+          CropAspectRatioPreset.square,
+          CropAspectRatioPreset.ratio3x2,
+          CropAspectRatioPreset.original,
+          CropAspectRatioPreset.ratio4x3,
+          CropAspectRatioPreset.ratio16x9
+        ],
+        uiSettings: [
+          AndroidUiSettings(
+            toolbarTitle: 'Crop Image',
+            toolbarColor: Colors.deepOrange,
+            toolbarWidgetColor: Colors.white,
+            initAspectRatio: CropAspectRatioPreset.original,
+            lockAspectRatio: false,
+          ),
+          IOSUiSettings(
+            title: 'Crop Image',
+            aspectRatioLockEnabled: false,
+          ),
+        ]);
 
     if (croppedImage == null) return;
 
@@ -172,8 +175,10 @@ class _UploadOptionsState extends State<UploadOptions> {
               .diagnose(image)
               .then((_) {
             Navigator.pop(context);
-            Navigator.pushNamed(context, '/result-screen',
-                arguments: {'image': image!.path});
+            Navigator.pushNamed(context, '/result-screen', arguments: {
+              'image': image!.path,
+              "results": Provider.of<Results>(context, listen: false).result
+            });
           });
         }, "Submit")
       ],

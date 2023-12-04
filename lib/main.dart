@@ -29,6 +29,7 @@ import 'package:test/screens/Main/screens/homeScreen.dart';
 import 'package:test/screens/Main/screens/tabScreen.dart';
 import 'package:test/screens/Result%20and%20Reporting/screens/reportScreen.dart';
 import 'package:test/screens/Result%20and%20Reporting/screens/resultScreen.dart';
+import 'package:test/screens/Result%20and%20Reporting/screens/reportList.dart';
 import 'package:test/screens/User%20Profiling/screens/addProfile.dart';
 import 'package:test/screens/User%20Profiling/screens/authentication.dart';
 import 'package:test/screens/User%20Profiling/screens/email-otp.dart';
@@ -129,8 +130,8 @@ class MyApp extends StatelessWidget {
               NearbyDoctors.routeName: (ctx) => NearbyDoctors(),
               XrayUploadScreen.routeName: (ctx) => XrayUploadScreen(),
               ResultScreen.routeName: (ctx) => ResultScreen(),
-              ReportScreen.routeName: (ctx) => ReportScreen(),
               DoctorProfile.routeName: (ctx) => DoctorProfile(),
+              ReportList.routeName: (ctx) => ReportList(),
               //AddProfile.routeName: (ctx) => AddProfile(),
 
               EmailOtp.routeName: (ctx) => EmailOtp(),

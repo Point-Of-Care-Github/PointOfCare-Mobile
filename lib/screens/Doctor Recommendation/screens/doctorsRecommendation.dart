@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:test/screens/Doctor%20Recommendation/widgets/doctorsGrid.dart';
-import '../../Result and Reporting/widgets/reportList.dart';
+import '../../Result and Reporting/screens/reportList.dart';
 
 class DoctorRecommendationScreen extends StatelessWidget {
   // static const routeName = '/report-screen';

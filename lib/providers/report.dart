@@ -7,6 +7,7 @@ import 'package:test/utils/labels.dart';
 
 class Results extends ChangeNotifier {
   List<Map<String, dynamic>> _results = [];
+  var image1;
 
   Results();
 
@@ -38,6 +39,8 @@ class Results extends ChangeNotifier {
           }
         });
       }
+      image1 = response['original'];
+
       print(_results.length);
       notifyListeners();
     });

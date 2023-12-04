@@ -9,6 +9,7 @@ import 'package:test/providers/radiologist.dart';
 import 'package:test/screens/Appointments/screens/availableDoctors.dart';
 import 'package:test/screens/Diagnosis/screens/diagnosis.dart';
 import 'package:test/screens/Doctor%20Recommendation/screens/nearbyDoctors.dart';
+import 'package:test/screens/Result%20and%20Reporting/screens/reportList.dart';
 import 'package:test/screens/Result%20and%20Reporting/screens/reportScreen.dart';
 import 'package:test/screens/Main/widgets/categoryItems.dart';
 import 'package:test/screens/Doctor%20Recommendation/widgets/doctorsGrid.dart';
@@ -63,7 +64,7 @@ class _HomeScreenState extends State<HomeScreen> {
       }),
       Service("assets/images/report.png", "Reports",
           Colors.blueGrey.withOpacity(0.05), () {
-        Navigator.of(context).pushNamed(ReportScreen.routeName);
+        Navigator.of(context).pushNamed(ReportList.routeName);
       }),
     ];
     return Scaffold(
