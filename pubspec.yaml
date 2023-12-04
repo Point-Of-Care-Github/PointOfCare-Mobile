@@ -64,6 +64,7 @@ dependencies:
   shared_preferences: ^2.1.1
   custom_clippers: ^2.0.0
   syncfusion_flutter_datepicker: ^23.1.40
+  flutter_faq: ^1.0.1+1
 
 
 

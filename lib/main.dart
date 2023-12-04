@@ -4,13 +4,12 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:test/constants/const.dart';
-
 import 'package:test/firebase_options.dart';
-
 import 'package:test/providers/appointment_services.dart';
 import 'package:test/providers/auth.dart';
 import 'package:test/providers/doctor.dart';
 import 'package:test/providers/doctor_profile.dart';
+import 'package:test/providers/feedback.dart';
 import 'package:test/providers/patient.dart';
 import 'package:test/providers/patient_profile.dart';
 import 'package:test/providers/radiologist.dart';
@@ -23,7 +22,7 @@ import 'package:test/screens/Diagnosis/screens/symptomsScreen.dart';
 import 'package:test/screens/Diagnosis/screens/xrayDiagnosis.dart';
 import 'package:test/screens/Diagnosis/screens/xrayUploadScreen.dart';
 import 'package:test/screens/Doctor%20Recommendation/screens/nearbyDoctors.dart';
-import 'package:test/screens/Feedback%20and%20Settings/screens/settings.dart';
+import 'package:test/screens/Feedback%20and%20Settings/screens/setting.dart';
 import 'package:test/screens/Main/screens/aboutUs.dart';
 import 'package:test/screens/Main/screens/homeScreen.dart';
 import 'package:test/screens/Main/screens/tabScreen.dart';
@@ -101,6 +100,9 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider<Reports>(
             create: (ctx) => Reports(),
           ),
+          ChangeNotifierProvider(
+            create: (_) => FeedbackServices(),
+          ),
         ],
         child: Consumer<Auth>(
           builder: (context, auth, _) => MaterialApp(
@@ -118,7 +120,7 @@ class MyApp extends StatelessWidget {
             routes: {
               TabsScreen.routeName: (ctx) => TabsScreen(),
               HomeScreen.routeName: (ctx) => HomeScreen(),
-              Setting.routeName: (ctx) => Setting(),
+              SettingScreen.routeName: (ctx) => SettingScreen(),
               Profile.routeName: (ctx) => Profile(),
               XrayDiagnosis.routeName: (ctx) => XrayDiagnosis(),
               CTscanDiagnosis.routeName: (ctx) => CTscanDiagnosis(),

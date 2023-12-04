@@ -12,7 +12,7 @@ import 'package:test/screens/Chats/screens/MessageListScreen.dart';
 
 import 'homeScreen.dart';
 import '../../User Profiling/screens/profile.dart';
-import '../../Feedback and Settings/screens/settings.dart';
+import '../../Feedback and Settings/screens/setting.dart';
 
 class TabsScreen extends StatefulWidget {
   static const routeName = '/tab-screen';
@@ -47,7 +47,7 @@ class _TabsScreenState extends State<TabsScreen> {
     ScheduleScreen(),
     HomeScreen(),
     MessagesScreen(),
-    Setting(),
+    SettingScreen(),
   ];
   List<String> titles = [
     'Profile',

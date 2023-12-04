@@ -591,14 +591,14 @@ class _DoctorProfileState extends State<DoctorProfile> {
                         Row(
                           children: [
                             SizedBox(
-                              width: 18,
+                              width: 5,
                             ),
                             Icon(
                               Icons.watch_later_outlined,
                               color: Colors.grey,
                             ),
                             SizedBox(
-                              width: 5,
+                              width: 3,
                             ),
                             Text(
                               "Timings",
@@ -609,12 +609,12 @@ class _DoctorProfileState extends State<DoctorProfile> {
                               ),
                             ),
                             SizedBox(
-                              width: 10,
+                              width: 5,
                             ),
                             Container(
-                                width: MediaQuery.of(context).size.width / 3.5,
+                                width: MediaQuery.of(context).size.width / 3,
                                 padding:
-                                    const EdgeInsets.only(bottom: 2, left: 6),
+                                    const EdgeInsets.only(bottom: 2, left: 2),
                                 child: Row(
                                   children: [
                                     Text(
@@ -642,9 +642,8 @@ class _DoctorProfileState extends State<DoctorProfile> {
                               width: 10,
                             ),
                             Container(
-                                width: MediaQuery.of(context).size.width / 3.5,
-                                padding:
-                                    const EdgeInsets.only(bottom: 2, left: 6),
+                                width: MediaQuery.of(context).size.width / 4,
+                                padding: const EdgeInsets.only(bottom: 2),
                                 child: Row(
                                   children: [
                                     Text(

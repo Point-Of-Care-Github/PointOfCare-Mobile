@@ -8,6 +8,7 @@ import 'package:test/models/allDoctors.dart';
 import 'package:test/models/appointment.dart';
 import 'package:test/providers/doctor_profile.dart';
 import 'package:test/screens/Appointments/screens/rescheduleAppointment.dart';
+import 'package:test/screens/Appointments/screens/scheduledAppointment.dart';
 import 'package:test/screens/Main/screens/tabScreen.dart';
 import '../utils/snack_bar_util.dart';
 import 'package:http/http.dart' as http;
@@ -376,22 +377,48 @@ class AppointmentServices extends ChangeNotifier {
         },
       );
 
-// ignore: use_build_context_synchronously
+      // ignore: use_build_context_synchronously
       httpErrorHandle(
         response: res,
         context: context,
         onSuccess: () async {
-          showSnackBar(context, "Appointment cancelled successfully!");
-          navigator.pushAndRemoveUntil(
-            MaterialPageRoute(
-              builder: (context) => TabsScreen(),
-            ),
-            (route) => false,
+          // Show an alert-like dialog
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                content: Text("Appointment cancelled successfully!"),
+              );
+            },
           );
+
+          // Automatically dismiss the dialog after 2 seconds (adjust as needed)
+          await Future.delayed(Duration(seconds: 2));
+          Navigator.of(context).pop();
+
+          // Optionally, you can still perform other actions here if needed
+          // getAppointments(context: context);
+          // notifyListeners();
+          // navigator.pushAndRemoveUntil(
+          //   MaterialPageRoute(
+          //     builder: (context) => TabsScreen(),
+          //   ),
+          //   (route) => false,
+          // );
         },
       );
     } catch (error) {
-      showSnackBar(context, error.toString());
+      // Show an alert-like dialog for errors
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            content: Text(error.toString()),
+          );
+        },
+      );
+      await Future.delayed(Duration(seconds: 2));
+      Navigator.of(context).pop();
     }
   }
 
@@ -416,16 +443,39 @@ class AppointmentServices extends ChangeNotifier {
         response: res,
         context: context,
         onSuccess: () async {
-          showSnackBar(context, "Appointment completed successfully!");
-          navigator.pushAndRemoveUntil(
-            MaterialPageRoute(
-              builder: (context) => TabsScreen(),
-            ),
-            (route) => false,
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                content: Text("Appointment completed successfully!"),
+              );
+            },
           );
+
+          // Automatically dismiss the dialog after 2 seconds (adjust as needed)
+          await Future.delayed(Duration(seconds: 2));
+          Navigator.of(context).pop();
+          // getAppointments(context: context);
+          // notifyListeners();
+          // navigator.pushAndRemoveUntil(
+          //   MaterialPageRoute(
+          //     builder: (context) => ScheduleScreen(),
+          //   ),
+          //   (route) => false,
+          // );
         },
       );
     } catch (error) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            content: Text(error.toString()),
+          );
+        },
+      );
+      await Future.delayed(Duration(seconds: 2));
+      Navigator.of(context).pop();
       showSnackBar(context, error.toString());
     }
   }

@@ -23,7 +23,7 @@ class ProfileInfo extends StatelessWidget {
             textAlign: TextAlign.right,
             style: TextStyle(
               fontWeight: FontWeight.w600,
-              fontSize: 16,
+              fontSize: 14,
             ),
           ),
         ],

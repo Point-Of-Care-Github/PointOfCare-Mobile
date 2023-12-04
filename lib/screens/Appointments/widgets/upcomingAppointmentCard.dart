@@ -19,7 +19,6 @@ class UpcomingAppointmentCard extends StatefulWidget {
 }
 
 class _UpcomingAppointmentCardState extends State<UpcomingAppointmentCard> {
-
   AppointmentServices appointmentServices = AppointmentServices();
 
   @override
@@ -44,12 +43,19 @@ class _UpcomingAppointmentCardState extends State<UpcomingAppointmentCard> {
           children: [
             ListTile(
               contentPadding: EdgeInsets.fromLTRB(8, 2, 2, 8),
-              title: Text(
-                'Dr. ${widget.us.userName}',
-                style: const TextStyle(
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
+              title: widget.us.role == 'Patient'
+                  ? Text(
+                      'Dr. ${widget.us.userName}',
+                      style: const TextStyle(
+                        fontWeight: FontWeight.w700,
+                      ),
+                    )
+                  : Text(
+                      widget.appointment.name,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
               subtitle: widget.appointment.status == 'completed' ||
                       widget.appointment.status == 'cancelled'
                   ? Row(
@@ -72,18 +78,23 @@ class _UpcomingAppointmentCardState extends State<UpcomingAppointmentCard> {
                         ),
                       ],
                     )
-                  : Text(
-                      "${widget.doc.specialization}",
-                      style: TextStyle(
-                          color: Colors.grey, fontWeight: FontWeight.w600),
-                    ),
+                  : widget.us.role == 'Patient'
+                      ? Text(
+                          "${widget.doc.specialization}",
+                          style: TextStyle(
+                              color: Colors.grey, fontWeight: FontWeight.w600),
+                        )
+                      : Text(
+                          "${widget.appointment.reason}",
+                          style: TextStyle(
+                              color: Colors.grey, fontWeight: FontWeight.w600),
+                        ),
               trailing: widget.appointment.status == 'confirmed'
                   ? _buildThreeDotsMenu(context)
                   : _buildRatingWidget(),
               leading: CircleAvatar(
                 radius: 25,
                 backgroundImage: NetworkImage(widget.doc.image!),
-
               ),
             ),
             Container(
@@ -137,6 +148,7 @@ class _UpcomingAppointmentCardState extends State<UpcomingAppointmentCard> {
 
   Widget _buildThreeDotsMenu(BuildContext context) {
     final user = Provider.of<Auth>(context);
+    final appointmentServices = AppointmentServices();
 
     return PopupMenuButton(
       icon: Icon(Icons.more_vert),
@@ -193,18 +205,27 @@ class _UpcomingAppointmentCardState extends State<UpcomingAppointmentCard> {
         if (value == 'reschedule') {
           String id = widget.appointment.id;
           appointmentServices.getAppointmentInformation(
-              context: context, id: id);
+            context: context,
+            id: id,
+          );
         } else {
           if (value == 'completed') {
             appointmentServices.completeAppointment(
-                context: context,
-                id: widget.appointment.id,
-                status: 'completed');
+              context: context,
+              id: widget.appointment.id,
+              status: 'completed',
+            );
           } else if (value == 'cancelled') {
             appointmentServices.cancelAppointment(
-                context: context,
-                id: widget.appointment.id,
-                status: 'cancelled');
+              context: context,
+              id: widget.appointment.id,
+              status: 'cancelled',
+            );
+            setState(() {
+              Provider.of<AppointmentServices>(context, listen: false)
+                  .appointmentsList
+                  .remove(widget.appointment);
+            });
           }
         }
       },
