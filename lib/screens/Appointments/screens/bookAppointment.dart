@@ -1,11 +1,16 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:intl/intl.dart';
 import 'package:test/providers/appointment_services.dart';
 import 'package:test/providers/auth.dart';
+import 'package:http/http.dart' as http;
 import 'package:test/providers/doctor.dart';
+import 'package:test/utils/snack_bar_util.dart';
 
 class BookAppointment extends StatefulWidget {
   static const routeName = '/book-appointment';
@@ -46,6 +51,71 @@ class _BookAppointmentState extends State<BookAppointment> {
   final TextEditingController _contactController = TextEditingController();
   final TextEditingController _reasonController = TextEditingController();
   final TextEditingController _dateController = TextEditingController();
+  Map<String, dynamic>? paymentIntentData;
+
+  Future<void> makePayment() async {
+    try {
+      paymentIntentData = await createPaymentIntent('20', 'USD');
+      await Stripe.instance.initPaymentSheet(
+          paymentSheetParameters: SetupPaymentSheetParameters(
+              paymentIntentClientSecret: paymentIntentData!['client_secret'],
+              googlePay: PaymentSheetGooglePay(merchantCountryCode: 'US'),
+              merchantDisplayName: "Point-Of-Care"));
+
+      displayPaymentSheet();
+    } catch (c) {
+      print(c.toString());
+    }
+  }
+
+  displayPaymentSheet() async {
+    try {
+      await Stripe.instance.initPaymentSheet(
+          paymentSheetParameters: SetupPaymentSheetParameters(
+              merchantDisplayName: "Point-Of-Care",
+              paymentIntentClientSecret: paymentIntentData!['client_secret']));
+      await Stripe.instance.presentPaymentSheet();
+      setState(() {
+        paymentIntentData = null;
+      });
+
+      showSnackBar(context, "Paid successfully!");
+    } on StripeException catch (e) {
+      print(e.toString());
+      showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+                content: Text("Cancelled."),
+              ));
+    }
+  }
+
+  createPaymentIntent(String amount, String currency) async {
+    try {
+      Map<String, dynamic> body = {
+        'amount': calculateAmount(amount),
+        'currency': currency,
+        'payment_method_types[]': 'card'
+      };
+
+      var response = await http.post(
+          Uri.parse("https://api.stripe.com/v1/payment_intents"),
+          body: body,
+          headers: {
+            "Authorization":
+                "Bearer sk_test_51OLPrsJlgl4sLrLcnH9Qid8FmH5q97cM9MwLO5sSfumgtxlWFhnGKss4IHOT3wKcpPzvbzyDCmUXwW12IcK74oJO00epPjgwkH",
+            "Content-Type": "application/x-www-form-urlencoded"
+          });
+      return jsonDecode(response.body.toString());
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  calculateAmount(String amount) {
+    final price = int.parse(amount) * 100;
+    return price.toString();
+  }
 
   void addAppointment(String doctorId, String userId) {
     setState(() {
@@ -537,9 +607,10 @@ class _BookAppointmentState extends State<BookAppointment> {
                             child: CircularProgressIndicator(),
                           )
                         : ElevatedButton(
-                            onPressed: () {
-                              addAppointment(
-                                  widget.doctor.userId!, user.userId!);
+                            onPressed: () async {
+                              await makePayment();
+                              // addAppointment(
+                              //     widget.doctor.userId!, user.userId!);
                             },
                             style: ElevatedButton.styleFrom(
                               padding: EdgeInsets.zero,

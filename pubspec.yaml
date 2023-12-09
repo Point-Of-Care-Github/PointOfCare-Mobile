@@ -46,6 +46,7 @@ dependencies:
   firebase_storage: ^11.2.8
 
   firebase_core: ^2.17.0
+  flutter_stripe: ^9.5.0+1
   share_plus: ^7.2.1
   geocoding: ^2.1.0
   syncfusion_flutter_pdf: ^23.1.39
