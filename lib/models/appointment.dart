@@ -5,17 +5,17 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 
 class Appointment extends ChangeNotifier {
-  final String doctorId;
-  final String userId;
-  final String gender;
-  final String contact;
-  final String reason;
-  final String time;
-  final String date;
-  final String name;
-  final String status;
-  final String age;
-  final String id;
+  String doctorId;
+  String userId;
+  String gender;
+  String contact;
+  String reason;
+  String time;
+  String date;
+  String name;
+  String status;
+  String age;
+  String id;
 
   Appointment({
     required this.id,

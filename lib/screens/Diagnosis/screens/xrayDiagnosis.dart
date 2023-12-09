@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:test/screens/Diagnosis/widgets/xrayForm.dart';
+import 'package:test/widgets/backButton.dart';
 
 class XrayDiagnosis extends StatelessWidget {
   static const routeName = '/xray-diagnosis-screen';
@@ -34,21 +35,7 @@ class XrayDiagnosis extends StatelessWidget {
               ),
             ),
           ),
-          Container(
-            margin: EdgeInsets.only(top: 73, left: 40),
-            child: SizedBox(
-              child: IconButton(
-                icon: Icon(
-                  Icons.arrow_back_ios,
-                  size: 30,
-                ),
-                color: Color(0xFF8587DC),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-              ),
-            ),
-          ),
+          backButton(context)
         ],
       ),
     );

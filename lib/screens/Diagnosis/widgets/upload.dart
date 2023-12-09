@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'uploadOptions.dart';
 
 class Upload extends StatefulWidget {
-  const Upload({Key? key});
+  final dis;
+  Upload(this.dis);
 
   @override
   State<Upload> createState() => _UploadState();
@@ -32,7 +33,7 @@ class _UploadState extends State<Upload> {
               child: Align(
                 alignment: Alignment.topLeft,
                 child: Text(
-                  'Diagnosis',
+                  'Breast Diagnosis',
                   style: TextStyle(
                     fontSize: headingFontSize,
                     fontFamily: 'Poppins',
@@ -62,7 +63,7 @@ class _UploadState extends State<Upload> {
               ),
             ),
 
-            UploadOptions(),
+            UploadOptions(widget.dis),
           ],
         ),
       ),

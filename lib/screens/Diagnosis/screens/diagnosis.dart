@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:test/screens/Diagnosis/widgets/diagnosisForm.dart';
+import 'package:test/widgets/backButton.dart';
 
 class Diagnosis extends StatelessWidget {
   static const routeName = '/diagnosis-screen';
@@ -10,6 +11,7 @@ class Diagnosis extends StatelessWidget {
     final route = ModalRoute.of(context)!.settings.arguments as Map;
     final user = route['user'];
     final type = route['type'];
+    final dis = route['dis'];
 
     return Scaffold(
       //appBar: AppBar(),
@@ -43,31 +45,14 @@ class Diagnosis extends StatelessWidget {
                   children: <Widget>[
                     Flexible(
                       flex: deviceSize.width > 600 ? 2 : 1,
-                      child: DiagnosisForm(user, type),
+                      child: DiagnosisForm(user, type, dis),
                     ),
                   ],
                 ),
               ),
             ),
           ),
-          Container(
-            margin: EdgeInsets.only(
-              top: deviceSize.height * 0.0773,
-              left: deviceSize.width * 0.0533,
-            ),
-            child: SizedBox(
-              child: IconButton(
-                icon: Icon(
-                  Icons.arrow_back_ios,
-                  size: deviceSize.width * 0.08,
-                ),
-                color: Color(0xFF8587DC),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-              ),
-            ),
-          ),
+          backButton(context)
         ],
       ),
     );

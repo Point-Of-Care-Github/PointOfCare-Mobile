@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:quickalert/quickalert.dart';
 import 'package:test/constants/const.dart';
 import 'package:test/models/serviceItems.dart';
 import 'package:test/providers/auth.dart';
@@ -7,12 +8,10 @@ import 'package:test/providers/doctor.dart';
 import 'package:test/providers/patient.dart';
 import 'package:test/providers/radiologist.dart';
 import 'package:test/screens/Appointments/screens/availableDoctors.dart';
-import 'package:test/screens/Diagnosis/screens/diagnosis.dart';
+import 'package:test/screens/Diagnosis/screens/selectDiagnosis.dart';
 import 'package:test/screens/Doctor%20Recommendation/screens/nearbyDoctors.dart';
 import 'package:test/screens/Result%20and%20Reporting/screens/reportList.dart';
-import 'package:test/screens/Result%20and%20Reporting/screens/reportScreen.dart';
 import 'package:test/screens/Main/widgets/categoryItems.dart';
-import 'package:test/screens/Doctor%20Recommendation/widgets/doctorsGrid.dart';
 import 'package:test/screens/Main/widgets/doctorsHomeGrid.dart';
 
 import 'package:test/utils/customProgess.dart';
@@ -51,7 +50,7 @@ class _HomeScreenState extends State<HomeScreen> {
     final items = [
       Service("assets/images/diagnostic.png", "Diagnose\nNow",
           Colors.green.withOpacity(0.05), () {
-        Navigator.of(context).pushNamed(Diagnosis.routeName,
+        Navigator.of(context).pushNamed(SelectDiagnosis.routeName,
             arguments: {"type": type, "user": user});
       }),
       Service("assets/images/appointment.png", "Book\nAppointment",
@@ -74,7 +73,7 @@ class _HomeScreenState extends State<HomeScreen> {
           child: _isLoading
               ? Center(
                   child: Image.asset(
-                    "assets/heart-beat.gif",
+                    "assets/images/heart-beat.gif",
                     height: 100,
                     width: 100,
                   ),
@@ -104,20 +103,24 @@ class _HomeScreenState extends State<HomeScreen> {
                                   color: Colors.grey.shade700,
                                   fontWeight: FontWeight.normal),
                             ),
-                            Text(
-                              "${user.username}",
-                              style: TextStyle(
-                                  fontFamily: 'Poppins',
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w700),
+                            Consumer<Auth>(
+                              builder: (context, value, _) {
+                                return Text(
+                                  "${value.userName}",
+                                  style: TextStyle(
+                                      fontFamily: 'Poppins',
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w700),
+                                );
+                              },
                             ),
                           ],
                         ),
                         trailing: Container(
-                          decoration: BoxDecoration(
-                              color: primaryColor.withOpacity(0.1),
-                              borderRadius: BorderRadius.circular(40)),
-                          child: IconButton(
+                            decoration: BoxDecoration(
+                                color: primaryColor.withOpacity(0.1),
+                                borderRadius: BorderRadius.circular(40)),
+                            child: IconButton(
                               onPressed: () {
                                 showDialog(
                                   context: context,
@@ -130,8 +133,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                 Icons.notifications,
                                 size: 26,
                                 color: primaryColor,
-                              )),
-                        ),
+                              ),
+                            )),
                       ),
                     ),
                     SizedBox(
@@ -177,32 +180,53 @@ class _HomeScreenState extends State<HomeScreen> {
                         child: ListView.builder(
                             scrollDirection: Axis.horizontal,
                             itemCount: 4,
-                            itemBuilder: (context, index) =>
-                                user.role == 'Doctor' && index == 1
+                            itemBuilder: (context, index) {
+                              if (user.role == 'Doctor') {
+                                return index != 0
                                     ? Container()
                                     : CategoryItem(
                                         items[index].image,
                                         items[index].label,
                                         items[index].color,
-                                        items[index].onTap))),
+                                        items[index].onTap);
+                              } else if (user.role == 'Radiologist') {
+                                return index == 1 || index == 2
+                                    ? Container()
+                                    : CategoryItem(
+                                        items[index].image,
+                                        items[index].label,
+                                        items[index].color,
+                                        items[index].onTap);
+                              } else {
+                                return CategoryItem(
+                                    items[index].image,
+                                    items[index].label,
+                                    items[index].color,
+                                    items[index].onTap);
+                              }
+                            })),
                     SizedBox(
                       height: 20,
                     ),
-                    MainTitle("Upcoming Appointments"),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    UpcomingSchedule(flag: true),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    user.role == "Doctor"
+                    user.role == "Radiologist"
                         ? Container()
-                        : MainTitle("Top Doctors"),
+                        : MainTitle("Upcoming Appointments"),
                     SizedBox(
                       height: 10,
                     ),
-                    user.role == "Doctor" ? Container() : DoctorsHomeGrid(),
+                    user.role == "Radiologist"
+                        ? Container()
+                        : UpcomingSchedule(flag: true),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    user.role == "Patient"
+                        ? MainTitle("Top Doctors")
+                        : Container(),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    user.role == "Patient" ? DoctorsHomeGrid() : Container(),
 
                     // Container(
                     //   padding: EdgeInsets.only(left: 20),

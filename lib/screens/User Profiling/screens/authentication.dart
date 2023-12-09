@@ -51,8 +51,8 @@ class _AuthenticationState extends State<Authentication> {
                           alignment: Alignment.topRight,
                           child: Image.asset(
                             'assets/images/authLogo.png',
-                            height: 60,
-                            width: 60,
+                            height: 80,
+                            width: 80,
                           )),
                     ),
                     AuthCard(),

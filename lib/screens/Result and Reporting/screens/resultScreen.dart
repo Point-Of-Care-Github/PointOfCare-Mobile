@@ -12,7 +12,7 @@ import 'package:test/providers/auth.dart';
 import 'package:test/providers/doctor.dart';
 import 'package:test/providers/patient.dart';
 import 'package:test/providers/radiologist.dart';
-import 'package:test/providers/report.dart';
+import 'package:test/providers/results.dart';
 import 'package:http/http.dart' as http;
 import 'package:test/utils/customProgess.dart';
 import 'package:test/utils/labelColors.dart';

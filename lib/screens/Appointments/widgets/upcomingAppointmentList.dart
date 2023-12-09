@@ -24,19 +24,17 @@ class UpcomingSchedule extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final deviceSize = MediaQuery.of(context).size;
-    AppointmentServices appointmentServices = AppointmentServices();
     final user = Provider.of<Auth>(context);
+    final deviceSize = MediaQuery.of(context).size;
     final role = user.role;
-    final appointmentsList =
+    var appointmentsList =
         Provider.of<AppointmentServices>(context).appointmentsList;
-    print("Hello:" + appointmentsList.toString());
-    final doctorAppointments = appointmentsList
+    var doctorAppointments = appointmentsList
         .where((element) =>
             element.doctorId == user.userId && element.status == 'confirmed')
         .toList();
 
-    final userAppointments = appointmentsList
+    var userAppointments = appointmentsList
         .where((element) =>
             element.userId == user.userId && element.status == 'confirmed')
         .toList();
@@ -49,15 +47,16 @@ class UpcomingSchedule extends StatelessWidget {
           children: [
             role == 'Doctor'
                 ? Container(
-                    height: flag ? 170 : 500,
+                    height: !flag ? deviceSize.height * .73 : 180,
                     child: doctorAppointments.length == 0
                         ? Center(
                             child: Text("No upcoming appointments yet."),
                           )
                         : ListView.builder(
+                            padding: EdgeInsets.only(top: 10),
                             scrollDirection:
                                 flag ? Axis.horizontal : Axis.vertical,
-                            itemCount: doctorAppointments.length,
+                            itemCount: !flag ? doctorAppointments.length : 1,
                             itemBuilder: (context, index) {
                               final appointment = doctorAppointments[index];
                               final doc = doctor.firstWhere((element) =>
@@ -77,15 +76,16 @@ class UpcomingSchedule extends StatelessWidget {
                             }),
                   )
                 : Container(
-                    height: flag ? 170 : 500,
+                    height: !flag ? deviceSize.height * .73 : 180,
                     child: userAppointments.length == 0
                         ? Center(
                             child: Text("No appointments yet."),
                           )
                         : ListView.builder(
+                            padding: EdgeInsets.only(top: 10),
                             scrollDirection:
                                 flag ? Axis.horizontal : Axis.vertical,
-                            itemCount: userAppointments.length,
+                            itemCount: !flag ? userAppointments.length : 1,
                             itemBuilder: (context, index) {
                               final appointment = userAppointments[index];
                               final doc = doctor.firstWhere((element) =>

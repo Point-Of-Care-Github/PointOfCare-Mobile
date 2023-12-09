@@ -2,13 +2,9 @@
 
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:test/constants/const.dart';
-import 'package:test/models/allDoctors.dart';
 import 'package:test/models/appointment.dart';
-import 'package:test/providers/doctor_profile.dart';
 import 'package:test/screens/Appointments/screens/rescheduleAppointment.dart';
-import 'package:test/screens/Appointments/screens/scheduledAppointment.dart';
 import 'package:test/screens/Main/screens/tabScreen.dart';
 import '../utils/snack_bar_util.dart';
 import 'package:http/http.dart' as http;
@@ -48,8 +44,9 @@ class AppointmentServices extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setAppointmentsList(List<Appointment> appointmentsList) {
-    _appointmentsList = appointmentsList;
+  void setAppointmentsList(appointment) {
+    print(appointment);
+    _appointmentsList.add(appointment);
     notifyListeners();
   }
 
@@ -63,49 +60,8 @@ class AppointmentServices extends ChangeNotifier {
     notifyListeners();
   }
 
-  void getDoctorInformation(
-      {required BuildContext context, required String userId}) async {
-    try {
-      final http.Response res = await http.get(
-        Uri.parse('${nodeApi}/api/user/getDoctorInformation/$userId'),
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
-      );
-
-      final Map<String, dynamic> responseMap = json.decode(res.body);
-
-      if (responseMap != null) {
-        final doctorData = responseMap;
-        final doctorList = [
-          Doctors(
-            userId: doctorData['_id'],
-            gender: doctorData['gender'],
-            contact: doctorData['contact'],
-            experience: doctorData['experience'],
-            specialization: doctorData['specialization'],
-            description: doctorData['description'],
-            time: doctorData['time'],
-            fees: doctorData['fees'],
-            image: doctorData['image'],
-            name: doctorData['userId']['name'],
-            email: doctorData['userId']['email'],
-          ),
-        ];
-
-        final doctorProvider =
-            // ignore: use_build_context_synchronously
-            Provider.of<DoctorProvider>(context, listen: false);
-
-        doctorProvider.setDoctorList(doctorList);
-      }
-    } catch (error) {
-      showSnackBar(context, error.toString());
-    }
-  }
-
   //book Appointment
-  Future<void> addAppointment({
+  void addAppointment({
     required BuildContext context,
     required String doctorId,
     required String userId,
@@ -132,38 +88,47 @@ class AppointmentServices extends ChangeNotifier {
         date: date,
         status: status,
       );
-      final navigator = Navigator.of(context);
 
       http.Response res = await http.post(
-        Uri.parse('${nodeApi}/api/user/addAppointment'),
+        Uri.parse('$nodeApi/api/user/addAppointment'),
         body: appointment.toJson(),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
       );
-
-// ignore: use_build_context_synchronously
       httpErrorHandle(
         response: res,
         context: context,
         onSuccess: () async {
+          final Map<String, dynamic> responseData = jsonDecode(res.body);
+
           // ignore: unnecessary_null_comparison
           if (res.body != null) {
-            setAppointment(res.body);
+            final appointment = responseData['appointment'];
+            setAppointmentsList(Appointment(
+                id: appointment['id'],
+                doctorId: appointment['doctorId'],
+                userId: appointment['userId'],
+                gender: appointment['gender'],
+                contact: appointment['contact'],
+                reason: appointment['reason'],
+                status: appointment['status'],
+                date: appointment['date'],
+                time: appointment['time'],
+                age: appointment['age'],
+                name: appointment['name']));
+            showSnackBar(context, "Appointment scheduled successfully!");
+            var count = 0;
+            Navigator.of(context).popUntil(
+              (_) => count++ >= 3,
+            );
           } else {
             showSnackBar(context, 'Response body is null');
           }
-          showSnackBar(context, "Appointment scheduled successfully!");
-          navigator.pushAndRemoveUntil(
-            MaterialPageRoute(
-              builder: (context) => TabsScreen(),
-            ),
-            (route) => false,
-          );
         },
       );
     } catch (error) {
-      showSnackBar(context, "Hello" + error.toString());
+      showSnackBar(context, "$error");
     }
   }
 
@@ -172,7 +137,7 @@ class AppointmentServices extends ChangeNotifier {
   }) async {
     try {
       final http.Response res = await http.get(
-        Uri.parse('${nodeApi}/api/user/getAppointments'),
+        Uri.parse('$nodeApi/api/user/getAppointments'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
@@ -206,8 +171,6 @@ class AppointmentServices extends ChangeNotifier {
             ));
           }
 
-          print("loaded appointments: " + loadedAppointments.toString());
-
           _appointmentsList = loadedAppointments;
           notifyListeners();
         },
@@ -223,7 +186,7 @@ class AppointmentServices extends ChangeNotifier {
   }) async {
     try {
       final http.Response res = await http.get(
-        Uri.parse('${nodeApi}/api/user/getDoctorAppointments/$userId'),
+        Uri.parse('$nodeApi/api/user/getDoctorAppointments/$userId'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
@@ -287,14 +250,13 @@ class AppointmentServices extends ChangeNotifier {
       final navigator = Navigator.of(context);
 
       http.Response res = await http.post(
-        Uri.parse('${nodeApi}/api/user/updateAppointment/$id'),
+        Uri.parse('$nodeApi/api/user/updateAppointment/$id'),
         body: appointment.toJson(),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
       );
 
-// ignore: use_build_context_synchronously
       httpErrorHandle(
         response: res,
         context: context,
@@ -323,7 +285,7 @@ class AppointmentServices extends ChangeNotifier {
       {required BuildContext context, required String id}) async {
     try {
       final http.Response res = await http.get(
-        Uri.parse('${nodeApi}/api/user/getSingleAppointment/$id'),
+        Uri.parse('$nodeApi/api/user/getSingleAppointment/$id'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
@@ -332,30 +294,28 @@ class AppointmentServices extends ChangeNotifier {
       final Map<String, dynamic> responseMap = json.decode(res.body);
 
       final appointmentData = responseMap;
-      if (responseMap != null) {
-        final updateAppointmentList = [
-          Appointment(
-            id: appointmentData['_id'],
-            userId: appointmentData['userId'],
-            gender: appointmentData['gender'],
-            contact: appointmentData['contact'],
-            time: appointmentData['time'],
-            date: appointmentData['date'],
-            reason: appointmentData['reason'],
-            name: appointmentData['name'],
-            age: appointmentData['age'],
-            status: appointmentData['status'],
-            doctorId: appointmentData['doctorId'],
-          ),
-        ];
 
-        setSingleAppointment(updateAppointmentList);
-        await Future.delayed(const Duration(seconds: 1));
-        // ignore: use_build_context_synchronously
-        Navigator.of(context).push(
-          MaterialPageRoute(builder: (context) => RescheduleAppointment()),
-        );
-      }
+      final updateAppointmentList = [
+        Appointment(
+          id: appointmentData['_id'],
+          userId: appointmentData['userId'],
+          gender: appointmentData['gender'],
+          contact: appointmentData['contact'],
+          time: appointmentData['time'],
+          date: appointmentData['date'],
+          reason: appointmentData['reason'],
+          name: appointmentData['name'],
+          age: appointmentData['age'],
+          status: appointmentData['status'],
+          doctorId: appointmentData['doctorId'],
+        ),
+      ];
+
+      setSingleAppointment(updateAppointmentList);
+      await Future.delayed(const Duration(seconds: 1));
+      Navigator.of(context).push(
+        MaterialPageRoute(builder: (context) => RescheduleAppointment()),
+      );
     } catch (error) {
       showSnackBar(context, error.toString());
     }
@@ -367,44 +327,30 @@ class AppointmentServices extends ChangeNotifier {
     required String status,
   }) async {
     try {
-      final navigator = Navigator.of(context);
-
       http.Response res = await http.post(
-        Uri.parse('${nodeApi}/api/user/cancelAppointment'),
+        Uri.parse('$nodeApi/api/user/cancelAppointment'),
         body: jsonEncode({'id': id, 'status': status}),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
       );
 
-      // ignore: use_build_context_synchronously
       httpErrorHandle(
         response: res,
         context: context,
         onSuccess: () async {
-          // Show an alert-like dialog
-          showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return AlertDialog(
-                content: Text("Appointment cancelled successfully!"),
-              );
-            },
-          );
+          final Map<String, dynamic> responseData = jsonDecode(res.body);
 
-          // Automatically dismiss the dialog after 2 seconds (adjust as needed)
-          await Future.delayed(Duration(seconds: 2));
-          Navigator.of(context).pop();
-
-          // Optionally, you can still perform other actions here if needed
-          // getAppointments(context: context);
-          // notifyListeners();
-          // navigator.pushAndRemoveUntil(
-          //   MaterialPageRoute(
-          //     builder: (context) => TabsScreen(),
-          //   ),
-          //   (route) => false,
-          // );
+          // ignore: unnecessary_null_comparison
+          if (res.body != null) {
+            final appointment = responseData['appointment'];
+            print(appointment);
+            print(appointmentsList);
+            _appointmentsList
+                .firstWhere((element) => element.id == appointment['id'])
+                .status = appointment['status'];
+            notifyListeners();
+          }
         },
       );
     } catch (error) {
@@ -417,7 +363,7 @@ class AppointmentServices extends ChangeNotifier {
           );
         },
       );
-      await Future.delayed(Duration(seconds: 2));
+      await Future.delayed(const Duration(seconds: 2));
       Navigator.of(context).pop();
     }
   }
@@ -428,41 +374,30 @@ class AppointmentServices extends ChangeNotifier {
     required String status,
   }) async {
     try {
-      final navigator = Navigator.of(context);
-
       http.Response res = await http.post(
-        Uri.parse('${nodeApi}/api/user/completeAppointment/$id'),
-        body: jsonEncode({'status': status}),
+        Uri.parse('$nodeApi/api/user/completeAppointment'),
+        body: jsonEncode({'status': status, 'id': id}),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
       );
-
-// ignore: use_build_context_synchronously
       httpErrorHandle(
         response: res,
         context: context,
         onSuccess: () async {
-          showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return AlertDialog(
-                content: Text("Appointment completed successfully!"),
-              );
-            },
-          );
+          final Map<String, dynamic> responseData = jsonDecode(res.body);
 
-          // Automatically dismiss the dialog after 2 seconds (adjust as needed)
-          await Future.delayed(Duration(seconds: 2));
-          Navigator.of(context).pop();
-          // getAppointments(context: context);
-          // notifyListeners();
-          // navigator.pushAndRemoveUntil(
-          //   MaterialPageRoute(
-          //     builder: (context) => ScheduleScreen(),
-          //   ),
-          //   (route) => false,
-          // );
+          // ignore: unnecessary_null_comparison
+          if (res.body != null) {
+            final appointment = responseData['appointment'];
+            print(appointment);
+            print(appointmentsList);
+            _appointmentsList
+                .firstWhere((element) => element.id == appointment['id'])
+                .status = appointment['status'];
+            notifyListeners();
+            showSnackBar(context, "Appointment completed successfully!");
+          }
         },
       );
     } catch (error) {
@@ -474,7 +409,7 @@ class AppointmentServices extends ChangeNotifier {
           );
         },
       );
-      await Future.delayed(Duration(seconds: 2));
+      await Future.delayed(const Duration(seconds: 2));
       Navigator.of(context).pop();
       showSnackBar(context, error.toString());
     }

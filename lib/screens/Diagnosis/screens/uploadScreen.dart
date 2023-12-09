@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:test/screens/Diagnosis/widgets/upload.dart';
+import 'package:test/widgets/backButton.dart';
 
 class UploadScreen extends StatelessWidget {
   static const routeName = '/upload-screen';
+  final user;
+  final dis;
+  UploadScreen(this.user, this.dis);
 
   @override
   Widget build(BuildContext context) {
@@ -39,31 +43,14 @@ class UploadScreen extends StatelessWidget {
                   children: <Widget>[
                     Flexible(
                       flex: deviceSize.width > 600 ? 2 : 1,
-                      child: Upload(),
+                      child: Upload(dis),
                     ),
                   ],
                 ),
               ),
             ),
           ),
-          Container(
-            margin: EdgeInsets.only(
-              top: deviceSize.height * 0.09,
-              left: deviceSize.width * 0.06,
-            ),
-            child: SizedBox(
-              child: IconButton(
-                icon: Icon(
-                  Icons.arrow_back_ios,
-                  size: deviceSize.width * 0.07,
-                ),
-                color: Color(0xFF8587DC),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-              ),
-            ),
-          ),
+          backButton(context)
         ],
       ),
     );

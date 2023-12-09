@@ -19,7 +19,7 @@ class CustomProgress extends StatelessWidget {
             children: [
               Align(
                   alignment: Alignment.center,
-                  child: Image.asset("assets/heart-beat.gif")),
+                  child: Image.asset("assets/images/heart-beat.gif")),
               Align(
                   alignment: Alignment.bottomCenter,
                   child: FittedBox(child: Text(message)))

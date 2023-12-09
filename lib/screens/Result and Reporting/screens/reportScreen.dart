@@ -13,16 +13,17 @@ import 'package:test/providers/doctor.dart';
 import 'package:test/providers/patient.dart';
 import 'package:test/providers/radiologist.dart';
 import 'package:http/http.dart' as http;
+import 'package:test/providers/results.dart';
 import 'package:test/utils/customProgess.dart';
 import 'package:test/utils/labelColors.dart';
 
 import 'package:test/utils/report_pdf.dart';
+import 'package:test/utils/snack_bar_util.dart';
 
 class ReportScreen extends StatefulWidget {
   static const routeName = '/report-screen';
-  final result;
-  final image1;
-  ReportScreen(this.result, this.image1);
+  final report;
+  ReportScreen(this.report);
 
   @override
   State<ReportScreen> createState() => _ResultScreenState();
@@ -31,7 +32,7 @@ class ReportScreen extends StatefulWidget {
 class _ResultScreenState extends State<ReportScreen> {
   bool flag = true;
   bool flag1 = false;
-  var image1;
+  late final image1;
   List percentages = [];
   List results = [];
   List<int>? bytes;
@@ -57,8 +58,8 @@ class _ResultScreenState extends State<ReportScreen> {
 
   @override
   void initState() {
-    results = widget.result;
-    image1 = widget.image1;
+    results = widget.report['results'];
+    image1 = widget.report['image'];
     print(results);
     user = Provider.of<Auth>(context, listen: false);
     if (user.role == "Doctor") {
@@ -160,13 +161,37 @@ class _ResultScreenState extends State<ReportScreen> {
     }
   }
 
+  void verifyReport() async {
+    try {
+      final response = await http.patch(
+          Uri.parse(
+              "https://point-of-care-4ad46-default-rtdb.firebaseio.com/reports/${widget.report['key']}.json"),
+          body: json.encode({
+            "results": widget.report['results'],
+            "name": widget.report['name'],
+            "time": widget.report['time'],
+            "id": widget.report['id'],
+            "image": widget.report['image'],
+            "Verification": "Verified"
+          }));
+      final data = response.body;
+      print(data.toString());
+    } catch (c) {
+      throw c;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final deviceSize = MediaQuery.of(context).size;
     return Scaffold(
         floatingActionButton: user.role == "Radiologist"
             ? GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  verifyReport();
+                  showSnackBar(context, 'Report verified');
+                  Navigator.pop(context);
+                },
                 child: Container(
                   width: 150,
                   height: 45,

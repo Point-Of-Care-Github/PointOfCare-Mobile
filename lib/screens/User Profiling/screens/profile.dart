@@ -59,7 +59,9 @@ class Profile extends StatelessWidget {
                       icon: const Icon(Icons.edit_note_sharp),
                       color: Color(0xFF8587DC),
                       iconSize: 35,
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.of(context).pushNamed(EditProfile.routeName);
+                      },
                     ),
                   ),
                 ],
@@ -74,15 +76,21 @@ class Profile extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 CircleAvatar(
-                  radius: 50,
+                  radius: 70,
                   backgroundImage: NetworkImage(type.image!),
                 ),
                 SizedBox(
                   height: 30,
                 ),
-                ProfileInfo("Name", user.userName),
-                Divider(),
-                ProfileInfo("Email", user.userEmail),
+                Consumer<Auth>(
+                  builder: ((context, val, _) => Column(
+                        children: [
+                          ProfileInfo("Name", val.userName),
+                          Divider(),
+                          ProfileInfo("Email", val.userEmail),
+                        ],
+                      )),
+                ),
                 Divider(),
                 user.role == 'Patient'
                     ? ProfileInfo("Age", type.age)

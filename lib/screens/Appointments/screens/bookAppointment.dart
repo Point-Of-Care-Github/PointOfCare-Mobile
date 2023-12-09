@@ -1,32 +1,29 @@
-// ignore_for_file: file_names
-
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
-// ignore: depend_on_referenced_packages
 import 'package:intl/intl.dart';
-import 'package:test/models/allDoctors.dart';
 import 'package:test/providers/appointment_services.dart';
 import 'package:test/providers/auth.dart';
 import 'package:test/providers/doctor.dart';
-import 'package:test/providers/doctor_profile.dart';
-import 'package:test/providers/user_provider.dart';
 
 class BookAppointment extends StatefulWidget {
   static const routeName = '/book-appointment';
 
   Doctor doctor;
-  final user;
-  BookAppointment(this.doctor, this.user);
+  BookAppointment(this.doctor);
 
   @override
   State<BookAppointment> createState() => _BookAppointmentState();
 }
 
 class _BookAppointmentState extends State<BookAppointment> {
+  var appointmentService;
+
   @override
   void initState() {
+    appointmentService =
+        Provider.of<AppointmentServices>(context, listen: false);
     super.initState();
   }
 
@@ -50,14 +47,11 @@ class _BookAppointmentState extends State<BookAppointment> {
   final TextEditingController _reasonController = TextEditingController();
   final TextEditingController _dateController = TextEditingController();
 
-  final AppointmentServices appointmentService = AppointmentServices();
-
   void addAppointment(String doctorId, String userId) {
     setState(() {
       _isLoading = true;
     });
-    appointmentService
-        .addAppointment(
+    appointmentService.addAppointment(
       context: context,
       userId: userId,
       doctorId: doctorId,
@@ -69,21 +63,7 @@ class _BookAppointmentState extends State<BookAppointment> {
       time: selectedTime,
       name: _nameController.text,
       age: selectedAge,
-    )
-        .then((value) {
-      setState(() {
-        _isLoading = false;
-        var count = 0;
-        Navigator.of(context).popUntil(
-          (_) => count++ >= 3,
-        );
-      });
-    }).onError((error, stackTrace) {
-      setState(() {
-        _isLoading = false;
-        print('Error');
-      });
-    });
+    );
   }
 
   @override

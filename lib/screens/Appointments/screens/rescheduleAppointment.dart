@@ -29,15 +29,20 @@ class _RescheduleAppointmentState extends State<RescheduleAppointment> {
   String radioButtonItem = 'Male';
   DateTime? selectedDate;
   String selectedTime = '';
+  late AppointmentServices appointmentProvider;
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _contactController = TextEditingController();
   final TextEditingController _reasonController = TextEditingController();
   final TextEditingController _dateController = TextEditingController();
 
-  final AppointmentServices appointmentService = AppointmentServices();
+  @override
+  void initState() {
+    appointmentProvider = Provider.of<AppointmentServices>(context);
+    super.initState();
+  }
 
   void updateAppointment(String id, String userId, String doctorId) {
-    appointmentService.updateAppointment(
+    appointmentProvider.updateAppointment(
       context: context,
       id: id,
       userId: userId,
@@ -84,10 +89,8 @@ class _RescheduleAppointmentState extends State<RescheduleAppointment> {
       startTime = startTime.add(const Duration(minutes: 30));
     }
     timeList.add(DateFormat.jm().format(endTime));
-    var appointmentProvider =
-        Provider.of<AppointmentServices>(context).singleAppointmentData;
 
-    var appointment = appointmentProvider;
+    var appointment = appointmentProvider.singleAppointmentData;
 
     return Scaffold(
       body: SingleChildScrollView(

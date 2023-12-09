@@ -41,6 +41,7 @@ class CanceledAppointment extends StatelessWidget {
             element.userId == user.userId && element.status == 'cancelled')
         .toList();
     final doctor = Provider.of<Doctor>(context).doctors;
+    final deviceSize = MediaQuery.of(context).size;
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 15),
@@ -49,12 +50,13 @@ class CanceledAppointment extends StatelessWidget {
         children: [
           role == 'Doctor'
               ? Container(
-                  height: flag ? 170 : 500,
+                  height: !flag ? deviceSize.height * .73 : 180,
                   child: doctorAppointments.length == 0
                       ? Center(
                           child: Text("No cancelled appointments yet."),
                         )
                       : ListView.builder(
+                          padding: EdgeInsets.only(top: 10),
                           scrollDirection:
                               flag ? Axis.horizontal : Axis.vertical,
                           itemCount: doctorAppointments.length,
@@ -72,12 +74,13 @@ class CanceledAppointment extends StatelessWidget {
                         ),
                 )
               : Container(
-                  height: flag ? 170 : 500,
+                  height: !flag ? deviceSize.height * .73 : 180,
                   child: userAppointments.length == 0
                       ? Center(
                           child: Text("No cancelled appointments yet."),
                         )
                       : ListView.builder(
+                          padding: EdgeInsets.only(top: 10),
                           scrollDirection:
                               flag ? Axis.horizontal : Axis.vertical,
                           itemCount: userAppointments.length,

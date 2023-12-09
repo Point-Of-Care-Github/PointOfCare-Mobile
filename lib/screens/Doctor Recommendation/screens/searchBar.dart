@@ -25,42 +25,40 @@ class Search extends StatelessWidget {
         top: topMargin,
       ),
       width: width,
-      child: Material(
-        elevation: 20,
-        borderRadius: BorderRadius.circular(10),
-        child: TextFormField(
-          decoration: InputDecoration(
-            hintText: 'Search',
-            labelStyle: TextStyle(
-              fontFamily: 'League Spartan',
-              fontSize: deviceSize.width * 0.035,
-              fontWeight: FontWeight.w600,
-            ),
-            fillColor: color,
-            filled: true,
-            border: const OutlineInputBorder(
-              borderRadius: BorderRadius.all(
-                Radius.circular(10),
-              ),
-              borderSide: BorderSide(
-                width: 0,
-                style: BorderStyle.none,
-              ),
-            ),
-            contentPadding: EdgeInsets.fromLTRB(
-              deviceSize.width * 0.05,
-              deviceSize.height * 0.03,
-              deviceSize.width * 0.05,
-              deviceSize.height * 0.02,
-            ),
-            prefixIcon: const Icon(Icons.search_outlined),
-            prefixIconColor: Colors.black,
-          ),
-          style: TextStyle(
-            fontSize: deviceSize.width * 0.04,
-            fontWeight: FontWeight.w600,
+      decoration: BoxDecoration(color: color, boxShadow: [
+        BoxShadow(color: Color.fromARGB(255, 207, 207, 207), blurRadius: 15)
+      ]),
+      child: TextFormField(
+        decoration: InputDecoration(
+          hintText: 'Search',
+          labelStyle: TextStyle(
             fontFamily: 'League Spartan',
+            fontSize: deviceSize.width * 0.035,
+            fontWeight: FontWeight.w600,
           ),
+          border: const OutlineInputBorder(
+            borderRadius: BorderRadius.all(
+              Radius.circular(10),
+            ),
+            borderSide: BorderSide(
+              width: 0,
+              style: BorderStyle.none,
+            ),
+          ),
+          filled: true,
+          contentPadding: EdgeInsets.fromLTRB(
+            deviceSize.width * 0.05,
+            deviceSize.height * 0.03,
+            deviceSize.width * 0.05,
+            deviceSize.height * 0.02,
+          ),
+          prefixIcon: const Icon(Icons.search_outlined),
+          prefixIconColor: Colors.black,
+        ),
+        style: TextStyle(
+          fontSize: deviceSize.width * 0.04,
+          fontWeight: FontWeight.w600,
+          fontFamily: 'League Spartan',
         ),
       ),
     );

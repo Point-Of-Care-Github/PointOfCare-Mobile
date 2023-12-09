@@ -2,9 +2,9 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:test/constants/const.dart';
-import 'package:test/providers/auth_services.dart';
-//import 'package:test/services/auth_services.dart';
+import 'package:test/providers/auth.dart';
 
 class PasswordReset extends StatefulWidget {
   static const routeName = '/password-reset';
@@ -17,10 +17,9 @@ class PasswordReset extends StatefulWidget {
 class _PasswordResetState extends State<PasswordReset> {
   final TextEditingController _emailController = TextEditingController();
 
-  final AuthService authService = AuthService();
-
   void verifyEmailForPasswordRecover() {
-    authService.verifyEmailForPasswordRecovery(
+    final auth = Provider.of<Auth>(context, listen: false);
+    auth.verifyEmailForPasswordRecovery(
       context: context,
       email: _emailController.text,
     );

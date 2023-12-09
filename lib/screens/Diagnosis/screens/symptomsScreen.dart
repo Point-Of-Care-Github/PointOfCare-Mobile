@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:test/screens/Diagnosis/widgets/symptomsForm.dart';
+import 'package:test/widgets/backButton.dart';
 import 'uploadScreen.dart';
 
 class SymptomsScreen extends StatelessWidget {
   static const routeName = '/symptoms-screen';
-  const SymptomsScreen({super.key});
+  final user;
+  final dis;
+  SymptomsScreen(this.user, this.dis);
 
   Widget build(BuildContext context) {
     final deviceSize = MediaQuery.of(context).size;
@@ -31,25 +34,8 @@ class SymptomsScreen extends StatelessWidget {
               ),
             ),
           ),
-          SymptomsForm(),
-          Container(
-            margin: EdgeInsets.only(
-              top: deviceSize.height * 0.0973,
-              left: deviceSize.width * 0.0533,
-            ),
-            child: SizedBox(
-              child: IconButton(
-                icon: Icon(
-                  Icons.arrow_back_ios,
-                  size: deviceSize.width * 0.08,
-                ),
-                color: Color(0xFF8587DC),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-              ),
-            ),
-          ),
+          SymptomsForm(user, dis),
+          backButton(context)
         ],
       ),
     );

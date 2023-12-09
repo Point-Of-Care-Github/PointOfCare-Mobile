@@ -29,6 +29,24 @@ class Radiologist with ChangeNotifier {
     return _radiologists.firstWhere((element) => element.userId == id);
   }
 
+  void setRadiologist(uid, name, con, gen, ima, ag) {
+    final p = _radiologists.firstWhere((element) => element.userId == uid);
+
+    p.age = ag;
+    p.userName = name;
+    p.contact = con;
+    p.gender = gen;
+    p.image = ima;
+
+    age = ag;
+    userName = name;
+    contact = con;
+    gender = gen;
+    image = ima;
+
+    notifyListeners();
+  }
+
   Future<void> fetchRadiologists() async {
     final url = "$nodeApi/api/users/radiologists";
     try {
@@ -47,7 +65,7 @@ class Radiologist with ChangeNotifier {
       for (int i = 0; i < extractedData.length; i++) {
         var doc = extractedData[i];
         loadedRadiologists.add(Radiologist(
-          age: doc['age'],
+          age: doc['age'].toString(),
           userName: doc['userName'],
           contact: doc['contact'],
           gender: doc['gender'],

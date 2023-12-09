@@ -3,11 +3,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:test/constants/const.dart';
-import 'package:test/providers/appointment_services.dart';
 import 'package:test/providers/auth.dart';
 import 'package:test/providers/doctor.dart';
-import 'package:test/providers/doctor_profile.dart';
-import 'package:test/screens/User%20Profiling/screens/doctorDetail.dart';
+import 'package:test/screens/Appointments/screens/doctorDetail.dart';
 // import 'package:test/screens/doctorDetail.dart';
 // import 'package:ionicons/ionicons.dart';
 // import 'package:test/services/appointment_services.dart';

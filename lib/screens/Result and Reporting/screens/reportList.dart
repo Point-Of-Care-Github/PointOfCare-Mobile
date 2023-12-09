@@ -3,8 +3,9 @@ import 'package:provider/provider.dart';
 import 'package:test/providers/auth.dart';
 import 'package:test/screens/Result%20and%20Reporting/screens/reportScreen.dart';
 import 'package:test/utils/customProgess.dart';
+import 'package:test/widgets/backButton.dart';
 
-import '../../../utils/reports.dart';
+import '../../../providers/reports.dart';
 
 class ReportList extends StatefulWidget {
   static const routeName = 'report-list';
@@ -28,10 +29,15 @@ class _ReportListState extends State<ReportList> {
 
   @override
   Widget build(BuildContext context) {
-    final user = Provider.of<Auth>(context).userId;
+    final user = Provider.of<Auth>(context);
     final report = Provider.of<Reports>(context, listen: false);
-    var reportList =
-        report.reports.where((element) => element['id'] == user).toList();
+    var reportList = user.role == 'Radiologist'
+        ? report.reports
+            .where((element) => element['Verification'] == 'Pending')
+            .toList()
+        : report.reports
+            .where((element) => element['id'] == user.userId)
+            .toList();
     final deviceSize = MediaQuery.of(context).size;
     return Scaffold(
       // drawer: AppDrawer(),
@@ -116,10 +122,7 @@ class _ReportListState extends State<ReportList> {
                                           MaterialPageRoute(
                                               builder: (context) =>
                                                   ReportScreen(
-                                                      reportList[position]
-                                                          ['results'],
-                                                      reportList[position]
-                                                          ['image']))),
+                                                      reportList[position]))),
                                       child: Align(
                                         alignment: Alignment.center,
                                         child: SizedBox(
@@ -189,21 +192,7 @@ class _ReportListState extends State<ReportList> {
               ),
             ),
           ),
-          Container(
-            margin: EdgeInsets.only(top: 73, left: 40),
-            child: SizedBox(
-              child: IconButton(
-                icon: Icon(
-                  Icons.arrow_back_ios,
-                  size: 30,
-                ),
-                color: Color(0xFF8587DC),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-              ),
-            ),
-          ),
+          backButton(context)
         ],
       ),
     );

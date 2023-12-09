@@ -3,6 +3,10 @@ import 'package:test/screens/Diagnosis/screens/uploadScreen.dart';
 import 'package:test/widgets/myButton.dart';
 
 class SymptomsForm extends StatefulWidget {
+  final user;
+  final dis;
+  SymptomsForm(this.user, this.dis);
+
   @override
   _SymptomsFormState createState() => _SymptomsFormState();
 }
@@ -333,7 +337,8 @@ class _SymptomsFormState extends State<SymptomsForm> {
                       _ans['ans4'] != '') {
                     Navigator.of(context).push(
                       MaterialPageRoute(
-                        builder: (context) => UploadScreen(),
+                        builder: (context) =>
+                            UploadScreen(widget.user, widget.dis),
                       ),
                     );
                   }

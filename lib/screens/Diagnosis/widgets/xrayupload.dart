@@ -51,7 +51,7 @@ class _XrayUploadState extends State<XrayUpload> {
                 ),
               ),
             ),
-            UploadOptions(),
+            UploadOptions(""),
           ],
         ),
       ),

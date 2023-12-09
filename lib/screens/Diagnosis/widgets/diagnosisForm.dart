@@ -13,7 +13,8 @@ import '../../../providers/radiologist.dart';
 class DiagnosisForm extends StatefulWidget {
   final user;
   final type;
-  DiagnosisForm(this.user, this.type);
+  final dis;
+  DiagnosisForm(this.user, this.type, this.dis);
 
   @override
   State<DiagnosisForm> createState() => _DiagnosisFormState();
@@ -370,7 +371,8 @@ class _DiagnosisFormState extends State<DiagnosisForm> {
                           _authData['age'] != '') {
                         Navigator.of(context).push(
                           MaterialPageRoute(
-                            builder: (context) => const SymptomsScreen(),
+                            builder: (context) =>
+                                SymptomsScreen(widget.user, widget.dis),
                           ),
                         );
                       }

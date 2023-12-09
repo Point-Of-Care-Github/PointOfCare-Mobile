@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:test/constants/const.dart';
-import 'package:test/providers/auth_services.dart';
+import 'package:test/providers/auth.dart';
 import 'package:test/providers/user_provider.dart';
 
 class ResetPassword extends StatefulWidget {
@@ -18,10 +18,10 @@ class _ResetPasswordState extends State<ResetPassword> {
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _CpasswordController = TextEditingController();
   String _errorMessage1 = '';
-  final AuthService authService = AuthService();
 
   void passwordReset(String email) {
-    authService.passwordReset(
+    final auth = Provider.of<Auth>(context, listen: false);
+    auth.passwordReset(
       context: context,
       email: email,
       password: _passwordController.text,

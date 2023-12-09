@@ -26,6 +26,7 @@ class Reports with ChangeNotifier {
     extractedData as Map;
     extractedData.forEach((key, value) {
       loadedReports.add({
+        "key": key,
         "name": value['name'],
         "time": value['time'],
         "results": value['results'],

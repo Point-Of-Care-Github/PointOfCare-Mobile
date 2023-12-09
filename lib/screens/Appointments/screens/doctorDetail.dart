@@ -2,13 +2,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:provider/provider.dart';
-import 'package:test/models/allDoctors.dart';
 import 'package:test/providers/doctor.dart';
-import 'package:test/providers/doctor_profile.dart';
 import 'package:test/screens/Appointments/screens/bookAppointment.dart';
-
-import 'package:test/screens/Chats/screens/chatScreen2.dart';
+import 'package:test/screens/Chats/screens/chatScreen.dart';
 
 class DoctorDetail extends StatefulWidget {
   static const routeName = '/doctor-detail';
@@ -25,14 +21,12 @@ class _DoctorDetailState extends State<DoctorDetail> {
   Widget build(BuildContext context) {
     final deviceSize = MediaQuery.of(context).size;
     return Scaffold(
-      backgroundColor: Colors.transparent,
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topRight,
             end: Alignment.bottomLeft,
             colors: [
-              Color(0xFF200E32),
               Color(0xFF8587DC),
               Color(0xFFB9A0E6),
             ],
@@ -99,7 +93,7 @@ class _DoctorDetailState extends State<DoctorDetail> {
                               Navigator.of(context).push(
                                 MaterialPageRoute(
                                   builder: (context) {
-                                    return const ChatScreen();
+                                    return ChatScreen(widget.doctor);
                                   },
                                 ),
                               );
@@ -386,8 +380,7 @@ class _DoctorDetailState extends State<DoctorDetail> {
                 onPressed: () {
                   Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder: (context) =>
-                          BookAppointment(widget.doctor, widget.user),
+                      builder: (context) => BookAppointment(widget.doctor),
                     ),
                   );
                 },

@@ -2,9 +2,7 @@
 
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:test/constants/const.dart';
-import 'package:test/models/feedback_model.dart';
 import '../utils/snack_bar_util.dart';
 import 'package:http/http.dart' as http;
 
@@ -16,10 +14,9 @@ class FeedbackServices extends ChangeNotifier {
     required String feedback,
   }) async {
     try {
-      final navigator = Navigator.of(context);
       print(feedback);
       http.Response res = await http.post(
-        Uri.parse('${nodeApi}/api/users/addFeedback'),
+        Uri.parse('$nodeApi/api/users/addFeedback'),
         body: jsonEncode(
             {'userId': userId, 'feedback': feedback, 'rating': rating}),
         headers: <String, String>{
@@ -33,12 +30,12 @@ class FeedbackServices extends ChangeNotifier {
           showDialog(
             context: context,
             builder: (BuildContext context) {
-              return AlertDialog(
+              return const AlertDialog(
                 content: Text("Feedback recieved, Thank you!"),
               );
             },
           );
-          await Future.delayed(Duration(seconds: 2));
+          await Future.delayed(const Duration(seconds: 2));
           Navigator.pop(context);
           Navigator.pushNamed(context, '/setting');
         },
@@ -52,7 +49,7 @@ class FeedbackServices extends ChangeNotifier {
           );
         },
       );
-      await Future.delayed(Duration(seconds: 2));
+      await Future.delayed(const Duration(seconds: 2));
       Navigator.of(context).pop();
     }
   }

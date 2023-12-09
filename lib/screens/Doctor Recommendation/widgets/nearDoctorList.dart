@@ -5,8 +5,8 @@ import 'package:geocoding/geocoding.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:test/constants/const.dart';
+import 'package:test/utils/customProgess.dart';
 import 'package:test/utils/maps_utils.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class NearDoctorList extends StatefulWidget {
   final String selectedValue;
@@ -315,119 +315,100 @@ class _NearDoctorListState extends State<NearDoctorList> {
 
     return Align(
       alignment: Alignment.center,
-      child: Builder(
-        builder: (BuildContext context) {
-          if (names.isEmpty) {
-            return Container(
-              margin: EdgeInsets.only(top: deviceSize.height * 0.3),
-              child: Column(
+      child: Builder(builder: (BuildContext context) {
+        return names.isEmpty
+            ? CustomProgress(
+                message: "Please wait while we fetch doctors near you.",
+              )
+            : Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SpinKitPouringHourGlassRefined(
-                    color: Theme.of(context).primaryColor,
-                    size: 50.0,
-                  ),
-                  Text(
-                    'Please wait!!!',
-                    style: TextStyle(
-                        fontFamily: 'Poppins',
-                        fontSize: 10,
-                        color: Theme.of(context).primaryColor),
-                  ),
-                ],
-              ),
-            );
-          } else {
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(
-                  width: deviceSize.width * 0.85,
-                  child: GridView.builder(
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      childAspectRatio: 0.85,
-                    ),
-                    itemCount: names.length,
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemBuilder: (context, index) {
-                      String satisfaction = satisfied[index];
-                      String firstPart = satisfaction.split('%')[0];
-                      double satisfactionPercentage =
-                          double.tryParse(firstPart) ?? 0.0;
-                      double totalSize = 100.0;
-                      double itemSize = totalSize / 5;
+                  SizedBox(
+                    width: deviceSize.width * 0.85,
+                    child: GridView.builder(
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        childAspectRatio: 0.85,
+                      ),
+                      itemCount: names.length,
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        String satisfaction = satisfied[index];
+                        String firstPart = satisfaction.split('%')[0];
+                        double satisfactionPercentage =
+                            double.tryParse(firstPart) ?? 0.0;
+                        double totalSize = 100.0;
+                        double itemSize = totalSize / 5;
 
-                      return InkWell(
-                        onTap: () {
-                          _showDoctorDetailsModal(index, modalHeight);
-                        },
-                        child: Container(
-                          margin: const EdgeInsets.all(10),
-                          padding: const EdgeInsets.symmetric(vertical: 15),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(10),
-                            boxShadow: const [
-                              BoxShadow(
-                                color: Colors.black12,
-                                blurRadius: 4,
-                                spreadRadius: 2,
-                              ),
-                            ],
-                          ),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              CircleAvatar(
-                                radius: 35,
-                                backgroundImage: NetworkImage(images[index]),
-                              ),
-                              Center(
-                                child: Text(
-                                  names[index],
-                                  style: const TextStyle(
-                                    fontSize: 10,
-                                    fontWeight: FontWeight.w700,
-                                    color: Colors.black,
+                        return InkWell(
+                          onTap: () {
+                            _showDoctorDetailsModal(index, modalHeight);
+                          },
+                          child: Container(
+                            margin: const EdgeInsets.all(10),
+                            padding: const EdgeInsets.symmetric(vertical: 15),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(10),
+                              boxShadow: const [
+                                BoxShadow(
+                                  color: Colors.black12,
+                                  blurRadius: 4,
+                                  spreadRadius: 2,
+                                ),
+                              ],
+                            ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                CircleAvatar(
+                                  radius: 35,
+                                  backgroundImage: NetworkImage(images[index]),
+                                ),
+                                Center(
+                                  child: Text(
+                                    names[index],
+                                    style: const TextStyle(
+                                      fontSize: 10,
+                                      fontWeight: FontWeight.w700,
+                                      color: Colors.black,
+                                    ),
                                   ),
                                 ),
-                              ),
-                              Text(
-                                specialization[index].split(',')[0],
-                                style: const TextStyle(
-                                  color: Colors.black45,
-                                  fontSize: 10,
+                                Text(
+                                  specialization[index].split(',')[0],
+                                  style: const TextStyle(
+                                    color: Colors.black45,
+                                    fontSize: 10,
+                                  ),
                                 ),
-                              ),
-                              RatingBarIndicator(
-                                rating: (satisfactionPercentage / 20),
-                                itemBuilder: (context, index) {
-                                  final isFilled = index <
-                                      (satisfactionPercentage / 20).floor();
-                                  return Icon(
-                                    isFilled ? Icons.star : Icons.star_border,
-                                    color: Colors.amber,
-                                    size: 16,
-                                  );
-                                },
-                                itemCount: 5,
-                                itemSize: itemSize,
-                                direction: Axis.horizontal,
-                              ),
-                            ],
+                                RatingBarIndicator(
+                                  rating: (satisfactionPercentage / 20),
+                                  itemBuilder: (context, index) {
+                                    final isFilled = index <
+                                        (satisfactionPercentage / 20).floor();
+                                    return Icon(
+                                      isFilled ? Icons.star : Icons.star_border,
+                                      color: Colors.amber,
+                                      size: 16,
+                                    );
+                                  },
+                                  itemCount: 5,
+                                  itemSize: itemSize,
+                                  direction: Axis.horizontal,
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
-                      );
-                    },
+                        );
+                      },
+                    ),
                   ),
-                ),
-              ],
-            );
-          }
-        },
-      ),
+                ],
+              );
+      }),
     );
   }
 }

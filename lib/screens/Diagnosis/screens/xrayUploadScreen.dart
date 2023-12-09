@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:test/widgets/backButton.dart';
 import '../widgets/xrayupload.dart';
 
 class XrayUploadScreen extends StatelessWidget {
@@ -38,21 +39,7 @@ class XrayUploadScreen extends StatelessWidget {
             ),
           ),
         ),
-        Container(
-          margin: EdgeInsets.only(top: 73, left: 40),
-          child: SizedBox(
-            child: IconButton(
-              icon: Icon(
-                Icons.arrow_back_ios,
-                size: 30,
-              ),
-              color: Color(0xFF8587DC),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ),
-          ),
-        ),
+        backButton(context)
       ],
     ));
   }

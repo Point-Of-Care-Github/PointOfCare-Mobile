@@ -264,9 +264,8 @@ class _DoctorProfileState extends State<DoctorProfile> {
 
   @override
   Widget build(BuildContext context) {
-    // var route =
-    //     ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
-    final route = {'role': "Doctor"};
+    var route =
+        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
 
     return Scaffold(
       body: SafeArea(
@@ -371,7 +370,8 @@ class _DoctorProfileState extends State<DoctorProfile> {
                         height: 10,
                       ),
 
-                      if (route['role'] == 'Patient')
+                      if (route['role'] == 'Patient' ||
+                          route['role'] == "Radiologist")
                         Padding(
                           padding: const EdgeInsets.only(bottom: 2, left: 0),
                           child: TextField(

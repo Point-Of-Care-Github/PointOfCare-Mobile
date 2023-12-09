@@ -8,6 +8,7 @@ import 'package:test/utils/labels.dart';
 class Results extends ChangeNotifier {
   List<Map<String, dynamic>> _results = [];
   var image1;
+  var breast;
 
   Results();
 

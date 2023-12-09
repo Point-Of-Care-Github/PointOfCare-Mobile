@@ -40,6 +40,32 @@ class Doctor with ChangeNotifier {
     return [..._doctors];
   }
 
+  void setDoctor(
+      uid,
+      String name,
+      String contact,
+      String experience,
+      String specialization,
+      String description,
+      String time,
+      String fees,
+      String image,
+      String gender) {
+    final d = _doctors.firstWhere((element) => element.userId == uid);
+
+    d.userName = name;
+    d.contact = contact;
+    d.experience = experience;
+    d.specialization = specialization;
+    d.description = description;
+    d.time = time;
+    d.fees = fees;
+    d.image = image;
+    d.gender = gender;
+
+    notifyListeners();
+  }
+
   Future<void> fetchDoctors() async {
     final url = "$nodeApi/api/users/doctors";
     try {

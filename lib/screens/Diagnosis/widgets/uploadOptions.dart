@@ -4,12 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
-import 'package:test/providers/report.dart';
+import 'package:test/providers/results.dart';
 
 import 'package:test/utils/customProgess.dart';
 import 'package:test/widgets/myButton.dart';
 
 class UploadOptions extends StatefulWidget {
+  final dis;
+  UploadOptions(this.dis);
   @override
   State<UploadOptions> createState() => _UploadOptionsState();
 }
@@ -171,15 +173,28 @@ class _UploadOptionsState extends State<UploadOptions> {
               builder: (context) => CustomProgress(
                     message: "Please wait...\n(This might take 2-4 minutes)",
                   ));
-          await Provider.of<Results>(context, listen: false)
-              .diagnose(image)
-              .then((_) {
-            Navigator.pop(context);
-            Navigator.pushNamed(context, '/result-screen', arguments: {
-              'image': image!.path,
-              "results": Provider.of<Results>(context, listen: false).result
-            });
-          });
+          widget.dis == 'chest'
+              ? await Provider.of<Results>(context, listen: false)
+                  .diagnose(image)
+                  .then((_) {
+                  Navigator.pop(context);
+                  Navigator.pushNamed(context, '/result-screen', arguments: {
+                    'image': image!.path,
+                    "results":
+                        Provider.of<Results>(context, listen: false).result
+                  });
+                })
+              : await Provider.of(context)<Results>(context, listen: false)
+                  .breast(image)
+                  .then((_) {
+                  Navigator.pop(context);
+                  showDialog(
+                      context: context,
+                      builder: (context) => SimpleDialog(
+                            title: Text("Result"),
+                            children: [Provider.of<Results>(context).breast],
+                          ));
+                });
         }, "Submit")
       ],
     );

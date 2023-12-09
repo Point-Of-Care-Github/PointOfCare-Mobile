@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:provider/provider.dart';
 import 'package:test/constants/const.dart';
 import 'package:test/providers/appointment_services.dart';
@@ -22,16 +21,18 @@ class TabsScreen extends StatefulWidget {
 
 class _TabsScreenState extends State<TabsScreen> {
   bool _isLoading = true;
+  var auth;
 
   @override
   void initState() {
     setState(() {
       _isLoading = true;
     });
-    final auth = Provider.of<Auth>(context, listen: false);
+    auth = Provider.of<Auth>(context, listen: false);
     auth.fetchUsers();
     Provider.of<Doctor>(context, listen: false).fetchDoctors();
     Provider.of<Patient>(context, listen: false).fetchPatients();
+    Provider.of<Radiologist>(context, listen: false).fetchRadiologists();
     Provider.of<AppointmentServices>(context, listen: false)
         .getAppointments(context: context)
         .then((value) => setState(() {
@@ -42,30 +43,42 @@ class _TabsScreenState extends State<TabsScreen> {
   }
 
   int _selectedIndex = 2;
-  static List<Widget> _widgetOptions = <Widget>[
-    Profile(),
-    ScheduleScreen(),
-    HomeScreen(),
-    MessagesScreen(),
-    SettingScreen(),
-  ];
-  List<String> titles = [
-    'Profile',
-    'Schedules'
-        'Home',
-    'Messages'
-        'Settings',
-  ];
 
   @override
   Widget build(BuildContext context) {
+    List<Widget> _widgetOptions = auth.role == "Radiologist"
+        ? [
+            Profile(),
+            HomeScreen(),
+            SettingScreen(),
+          ]
+        : [
+            Profile(),
+            ScheduleScreen(),
+            HomeScreen(),
+            MessagesScreen(),
+            SettingScreen(),
+          ];
+    List<String> titles = auth.role == "Radiologist"
+        ? [
+            'Profile',
+            'Home',
+            'Settings',
+          ]
+        : [
+            'Profile',
+            'Schedules'
+                'Home',
+            'Messages'
+                'Settings',
+          ];
     return Scaffold(
       // drawer: AppDrawer(),
       backgroundColor: Color(0xFFFCFCFF),
       body: _isLoading
           ? Center(
               child: Image.asset(
-                "assets/heart-beat.gif",
+                "assets/images/heart-beat.gif",
                 height: 100,
                 width: 100,
               ),
@@ -82,61 +95,75 @@ class _TabsScreenState extends State<TabsScreen> {
             fontSize: 10,
             fontWeight: FontWeight.bold),
         iconSize: 30,
-        items: [
-          BottomNavigationBarItem(
-              icon: Image.asset(
-                _selectedIndex == 0
-                    ? "assets/images/profile_on.png"
-                    : "assets/images/profile_off.png",
-                height: 25,
-              ),
-              label: "Profile"),
-          BottomNavigationBarItem(
-              icon: Image.asset(
-                _selectedIndex == 1
-                    ? "assets/images/calendar1.png"
-                    : "assets/images/calendar_off.png",
-                height: 25,
-              ),
-              label: "Appointments"),
-          BottomNavigationBarItem(
-              icon: Image.asset(
-                _selectedIndex == 2
-                    ? "assets/images/home_on.png"
-                    : "assets/images/home_off.png",
-                height: 28,
-              ),
-              label: "Home"),
-          BottomNavigationBarItem(
-              icon: Image.asset(
-                _selectedIndex == 3
-                    ? "assets/images/chat_on.png"
-                    : "assets/images/chat_off.png",
-                height: 25,
-              ),
-              label: "Chat"),
-          BottomNavigationBarItem(
-              icon: Image.asset(
-                _selectedIndex == 4
-                    ? "assets/images/settings_on.png"
-                    : "assets/images/settings_off.png",
-                height: 25,
-              ),
-              label: "Settings"),
-
-          // GButton(
-          //   icon: Icons.calendar_month_outlined,
-          // ),
-          // GButton(
-          //   icon: Icons.home_outlined,
-          // ),
-          // GButton(
-          //   icon: Icons.message_outlined,
-          // ),
-          // GButton(
-          //   icon: Icons.settings_outlined,
-          // ),
-        ],
+        items: auth.role == 'Radiologist'
+            ? [
+                BottomNavigationBarItem(
+                    icon: Image.asset(
+                      _selectedIndex == 0
+                          ? "assets/images/profile_on.png"
+                          : "assets/images/profile_off.png",
+                      height: 25,
+                    ),
+                    label: "Profile"),
+                BottomNavigationBarItem(
+                    icon: Image.asset(
+                      _selectedIndex == 1
+                          ? "assets/images/home_on.png"
+                          : "assets/images/home_off.png",
+                      height: 28,
+                    ),
+                    label: "Home"),
+                BottomNavigationBarItem(
+                    icon: Image.asset(
+                      _selectedIndex == 2
+                          ? "assets/images/settings_on.png"
+                          : "assets/images/settings_off.png",
+                      height: 25,
+                    ),
+                    label: "Settings"),
+              ]
+            : [
+                BottomNavigationBarItem(
+                    icon: Image.asset(
+                      _selectedIndex == 0
+                          ? "assets/images/profile_on.png"
+                          : "assets/images/profile_off.png",
+                      height: 25,
+                    ),
+                    label: "Profile"),
+                BottomNavigationBarItem(
+                    icon: Image.asset(
+                      _selectedIndex == 1
+                          ? "assets/images/calendar1.png"
+                          : "assets/images/calendar_off.png",
+                      height: 25,
+                    ),
+                    label: "Appointments"),
+                BottomNavigationBarItem(
+                    icon: Image.asset(
+                      _selectedIndex == 2
+                          ? "assets/images/home_on.png"
+                          : "assets/images/home_off.png",
+                      height: 28,
+                    ),
+                    label: "Home"),
+                BottomNavigationBarItem(
+                    icon: Image.asset(
+                      _selectedIndex == 3
+                          ? "assets/images/chat_on.png"
+                          : "assets/images/chat_off.png",
+                      height: 25,
+                    ),
+                    label: "Chat"),
+                BottomNavigationBarItem(
+                    icon: Image.asset(
+                      _selectedIndex == 4
+                          ? "assets/images/settings_on.png"
+                          : "assets/images/settings_off.png",
+                      height: 25,
+                    ),
+                    label: "Settings"),
+              ],
         currentIndex: _selectedIndex,
         onTap: (index) {
           setState(() {

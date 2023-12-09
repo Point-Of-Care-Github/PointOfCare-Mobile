@@ -4,7 +4,6 @@ import 'package:test/providers/auth.dart';
 import 'package:test/providers/doctor.dart';
 import 'package:test/providers/patient.dart';
 import 'package:test/providers/radiologist.dart';
-import '../../../utils/users.dart';
 
 class ProfileData extends StatelessWidget {
   @override

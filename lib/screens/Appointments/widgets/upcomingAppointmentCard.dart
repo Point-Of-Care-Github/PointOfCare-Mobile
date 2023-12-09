@@ -19,8 +19,6 @@ class UpcomingAppointmentCard extends StatefulWidget {
 }
 
 class _UpcomingAppointmentCardState extends State<UpcomingAppointmentCard> {
-  AppointmentServices appointmentServices = AppointmentServices();
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -148,7 +146,7 @@ class _UpcomingAppointmentCardState extends State<UpcomingAppointmentCard> {
 
   Widget _buildThreeDotsMenu(BuildContext context) {
     final user = Provider.of<Auth>(context);
-    final appointmentServices = AppointmentServices();
+    final appointmentServices = Provider.of<AppointmentServices>(context);
 
     return PopupMenuButton(
       icon: Icon(Icons.more_vert),
@@ -221,11 +219,6 @@ class _UpcomingAppointmentCardState extends State<UpcomingAppointmentCard> {
               id: widget.appointment.id,
               status: 'cancelled',
             );
-            setState(() {
-              Provider.of<AppointmentServices>(context, listen: false)
-                  .appointmentsList
-                  .remove(widget.appointment);
-            });
           }
         }
       },

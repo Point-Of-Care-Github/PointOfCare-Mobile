@@ -8,17 +8,15 @@ import 'package:test/firebase_options.dart';
 import 'package:test/providers/appointment_services.dart';
 import 'package:test/providers/auth.dart';
 import 'package:test/providers/doctor.dart';
-import 'package:test/providers/doctor_profile.dart';
 import 'package:test/providers/feedback.dart';
-import 'package:test/providers/patient.dart';
-import 'package:test/providers/patient_profile.dart';
+import 'package:test/providers/patient.dart' as patient;
 import 'package:test/providers/radiologist.dart';
-import 'package:test/providers/report.dart';
+import 'package:test/providers/results.dart';
 import 'package:test/providers/user_provider.dart';
 import 'package:test/screens/Appointments/screens/availableDoctors.dart';
 import 'package:test/screens/Diagnosis/screens/ctscanDiagnosis.dart';
 import 'package:test/screens/Diagnosis/screens/diagnosis.dart';
-import 'package:test/screens/Diagnosis/screens/symptomsScreen.dart';
+import 'package:test/screens/Diagnosis/screens/selectDiagnosis.dart';
 import 'package:test/screens/Diagnosis/screens/xrayDiagnosis.dart';
 import 'package:test/screens/Diagnosis/screens/xrayUploadScreen.dart';
 import 'package:test/screens/Doctor%20Recommendation/screens/nearbyDoctors.dart';
@@ -26,14 +24,14 @@ import 'package:test/screens/Feedback%20and%20Settings/screens/setting.dart';
 import 'package:test/screens/Main/screens/aboutUs.dart';
 import 'package:test/screens/Main/screens/homeScreen.dart';
 import 'package:test/screens/Main/screens/tabScreen.dart';
-import 'package:test/screens/Result%20and%20Reporting/screens/reportScreen.dart';
 import 'package:test/screens/Result%20and%20Reporting/screens/resultScreen.dart';
 import 'package:test/screens/Result%20and%20Reporting/screens/reportList.dart';
 import 'package:test/screens/User%20Profiling/screens/addProfile.dart';
 import 'package:test/screens/User%20Profiling/screens/authentication.dart';
+import 'package:test/screens/User%20Profiling/screens/editProfile.dart';
 import 'package:test/screens/User%20Profiling/screens/email-otp.dart';
 import 'package:test/screens/User%20Profiling/screens/profile.dart';
-import 'utils/reports.dart';
+import 'providers/reports.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -79,8 +77,8 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider<Doctor>(
             create: (ctx) => Doctor.fromdoc(),
           ),
-          ChangeNotifierProvider<Patient>(
-            create: (ctx) => Patient.frompat(),
+          ChangeNotifierProvider<patient.Patient>(
+            create: (ctx) => patient.Patient.frompat(),
           ),
           ChangeNotifierProvider<Radiologist>(
             create: (ctx) => Radiologist.fromrad(),
@@ -89,13 +87,7 @@ class MyApp extends StatelessWidget {
             create: (_) => UserProvider(),
           ),
           ChangeNotifierProvider(
-            create: (_) => DoctorProvider(),
-          ),
-          ChangeNotifierProvider(
             create: (_) => AppointmentServices(),
-          ),
-          ChangeNotifierProvider(
-            create: (_) => PatientProvider(),
           ),
           ChangeNotifierProvider<Reports>(
             create: (ctx) => Reports(),
@@ -112,11 +104,7 @@ class MyApp extends StatelessWidget {
                 primarySwatch: createMaterialColor(primaryColor),
                 scaffoldBackgroundColor: Colors.white,
                 fontFamily: 'Poppins'),
-            home:
-
-                // AddProfile(),
-
-                auth.userId != null ? TabsScreen() : Authentication(),
+            home: auth.userId != null ? TabsScreen() : Authentication(),
             routes: {
               TabsScreen.routeName: (ctx) => TabsScreen(),
               HomeScreen.routeName: (ctx) => HomeScreen(),
@@ -127,13 +115,14 @@ class MyApp extends StatelessWidget {
               AboutUs.routeName: (ctx) => AboutUs(),
               // DoctorRecommendationScreen.routeName: (ctx) =>
               //     DoctorRecommendationScreen(),
-              SymptomsScreen.routeName: (ctx) => SymptomsScreen(),
               Diagnosis.routeName: (ctx) => Diagnosis(),
               NearbyDoctors.routeName: (ctx) => NearbyDoctors(),
               XrayUploadScreen.routeName: (ctx) => XrayUploadScreen(),
               ResultScreen.routeName: (ctx) => ResultScreen(),
               DoctorProfile.routeName: (ctx) => DoctorProfile(),
               ReportList.routeName: (ctx) => ReportList(),
+              SelectDiagnosis.routeName: (ctx) => SelectDiagnosis(),
+              EditProfile.routeName: (ctx) => EditProfile(),
               //AddProfile.routeName: (ctx) => AddProfile(),
 
               EmailOtp.routeName: (ctx) => EmailOtp(),

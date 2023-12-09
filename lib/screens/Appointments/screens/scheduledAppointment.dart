@@ -31,23 +31,21 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
     final textScaleFactor = MediaQuery.of(context).textScaleFactor;
     return SingleChildScrollView(
       child: Padding(
-        padding: EdgeInsets.only(top: deviceSize.height * 0.05),
+        padding: EdgeInsets.only(top: deviceSize.height * 0.07),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: deviceSize.width * 0.05,
-              ),
-              child: Text(
-                "Schedule",
-                style: TextStyle(
-                  fontSize: 32 * textScaleFactor,
-                  fontWeight: FontWeight.w600,
-                  fontFamily: 'Poppins', // Set fontFamily to 'Poppins'
+                padding: EdgeInsets.symmetric(
+                  horizontal: deviceSize.width * 0.07,
                 ),
-              ),
-            ),
+                child: Title(
+                  color: Colors.black,
+                  child: Text(
+                    "Appointments",
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
+                  ),
+                )),
             SizedBox(height: deviceSize.height * 0.02),
             Center(
               child: Container(
@@ -157,7 +155,6 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                 ),
               ),
             ),
-            SizedBox(height: deviceSize.height * 0.01),
             _scheduleWidgets[_buttonIndex],
           ],
         ),

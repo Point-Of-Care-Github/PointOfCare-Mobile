@@ -29,6 +29,24 @@ class Patient with ChangeNotifier {
     return _patients.firstWhere((element) => element.userId == id);
   }
 
+  void setPatient(uid, name, con, gen, ima, ag) {
+    final p = _patients.firstWhere((element) => element.userId == uid);
+
+    p.age = ag;
+    p.userName = name;
+    p.contact = con;
+    p.gender = gen;
+    p.image = ima;
+
+    age = ag;
+    userName = name;
+    contact = con;
+    gender = gen;
+    image = ima;
+
+    notifyListeners();
+  }
+
   List get patients {
     return [..._patients];
   }
@@ -93,31 +111,4 @@ class Patient with ChangeNotifier {
       throw HttpException(e.toString());
     }
   }
-
-  // Future<void> updatePatient(Patient patient) async {
-  //   final url = "$nodeApi/api/users/updatePatient";
-  //   print(patient.contact);
-  //   try {
-  //     final response = await http.post(
-  //       Uri.parse(url),
-  //       headers: {'Content-Type': 'application/json'},
-  //       body: json.encode(
-  //         {
-  //           "userId": patient.userId,
-  //           "age": patient.age,
-  //           "contact": patient.contact,
-  //           "gender": patient.gender,
-  //           "image": patient.image,
-  //         },
-  //       ),
-  //     );
-  //     final responseData = json.decode(response.body);
-  //     if (responseData['error'] != null) {
-  //       throw HttpException(responseData['message']);
-  //     }
-  //     notifyListeners();
-  //   } catch (e) {
-  //     throw HttpException(e.toString());
-  //   }
-  // }
 }

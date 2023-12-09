@@ -56,11 +56,9 @@ class _EditProfileState extends State<EditProfile> {
                 },
               ),
             ),
-
-            SizedBox(
-              height: user.role == 'Doctor'
-                  ? deviceSize.height * 1.65
-                  : deviceSize.height * 1.1,
+            Container(
+              margin: EdgeInsets.only(top: 100),
+              height: deviceSize.height * 1.2,
               width: deviceSize.width,
               child: SafeArea(
                 child: Column(

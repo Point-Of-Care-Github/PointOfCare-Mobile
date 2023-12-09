@@ -2,14 +2,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:test/providers/appointment_services.dart';
+import 'package:test/constants/const.dart';
 import 'package:test/providers/auth.dart';
 import 'package:test/providers/doctor.dart';
-import 'package:test/providers/doctor_profile.dart';
-import 'package:test/screens/User%20Profiling/screens/doctorDetail.dart';
-// import 'package:test/screens/doctorDetail.dart';
-// import 'package:ionicons/ionicons.dart';
-// import 'package:test/services/appointment_services.dart';
+import 'package:test/screens/Appointments/screens/doctorDetail.dart';
 
 // ignore: use_key_in_widget_constructors
 class DoctorsGrid extends StatelessWidget {
@@ -18,15 +14,12 @@ class DoctorsGrid extends StatelessWidget {
     var doctorProvider = Provider.of<Doctor>(context).doctors;
     final users = Provider.of<Auth>(context, listen: false).users;
 
-    AppointmentServices appointmentServices = AppointmentServices();
     return Container(
+      height: 400,
       margin: EdgeInsets.only(
-        // top: MediaQuery.of(context).size.height * 0.22,
-        left: MediaQuery.of(context).size.width * 0.05,
         right: MediaQuery.of(context).size.width * 0.05,
       ),
       child: ListView.builder(
-        shrinkWrap: true,
         itemCount: doctorProvider.length,
         itemBuilder: (context, index) {
           final doctor = doctorProvider[index];
@@ -48,8 +41,8 @@ class DoctorsGrid extends StatelessWidget {
                 child: Row(
                   children: [
                     Container(
-                      width: 100,
-                      height: 100,
+                      width: 80,
+                      height: 80,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
                         image: DecorationImage(
@@ -66,37 +59,20 @@ class DoctorsGrid extends StatelessWidget {
                         Text(
                           "Dr. ${user.userName!}",
                           style: const TextStyle(
-                            fontSize: 16,
+                            fontSize: 15,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        const SizedBox(height: 8),
+                        const SizedBox(height: 4),
                         SizedBox(
                           width: 180,
                           child: Text(
-                            doctor.specialization!,
+                            "Online Consultation",
+                            style: TextStyle(fontSize: 13),
                             softWrap: true,
                           ),
                         ),
-                        const SizedBox(height: 16),
-                        Row(
-                          children: [
-                            Icon(
-                              Icons.star,
-                              color: Colors.yellow[700],
-                              size: 18,
-                            ),
-                            const Padding(
-                              padding: EdgeInsets.only(left: 4, right: 6),
-                              child: Text(
-                                "4.0",
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                            const Text("195 Reviews"),
-                          ],
-                        ),
-                        const SizedBox(height: 10),
+                        const SizedBox(height: 8),
                         Row(
                           children: [
                             const Icon(
@@ -109,12 +85,21 @@ class DoctorsGrid extends StatelessWidget {
                               child: Text(
                                 doctor.time!,
                                 style: const TextStyle(
-                                    fontWeight: FontWeight.bold),
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 13,
+                                    color: Colors.black45),
                               ),
                             ),
                           ],
                         )
                       ],
+                    ),
+                    SizedBox(
+                      width: 30,
+                    ),
+                    Icon(
+                      Icons.arrow_forward_ios,
+                      color: primaryColor,
                     )
                   ],
                 ),
