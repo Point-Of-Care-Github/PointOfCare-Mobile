@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:test/providers/user_provider.dart';
 import 'package:test/screens/Appointments/widgets/canceledAppointment.dart';
 
 import 'package:test/screens/Appointments/widgets/completedAppointmentList.dart';
@@ -41,7 +39,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                 ),
                 child: Title(
                   color: Colors.black,
-                  child: Text(
+                  child: const Text(
                     "Appointments",
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
                   ),

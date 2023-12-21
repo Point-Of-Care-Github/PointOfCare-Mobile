@@ -7,10 +7,10 @@ class MainTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 30),
+      padding: const EdgeInsets.symmetric(horizontal: 30),
       child: Text(
         title,
-        style: TextStyle(
+        style: const TextStyle(
             fontFamily: 'Poppins', fontSize: 18, fontWeight: FontWeight.w700),
       ),
     );

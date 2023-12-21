@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:test/providers/doctor.dart';
@@ -30,12 +29,10 @@ class Profile extends StatelessWidget {
       body: Stack(
         children: <Widget>[
           //header
-          Align(
+          const Align(
             alignment: Alignment.topRight,
-            child: Container(
-              child: const Image(
-                image: AssetImage('assets/images/profileEclipse.png'),
-              ),
+            child: Image(
+              image: AssetImage('assets/images/profileEclipse.png'),
             ),
           ),
           SafeArea(
@@ -45,24 +42,20 @@ class Profile extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Container(
-                    child: Text(
-                      'Profile',
-                      style: TextStyle(
-                          fontFamily: 'Poppins',
-                          fontSize: 30,
-                          fontWeight: FontWeight.w700),
-                    ),
+                  const Text(
+                    'Profile',
+                    style: TextStyle(
+                        fontFamily: 'Poppins',
+                        fontSize: 30,
+                        fontWeight: FontWeight.w700),
                   ),
-                  Container(
-                    child: IconButton(
-                      icon: const Icon(Icons.edit_note_sharp),
-                      color: Color(0xFF8587DC),
-                      iconSize: 35,
-                      onPressed: () {
-                        Navigator.of(context).pushNamed(EditProfile.routeName);
-                      },
-                    ),
+                  IconButton(
+                    icon: const Icon(Icons.edit_note_sharp),
+                    color: Color(0xFF8587DC),
+                    iconSize: 35,
+                    onPressed: () {
+                      Navigator.of(context).pushNamed(EditProfile.routeName);
+                    },
                   ),
                 ],
               ),
@@ -79,30 +72,30 @@ class Profile extends StatelessWidget {
                   radius: 70,
                   backgroundImage: NetworkImage(type.image!),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 30,
                 ),
                 Consumer<Auth>(
                   builder: ((context, val, _) => Column(
                         children: [
                           ProfileInfo("Name", val.userName),
-                          Divider(),
+                          const Divider(),
                           ProfileInfo("Email", val.userEmail),
                         ],
                       )),
                 ),
-                Divider(),
+                const Divider(),
                 user.role == 'Patient'
                     ? ProfileInfo("Age", type.age)
                     : Container(),
                 user.role == 'Doctor'
                     ? ProfileInfo("Specialization", type.specialization)
                     : Container(),
-                Divider(),
+                const Divider(),
                 ProfileInfo("Gender", type.gender),
-                Divider(),
+                const Divider(),
                 ProfileInfo("Contact", type.contact),
-                Divider(),
+                const Divider(),
                 user.role == 'Doctor'
                     ? ProfileInfo("Experience", type.experience + " yrs")
                     : Container(),

@@ -30,7 +30,7 @@ class DoctorsGrid extends StatelessWidget {
             onTap: () async {
               Navigator.of(context).push(
                 MaterialPageRoute(
-                    builder: (context) => DoctorDetail(doctor, user)),
+                    builder: (context) => DoctorDetail(doctor, user, false)),
               );
             },
             child: Card(
@@ -95,7 +95,7 @@ class DoctorsGrid extends StatelessWidget {
                       ],
                     ),
                     SizedBox(
-                      width: 30,
+                      width: 10,
                     ),
                     Icon(
                       Icons.arrow_forward_ios,

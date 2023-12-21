@@ -31,7 +31,8 @@ class Reports with ChangeNotifier {
         "time": value['time'],
         "results": value['results'],
         "id": value['id'],
-        "image": value['image']
+        "image": value['image'],
+        "Verification": value['Verification']
       });
     });
     print(loadedReports);

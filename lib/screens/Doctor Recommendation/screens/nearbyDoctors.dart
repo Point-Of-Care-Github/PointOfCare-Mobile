@@ -2,9 +2,10 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:test/widgets/backButton.dart';
 
 import '../widgets/nearDoctorList.dart';
-import 'searchBar.dart';
+import '../widgets/searchBar.dart';
 
 class NearbyDoctors extends StatefulWidget {
   static const routeName = '/nearby-doctors-screen';
@@ -135,44 +136,25 @@ class _NearbyDoctorsState extends State<NearbyDoctors> {
               image: AssetImage('assets/images/topWaves1.png'),
             ),
 
-            // SearchBar
-            Search(
-              leftMargin: deviceSize.width * 0.18,
-              topMargin: deviceSize.height * 0.08,
-              width: deviceSize.width * 0.7,
-              color: const Color.fromARGB(255, 219, 207, 207).withOpacity(0.2),
-            ),
-
             // Title
             Container(
               margin: EdgeInsets.only(
-                top: deviceSize.height * 0.19,
-                left: deviceSize.width * 0.1,
+                top: deviceSize.height * 0.09,
+                left: deviceSize.width * 0.2,
               ),
               child: Text(
                 'Recommendation',
                 style: TextStyle(
-                  color: const Color(0xff200E32).withOpacity(0.8),
+                  color: Color.fromARGB(255, 2, 2, 2).withOpacity(0.8),
                   fontFamily: 'Poppins',
                   fontWeight: FontWeight.w700,
-                  fontSize: 25,
+                  fontSize: 28,
                 ),
               ),
             ),
 
             // Back Button
-            Container(
-              margin: EdgeInsets.only(
-                top: deviceSize.height * 0.09,
-                left: deviceSize.width * 0.05,
-              ),
-              child: CupertinoNavigationBarBackButton(
-                color: const Color(0xFF8587DC),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-              ),
-            ),
+            backButton(context),
             // Doctor grid
             Builder(
               builder: (BuildContext context) {

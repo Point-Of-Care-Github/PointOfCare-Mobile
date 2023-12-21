@@ -15,11 +15,8 @@ import 'package:test/providers/radiologist.dart';
 import 'package:test/providers/results.dart';
 import 'package:test/providers/user_provider.dart';
 import 'package:test/screens/Appointments/screens/availableDoctors.dart';
-import 'package:test/screens/Diagnosis/screens/ctscanDiagnosis.dart';
 import 'package:test/screens/Diagnosis/screens/diagnosis.dart';
 import 'package:test/screens/Diagnosis/screens/selectDiagnosis.dart';
-import 'package:test/screens/Diagnosis/screens/xrayDiagnosis.dart';
-import 'package:test/screens/Diagnosis/screens/xrayUploadScreen.dart';
 import 'package:test/screens/Doctor%20Recommendation/screens/nearbyDoctors.dart';
 import 'package:test/screens/Feedback%20and%20Settings/screens/setting.dart';
 import 'package:test/screens/Main/screens/aboutUs.dart';
@@ -111,32 +108,20 @@ class MyApp extends StatelessWidget {
             routes: {
               TabsScreen.routeName: (ctx) => TabsScreen(),
               HomeScreen.routeName: (ctx) => HomeScreen(),
-              SettingScreen.routeName: (ctx) => SettingScreen(),
+              SettingScreen.routeName: (ctx) => const SettingScreen(),
               Profile.routeName: (ctx) => Profile(),
-              XrayDiagnosis.routeName: (ctx) => XrayDiagnosis(),
-              CTscanDiagnosis.routeName: (ctx) => CTscanDiagnosis(),
               AboutUs.routeName: (ctx) => AboutUs(),
-              // DoctorRecommendationScreen.routeName: (ctx) =>
-              //     DoctorRecommendationScreen(),
               Diagnosis.routeName: (ctx) => Diagnosis(),
-              NearbyDoctors.routeName: (ctx) => NearbyDoctors(),
-              XrayUploadScreen.routeName: (ctx) => XrayUploadScreen(),
+              NearbyDoctors.routeName: (ctx) => const NearbyDoctors(),
               ResultScreen.routeName: (ctx) => ResultScreen(),
               DoctorProfile.routeName: (ctx) => DoctorProfile(),
               ReportList.routeName: (ctx) => ReportList(),
-              SelectDiagnosis.routeName: (ctx) => SelectDiagnosis(),
-              EditProfile.routeName: (ctx) => EditProfile(),
-              //AddProfile.routeName: (ctx) => AddProfile(),
-
-              EmailOtp.routeName: (ctx) => EmailOtp(),
-              // DoctorRecommendationScreen.routeName: (ctx) =>
-              //     DoctorRecommendationScreen(),
+              SelectDiagnosis.routeName: (ctx) => const SelectDiagnosis(),
+              EditProfile.routeName: (ctx) => const EditProfile(),
+              EmailOtp.routeName: (ctx) => const EmailOtp(),
               AvailableDoctorsScreen.routeName: (ctx) =>
-                  AvailableDoctorsScreen()
+                  const AvailableDoctorsScreen()
             },
-            // onUnknownRoute: (settings) {
-            //   return MaterialPageRoute(builder: (ctx) => HomeScreen());
-            // },
           ),
         ));
   }

@@ -54,7 +54,6 @@ class _RescheduleAppointmentState extends State<RescheduleAppointment> {
       date: _dateController.text,
       time: selectedTime,
       name: _nameController.text,
-      age: selectedAge,
     );
   }
 

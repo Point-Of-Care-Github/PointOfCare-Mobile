@@ -8,20 +8,20 @@ class ProfileInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(20),
+      padding: const EdgeInsets.all(20),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           Text(
             title,
             textAlign: TextAlign.left,
-            style: TextStyle(
+            style: const TextStyle(
                 fontWeight: FontWeight.w500, color: Colors.grey, fontSize: 16),
           ),
           Text(
             subtitle,
             textAlign: TextAlign.right,
-            style: TextStyle(
+            style: const TextStyle(
               fontWeight: FontWeight.w600,
               fontSize: 14,
             ),

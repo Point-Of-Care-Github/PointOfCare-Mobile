@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:test/screens/Doctor%20Recommendation/widgets/doctorsGrid.dart';
 import 'package:test/widgets/backButton.dart';
-import '../../Result and Reporting/screens/reportList.dart';
 
 class DoctorRecommendationScreen extends StatelessWidget {
   // static const routeName = '/report-screen';
@@ -18,7 +17,7 @@ class DoctorRecommendationScreen extends StatelessWidget {
           ),
 
           Container(
-            margin: EdgeInsets.only(left: 100, top: 73),
+            margin: const EdgeInsets.only(left: 100, top: 73),
             width: deviceSize.width * 0.55,
             child: Material(
               elevation: 20,
@@ -34,8 +33,8 @@ class DoctorRecommendationScreen extends StatelessWidget {
                   fillColor: Colors.white,
                   filled: true,
                   border: OutlineInputBorder(
-                    borderRadius: const BorderRadius.all(
-                      const Radius.circular(10.0),
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(10.0),
                     ),
                     borderSide: BorderSide(
                       width: 0,
@@ -55,8 +54,8 @@ class DoctorRecommendationScreen extends StatelessWidget {
             ),
           ),
           Container(
-            margin: EdgeInsets.only(left: 50, top: 160),
-            child: Text(
+            margin: const EdgeInsets.only(left: 50, top: 160),
+            child: const Text(
               'Available Doctors',
               style: TextStyle(
                   fontFamily: 'Poppins',
@@ -69,7 +68,7 @@ class DoctorRecommendationScreen extends StatelessWidget {
             child: Container(
               height: deviceSize.height * 0.9,
               width: deviceSize.width,
-              margin: EdgeInsets.only(top: 180),
+              margin: const EdgeInsets.only(top: 180),
               child: SafeArea(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,

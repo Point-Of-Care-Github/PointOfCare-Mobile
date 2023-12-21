@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:quickalert/quickalert.dart';
 import 'package:test/constants/const.dart';
 import 'package:test/models/serviceItems.dart';
 import 'package:test/providers/auth.dart';
@@ -144,6 +143,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     Container(
                       padding: EdgeInsets.symmetric(horizontal: 30),
                       child: TextFormField(
+                        onTap: () {
+                          Navigator.of(context)
+                              .pushNamed(AvailableDoctorsScreen.routeName);
+                        },
                         decoration: InputDecoration(
                           hintText: 'Search for doctors...',
                           hintStyle: TextStyle(

@@ -19,7 +19,6 @@ import 'package:test/utils/labelColors.dart';
 
 import 'package:test/utils/report_pdf.dart';
 import 'package:test/utils/snack_bar_util.dart';
-import '../../Main/screens/tabScreen.dart';
 
 class ResultScreen extends StatefulWidget {
   static const routeName = '/result-screen';
@@ -108,31 +107,31 @@ class _ResultScreenState extends State<ResultScreen> {
 
     page.graphics.drawString(
         "Name: " + user.username, PdfStandardFont(PdfFontFamily.helvetica, 10),
-        bounds: Rect.fromLTRB(0, 50, 0, 0));
+        bounds: const Rect.fromLTRB(0, 50, 0, 0));
 
     page.graphics.drawString(
         "Age: " + type.age, PdfStandardFont(PdfFontFamily.helvetica, 10),
-        bounds: Rect.fromLTRB(0, 70, 0, 0));
+        bounds: const Rect.fromLTRB(0, 70, 0, 0));
 
     page.graphics.drawString(
         "Gender: " + type.gender, PdfStandardFont(PdfFontFamily.helvetica, 10),
-        bounds: Rect.fromLTRB(0, 90, 0, 0));
+        bounds: const Rect.fromLTRB(0, 90, 0, 0));
 
     page.graphics.drawString("Contact: " + type.contact,
         PdfStandardFont(PdfFontFamily.helvetica, 10),
-        bounds: Rect.fromLTRB(0, 110, 0, 0));
+        bounds: const Rect.fromLTRB(0, 110, 0, 0));
 
     page.graphics.drawImage(
         PdfBitmap(
           await imageUrlToUint8List(type.image!),
         ),
-        Rect.fromLTWH(300, 50, 150, 150));
+        const Rect.fromLTWH(300, 50, 150, 150));
 
     page.graphics.drawImage(
         PdfBitmap(
           await imageFileToUint8List(image!),
         ),
-        Rect.fromLTWH(0, 300, 70, 70));
+        const Rect.fromLTWH(0, 300, 70, 70));
     page.graphics.drawString(
         "Original Image", PdfStandardFont(PdfFontFamily.helvetica, 7),
         bounds: Rect.fromLTWH(0, 380, 150, 50));
@@ -150,10 +149,7 @@ class _ResultScreenState extends State<ResultScreen> {
       final MapEntry<String, dynamic> entry = results[i].entries.first;
       final String key = entry.key;
       page.graphics.drawString(
-          entry.key +
-              " = " +
-              (results[i][key]['percentage'] * 100).round().toString() +
-              "%",
+          "${entry.key} = ${(results[i][key]['percentage'] * 100).round()}%",
           PdfStandardFont(PdfFontFamily.helvetica, 7),
           bounds: Rect.fromLTWH(left, top + 80, 150, 50));
 
@@ -193,7 +189,7 @@ class _ResultScreenState extends State<ResultScreen> {
     return Scaffold(
         floatingActionButton:
             Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-          SizedBox(
+          const SizedBox(
             width: 40,
           ),
           GestureDetector(
@@ -207,7 +203,7 @@ class _ResultScreenState extends State<ResultScreen> {
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(35),
                     color: primaryColor.withOpacity(.8)),
-                child: Row(
+                child: const Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Icon(
@@ -227,7 +223,7 @@ class _ResultScreenState extends State<ResultScreen> {
                   ],
                 )),
           ),
-          SizedBox(
+          const SizedBox(
             width: 20,
           ),
           GestureDetector(
@@ -248,7 +244,7 @@ class _ResultScreenState extends State<ResultScreen> {
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(35),
                   color: primaryColor.withOpacity(.8)),
-              child: Row(
+              child: const Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Icon(
@@ -304,7 +300,7 @@ class _ResultScreenState extends State<ResultScreen> {
                         ],
                       ),
                     ),
-                    Text(
+                    const Text(
                       'Result',
                       style:
                           TextStyle(fontWeight: FontWeight.w700, fontSize: 24),
@@ -312,7 +308,7 @@ class _ResultScreenState extends State<ResultScreen> {
                     IconButton(
                       disabledColor: Colors.grey,
                       icon: Icon(
-                        flag1 ? Icons.download : Icons.file_download_off,
+                        Icons.download,
                         size: 30,
                         color: primaryColor,
                       ),
@@ -329,7 +325,7 @@ class _ResultScreenState extends State<ResultScreen> {
 
                         saveAndLaunchFile(bytes!, 'Report.pdf');
                       },
-                      color: Color(0xFF200e32),
+                      color: const Color(0xFF200e32),
                     )
                   ],
                 ),
@@ -345,71 +341,68 @@ class _ResultScreenState extends State<ResultScreen> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
                         Container(
-                          margin: EdgeInsets.only(top: 0, bottom: 10),
+                          margin: const EdgeInsets.only(top: 0, bottom: 10),
                           child: Stack(
                             children: [
-                              Container(
-                                // margin: EdgeInsets.only(top: 20),
-                                child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(3),
-                                    child: Image.file(image!)),
-                              ),
+                              ClipRRect(
+                                  borderRadius: BorderRadius.circular(3),
+                                  child: Image.file(image!)),
                               flags[0]
                                   ? Image.memory(base64Decode(
                                       results[0].values.first['heatmap']))
-                                  : SizedBox(),
+                                  : const SizedBox(),
                               flags[1]
                                   ? Image.memory(base64Decode(
                                       results[1].values.first['heatmap']))
-                                  : SizedBox(),
+                                  : const SizedBox(),
                               flags[2]
                                   ? Image.memory(base64Decode(
                                       results[2].values.first['heatmap']))
-                                  : SizedBox(),
+                                  : const SizedBox(),
                               flags[3]
                                   ? Image.memory(base64Decode(
                                       results[3].values.first['heatmap']))
-                                  : SizedBox(),
+                                  : const SizedBox(),
                               flags[4]
                                   ? Image.memory(base64Decode(
                                       results[4].values.first['heatmap']))
-                                  : SizedBox(),
+                                  : const SizedBox(),
                               flags[5]
                                   ? Image.memory(base64Decode(
                                       results[5].values.first['heatmap']))
-                                  : SizedBox(),
+                                  : const SizedBox(),
                               flags[6]
                                   ? Image.memory(base64Decode(
                                       results[6].values.first['heatmap']))
-                                  : SizedBox(),
+                                  : const SizedBox(),
                               flags[7]
                                   ? Image.memory(base64Decode(
                                       results[7].values.first['heatmap']))
-                                  : SizedBox(),
+                                  : const SizedBox(),
                               flags[8]
                                   ? Image.memory(base64Decode(
                                       results[8].values.first['heatmap']))
-                                  : SizedBox(),
+                                  : const SizedBox(),
                               flags[9]
                                   ? Image.memory(base64Decode(
                                       results[9].values.first['heatmap']))
-                                  : SizedBox(),
+                                  : const SizedBox(),
                               flags[10]
                                   ? Image.memory(base64Decode(
                                       results[10].values.first['heatmap']))
-                                  : SizedBox(),
+                                  : const SizedBox(),
                               flags[11]
                                   ? Image.memory(base64Decode(
                                       results[11].values.first['heatmap']))
-                                  : SizedBox(),
+                                  : const SizedBox(),
                               flags[12]
                                   ? Image.memory(base64Decode(
                                       results[12].values.first['heatmap']))
-                                  : SizedBox(),
+                                  : const SizedBox(),
                               flags[13]
                                   ? Image.memory(base64Decode(
                                       results[13].values.first['heatmap']))
-                                  : SizedBox(),
+                                  : const SizedBox(),
                             ],
                           ),
                         ),
@@ -469,15 +462,15 @@ class _ResultScreenState extends State<ResultScreen> {
                                           ),
                                         ),
                                         leading: Padding(
-                                            padding: EdgeInsets.only(
+                                            padding: const EdgeInsets.only(
                                                 top: 10, left: 8),
                                             child: IconButton(
                                               icon: flags[position]
-                                                  ? Icon(
+                                                  ? const Icon(
                                                       Icons.remove_red_eye,
                                                       color: Colors.white,
                                                     )
-                                                  : Icon(Icons
+                                                  : const Icon(Icons
                                                       .remove_red_eye_outlined),
                                               onPressed: () {
                                                 setState(() {
@@ -485,17 +478,13 @@ class _ResultScreenState extends State<ResultScreen> {
                                                       !flags[position];
                                                 });
                                               },
-                                              color: Color(0xFF200e32),
+                                              color: const Color(0xFF200e32),
                                             )),
                                         trailing: Container(
-                                          margin: EdgeInsets.only(top: 17),
+                                          margin:
+                                              const EdgeInsets.only(top: 17),
                                           child: Text(
-                                            (results[position][key]
-                                                            ['percentage'] *
-                                                        100)
-                                                    .round()
-                                                    .toString() +
-                                                "%",
+                                            "${(results[position][key]['percentage'] * 100).round()}%",
                                             style: TextStyle(
                                               fontSize: 18,
                                               fontFamily: 'Poppins',
@@ -517,75 +506,6 @@ class _ResultScreenState extends State<ResultScreen> {
                   ),
                 ),
               ),
-              // Row(
-              //   children: <Widget>[
-              //     Container(
-              //       alignment: Alignment.bottomCenter,
-              //       child: SizedBox(
-              //         width: deviceSize.width * 0.5,
-              //         height: deviceSize.height * 0.1,
-              //         child: ElevatedButton.icon(
-              //           label: Text('Home'),
-              //           style: ElevatedButton.styleFrom(
-              //               primary: Color(0xFF8587DC),
-              //               textStyle: TextStyle(
-              //                 fontFamily: 'Poppins',
-              //                 fontSize: 20,
-              //                 fontWeight: FontWeight.bold,
-              //               )),
-              //           onPressed: () {
-              //             Navigator.of(context).push(MaterialPageRoute(
-              //                 builder: (context) => TabsScreen()));
-              //           },
-              //           icon: Icon(
-              //             Icons.home,
-              //             size: 26,
-              //           ),
-              //         ),
-              //       ),
-              //     ),
-              //     Container(
-              //       alignment: Alignment.bottomCenter,
-              //       child: SizedBox(
-              //         width: deviceSize.width * 0.5,
-              //         height: deviceSize.height * 0.1,
-              //         child: ElevatedButton.icon(
-              //           label: Text('Book appointment'),
-              //           style: ElevatedButton.styleFrom(
-              //               primary: Color(0xFFACADFF),
-              //               textStyle: TextStyle(
-              //                 fontFamily: 'Poppins',
-              //                 fontSize: 20,
-              //                 fontWeight: FontWeight.bold,
-              //               )),
-              //           onPressed: () {
-              //             Navigator.of(context).push(MaterialPageRoute(
-              //                 builder: (context) => DoctorRecommendationScreen()));
-              //           },
-              //           icon: Icon(
-              //             Icons.location_on,
-              //             size: 26,
-              //           ),
-              //         ),
-              //       ),
-              //     ),
-              //   ],
-              // ),
-              // Container(
-              //   margin: EdgeInsets.only(top: 65, left: 30),
-              //   child: SizedBox(
-              //     child: IconButton(
-              //       icon: Icon(
-              //         Icons.arrow_back_ios,
-              //         size: 30,
-              //       ),
-              //       color: Color(0xFF8587DC),
-              //       onPressed: () {
-              //         Navigator.pop(context);
-              //       },
-              //     ),
-              //   ),
-              // ),
             ],
           ),
         )));

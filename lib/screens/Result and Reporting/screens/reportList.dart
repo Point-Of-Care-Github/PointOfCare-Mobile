@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:test/providers/auth.dart';
 import 'package:test/screens/Result%20and%20Reporting/screens/reportScreen.dart';
-import 'package:test/utils/customProgess.dart';
 import 'package:test/widgets/backButton.dart';
 
 import '../../../providers/reports.dart';
@@ -49,7 +48,7 @@ class _ReportListState extends State<ReportList> {
           ),
 
           Container(
-            margin: EdgeInsets.only(left: 100, top: 73),
+            margin: const EdgeInsets.only(left: 100, top: 73),
             width: deviceSize.width * 0.55,
             child: Material(
               elevation: 20,
@@ -65,8 +64,8 @@ class _ReportListState extends State<ReportList> {
                   fillColor: Colors.white,
                   filled: true,
                   border: OutlineInputBorder(
-                    borderRadius: const BorderRadius.all(
-                      const Radius.circular(10.0),
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(10.0),
                     ),
                     borderSide: BorderSide(
                       width: 0,
@@ -86,8 +85,8 @@ class _ReportListState extends State<ReportList> {
             ),
           ),
           Container(
-            margin: EdgeInsets.only(left: 50, top: 160),
-            child: Text(
+            margin: const EdgeInsets.only(left: 50, top: 160),
+            child: const Text(
               'My Reports',
               style: TextStyle(
                   fontFamily: 'Poppins',
@@ -98,9 +97,9 @@ class _ReportListState extends State<ReportList> {
           SingleChildScrollView(
             // ignore: sized_box_for_whitespace
             child: Container(
-              height: deviceSize.height * 0.9,
+              height: deviceSize.height * 0.7,
               width: deviceSize.width,
-              margin: EdgeInsets.only(top: 200),
+              margin: const EdgeInsets.only(top: 200),
               child: SafeArea(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -109,9 +108,13 @@ class _ReportListState extends State<ReportList> {
                     Flexible(
                       flex: deviceSize.width > 600 ? 2 : 1,
                       child: flag
-                          ? CircularProgressIndicator()
-                          : reportList.length == 0
-                              ? Text("No reports to show!")
+                          ? Image.asset(
+                              "assets/images/heart-beat.gif",
+                              height: 120,
+                              width: 120,
+                            )
+                          : reportList.isEmpty
+                              ? const Text("No reports to show!")
                               : ListView.builder(
                                   itemCount: reportList.length,
                                   itemBuilder: (context, position) {
@@ -132,16 +135,19 @@ class _ReportListState extends State<ReportList> {
                                               child: ListTile(
                                                 title: Text(
                                                   reportList[position]['name'],
-                                                  style: TextStyle(
+                                                  style: const TextStyle(
                                                     fontSize: 18,
                                                     color: Color(0xFF200e32),
                                                     fontFamily: 'Poppins',
                                                     fontWeight: FontWeight.w600,
                                                   ),
                                                 ),
+                                                trailing: Text(
+                                                    reportList[position]
+                                                        ['Verification']),
                                                 subtitle: Text(
                                                   time,
-                                                  style: TextStyle(
+                                                  style: const TextStyle(
                                                     color: Colors.black,
                                                     fontSize: 14,
                                                     fontFamily: 'Poppins',
@@ -149,14 +155,14 @@ class _ReportListState extends State<ReportList> {
                                                   ),
                                                 ),
                                                 leading: Container(
-                                                  decoration: BoxDecoration(
-                                                    gradient:
-                                                        const LinearGradient(
-                                                            begin: Alignment
-                                                                .topRight,
-                                                            end: Alignment
-                                                                .bottomLeft,
-                                                            colors: [
+                                                  decoration:
+                                                      const BoxDecoration(
+                                                    gradient: LinearGradient(
+                                                        begin:
+                                                            Alignment.topRight,
+                                                        end: Alignment
+                                                            .bottomLeft,
+                                                        colors: [
                                                           Color(0xFFB9A0E6),
                                                           Color(0xFF8587DC),
                                                         ]),
@@ -165,8 +171,9 @@ class _ReportListState extends State<ReportList> {
                                                     width: 55,
                                                     height: 55,
                                                     padding:
-                                                        EdgeInsets.only(top: 5),
-                                                    child: Center(
+                                                        const EdgeInsets.only(
+                                                            top: 5),
+                                                    child: const Center(
                                                       child: Text(
                                                         "Report",
                                                         style: TextStyle(

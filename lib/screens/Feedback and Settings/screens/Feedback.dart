@@ -4,6 +4,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:provider/provider.dart';
 import 'package:test/providers/auth.dart';
 import 'package:test/providers/feedback.dart';
+import 'package:test/widgets/backButton.dart';
 
 class FeedbackScreen extends StatefulWidget {
   static const routeName = '/feedback-screen';
@@ -20,7 +21,6 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<Auth>(context);
-    final feedback = Provider.of<FeedbackServices>(context);
     final deviceSize = MediaQuery.of(context).size;
     return Scaffold(
       body: SingleChildScrollView(
@@ -47,18 +47,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
             ),
 
             // Back Button
-            Container(
-              margin: EdgeInsets.only(
-                top: deviceSize.height * 0.09,
-                left: deviceSize.width * 0.05,
-              ),
-              child: CupertinoNavigationBarBackButton(
-                color: const Color(0xFF8587DC),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-              ),
-            ),
+            backButton(context),
             Container(
               margin: EdgeInsets.only(
                 top: deviceSize.height * 0.2,
@@ -66,7 +55,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
               ),
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Column(children: <Widget>[
-                Text(
+                const Text(
                   'Your feedback is valuable in enhancing the user experience.',
                   style: TextStyle(
                     color: Colors.black87,
@@ -120,15 +109,15 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                         allowHalfRating: false,
                         itemCount: 5,
                         itemSize: 25,
-                        itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-                        itemBuilder: (context, _) => Icon(
+                        itemPadding:
+                            const EdgeInsets.symmetric(horizontal: 4.0),
+                        itemBuilder: (context, _) => const Icon(
                           Icons.star,
                           color: Colors.amber,
                         ),
                         onRatingUpdate: (newRating) {
                           setState(() {
                             rating = newRating;
-                            print(rating);
                           });
                         },
                       ),
@@ -136,7 +125,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                   ),
                 ),
                 _isLoading
-                    ? Center(
+                    ? const Center(
                         child: CircularProgressIndicator(),
                       )
                     : Container(
@@ -146,7 +135,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                         child: ElevatedButton(
                           onPressed: () async {
                             final feedbackServices = FeedbackServices();
-                            print(user.userId);
+
                             feedbackServices.addFeedback(
                               context: context,
                               userId: user.userId!,

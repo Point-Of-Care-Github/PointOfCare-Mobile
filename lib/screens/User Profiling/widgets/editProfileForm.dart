@@ -192,7 +192,7 @@ class _EditProfileFormState extends State<EditProfileForm> {
                           : FileImage(_image!),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   Row(
@@ -203,12 +203,12 @@ class _EditProfileFormState extends State<EditProfileForm> {
                           _getImage(ImageSource.camera);
                         },
                         child: Container(
-                          padding: EdgeInsets.all(12.0),
+                          padding: const EdgeInsets.all(12.0),
                           decoration: BoxDecoration(
-                            color: Color(0xFFB9A0E6),
+                            color: const Color(0xFFB9A0E6),
                             borderRadius: BorderRadius.circular(8.0),
                           ),
-                          child: Text(
+                          child: const Text(
                             'Camera',
                             style: TextStyle(
                                 color: Colors.white,
@@ -217,7 +217,7 @@ class _EditProfileFormState extends State<EditProfileForm> {
                           ),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 20,
                       ),
                       GestureDetector(
@@ -225,12 +225,12 @@ class _EditProfileFormState extends State<EditProfileForm> {
                           _getImage(ImageSource.gallery);
                         },
                         child: Container(
-                          padding: EdgeInsets.all(12.0),
+                          padding: const EdgeInsets.all(12.0),
                           decoration: BoxDecoration(
-                            color: Color(0xFFB9A0E6),
+                            color: const Color(0xFFB9A0E6),
                             borderRadius: BorderRadius.circular(8.0),
                           ),
-                          child: Text(
+                          child: const Text(
                             'Gallery',
                             style: TextStyle(
                                 color: Colors.white,
@@ -241,10 +241,10 @@ class _EditProfileFormState extends State<EditProfileForm> {
                       ),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 30,
                   ),
-                  Container(
+                  SizedBox(
                       width: deviceSize.width * 0.85,
                       child: TextFormField(
                         controller: _nameController,
@@ -256,10 +256,10 @@ class _EditProfileFormState extends State<EditProfileForm> {
                         ),
                         keyboardType: TextInputType.emailAddress,
                       )),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
-                  Container(
+                  SizedBox(
                     width: deviceSize.width * 0.85,
                     child: TextFormField(
                       controller: _emailController,
@@ -274,11 +274,11 @@ class _EditProfileFormState extends State<EditProfileForm> {
                     ),
                   ),
                   if (role == 'Patient' || role == 'Radiologist')
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
                   if (role == 'Patient' || role == 'Radiologist')
-                    Container(
+                    SizedBox(
                         width: deviceSize.width * 0.85,
                         child: TextFormField(
                           controller: _ageController,
@@ -290,10 +290,10 @@ class _EditProfileFormState extends State<EditProfileForm> {
                           ),
                           keyboardType: TextInputType.emailAddress,
                         )),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
-                  Container(
+                  SizedBox(
                     width: deviceSize.width * 0.85,
                     child: TextFormField(
                       controller: _contactController,
@@ -306,11 +306,11 @@ class _EditProfileFormState extends State<EditProfileForm> {
                       keyboardType: TextInputType.emailAddress,
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   if (role == 'Doctor')
-                    Container(
+                    SizedBox(
                       width: deviceSize.width * 0.85,
                       child: TextFormField(
                         controller: _specializationController,
@@ -325,11 +325,11 @@ class _EditProfileFormState extends State<EditProfileForm> {
                       ),
                     ),
                   if (role == 'Doctor')
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
                   if (role == 'Doctor')
-                    Container(
+                    SizedBox(
                       width: deviceSize.width * 0.85,
                       child: TextFormField(
                         controller: _experienceController,
@@ -343,11 +343,11 @@ class _EditProfileFormState extends State<EditProfileForm> {
                       ),
                     ),
                   if (role == 'Doctor')
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
                   if (role == 'Doctor')
-                    Container(
+                    SizedBox(
                       width: deviceSize.width * 0.85,
                       child: TextFormField(
                         controller: _descriptionController,
@@ -362,11 +362,11 @@ class _EditProfileFormState extends State<EditProfileForm> {
                       ),
                     ),
                   if (role == 'Doctor')
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
                   if (role == 'Doctor')
-                    Container(
+                    SizedBox(
                       width: deviceSize.width * 0.85,
                       child: TextFormField(
                         controller: _feesController,
@@ -380,11 +380,11 @@ class _EditProfileFormState extends State<EditProfileForm> {
                       ),
                     ),
                   if (role == 'Doctor')
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
                   if (role == 'Doctor')
-                    Container(
+                    SizedBox(
                         width: deviceSize.width * 0.85,
                         child: TextFormField(
                           controller: _timeController,
@@ -398,7 +398,7 @@ class _EditProfileFormState extends State<EditProfileForm> {
                           keyboardType: TextInputType.emailAddress,
                         )),
                   if (role == 'Doctor')
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
                   Container(

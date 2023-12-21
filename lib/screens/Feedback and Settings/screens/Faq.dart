@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_faq/flutter_faq.dart';
 import 'package:test/constants/const.dart';
+import 'package:test/widgets/backButton.dart';
 
 class FAQScreen extends StatefulWidget {
   static const routeName = '/faq-screen';
@@ -48,18 +49,7 @@ class _FAQScreenState extends State<FAQScreen> {
             ),
 
             // Back Button
-            Container(
-              margin: EdgeInsets.only(
-                top: deviceSize.height * 0.09,
-                left: deviceSize.width * 0.05,
-              ),
-              child: CupertinoNavigationBarBackButton(
-                color: const Color(0xFF8587DC),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-              ),
-            ),
+            backButton(context),
 
             Container(
               margin: EdgeInsets.symmetric(vertical: 150),

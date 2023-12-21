@@ -6,13 +6,12 @@ import 'package:test/models/appointment.dart';
 import 'package:test/providers/appointment_services.dart';
 import 'package:test/providers/auth.dart';
 import 'package:test/providers/doctor.dart';
-import 'package:test/providers/user_provider.dart';
 import 'package:test/screens/Appointments/widgets/upcomingAppointmentCard.dart';
 
 class CanceledAppointment extends StatelessWidget {
   final bool flag;
 
-  CanceledAppointment({required this.flag});
+  const CanceledAppointment({super.key, required this.flag});
   bool isCancelledAppointment(List<Appointment> appointmentsList) {
     for (final appointment in appointmentsList) {
       if (appointment.status != 'cancelled') {
@@ -26,12 +25,10 @@ class CanceledAppointment extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    AppointmentServices appointmentServices = AppointmentServices();
     final user = Provider.of<Auth>(context);
     final role = user.role;
     final appointmentsList =
         Provider.of<AppointmentServices>(context).appointmentsList;
-    print("Hello:" + appointmentsList.toString());
     final doctorAppointments = appointmentsList
         .where((element) =>
             element.doctorId == user.userId && element.status == 'cancelled')
@@ -49,14 +46,14 @@ class CanceledAppointment extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           role == 'Doctor'
-              ? Container(
+              ? SizedBox(
                   height: !flag ? deviceSize.height * .73 : 180,
-                  child: doctorAppointments.length == 0
-                      ? Center(
+                  child: doctorAppointments.isEmpty
+                      ? const Center(
                           child: Text("No cancelled appointments yet."),
                         )
                       : ListView.builder(
-                          padding: EdgeInsets.only(top: 10),
+                          padding: const EdgeInsets.only(top: 10),
                           scrollDirection:
                               flag ? Axis.horizontal : Axis.vertical,
                           itemCount: doctorAppointments.length,
@@ -68,19 +65,23 @@ class CanceledAppointment extends StatelessWidget {
                                 element.userId == appointment.doctorId);
                             return appointment.status == 'cancelled'
                                 ? UpcomingAppointmentCard(
-                                    us: us, doc: doc, appointment: appointment)
+                                    us: us,
+                                    doc: doc,
+                                    appointment: appointment,
+                                    flag: false,
+                                  )
                                 : Container();
                           },
                         ),
                 )
-              : Container(
+              : SizedBox(
                   height: !flag ? deviceSize.height * .73 : 180,
-                  child: userAppointments.length == 0
-                      ? Center(
+                  child: userAppointments.isEmpty
+                      ? const Center(
                           child: Text("No cancelled appointments yet."),
                         )
                       : ListView.builder(
-                          padding: EdgeInsets.only(top: 10),
+                          padding: const EdgeInsets.only(top: 10),
                           scrollDirection:
                               flag ? Axis.horizontal : Axis.vertical,
                           itemCount: userAppointments.length,
@@ -92,7 +93,11 @@ class CanceledAppointment extends StatelessWidget {
                                 element.userId == appointment.doctorId);
                             return appointment.status == 'cancelled'
                                 ? UpcomingAppointmentCard(
-                                    us: us, doc: doc, appointment: appointment)
+                                    us: us,
+                                    doc: doc,
+                                    appointment: appointment,
+                                    flag: false,
+                                  )
                                 : Container();
                           })),
         ],

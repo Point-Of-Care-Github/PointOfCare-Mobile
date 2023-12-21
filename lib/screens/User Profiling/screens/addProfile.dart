@@ -40,14 +40,14 @@ class _DoctorProfileState extends State<DoctorProfile> {
     showDialog(
         context: context,
         builder: (c) => AlertDialog(
-              title: Text('An Error Occurred!'),
+              title: const Text('An Error Occurred!'),
               content: Text(message),
               actions: [
                 TextButton(
                   onPressed: () {
                     Navigator.of(c).pop();
                   },
-                  child: Text('Okay'),
+                  child: const Text('Okay'),
                 )
               ],
             ));
@@ -133,7 +133,9 @@ class _DoctorProfileState extends State<DoctorProfile> {
               userId: user.userId,
               userName: user.userName,
               fees: _feeController.text,
-              time: selectedTime.toString() + "-" + selectedTime1.toString(),
+              time: "${(selectedTime.hour % 12).toString()}:${selectedTime.minute.toString()} ${selectedTime.period.name}" +
+                  "-" +
+                  "${(selectedTime1.hour % 12).toString()}:${selectedTime1.minute.toString()} ${selectedTime1.period.name}",
               contact: _contactController.text,
               description: _descriptionController.text,
               experience: _experienceController.text,
@@ -142,6 +144,7 @@ class _DoctorProfileState extends State<DoctorProfile> {
               specialization: _specializationController.text))
           .then((_) {
         int count = 0;
+        Provider.of<Doctor>(context, listen: false).fetchDoctors();
         Navigator.of(context).popUntil((_) => count++ >= 2);
         setState(() {
           _isLoading = false;
@@ -212,7 +215,10 @@ class _DoctorProfileState extends State<DoctorProfile> {
           image: url,
         ))
             .then((_) {
-          Navigator.of(context).pushReplacementNamed(TabsScreen.routeName);
+          var count = 0;
+          Navigator.of(context).popUntil(
+            (_) => count++ >= 2,
+          );
           setState(() {
             _isLoading = false;
           });
@@ -228,7 +234,10 @@ class _DoctorProfileState extends State<DoctorProfile> {
           image: url,
         ))
             .then((_) {
-          Navigator.of(context).pushReplacementNamed(TabsScreen.routeName);
+          var count = 0;
+          Navigator.of(context).popUntil(
+            (_) => count++ >= 2,
+          );
           setState(() {
             _isLoading = false;
           });
@@ -271,14 +280,14 @@ class _DoctorProfileState extends State<DoctorProfile> {
       body: SafeArea(
         child: SingleChildScrollView(
           child: _isLoading
-              ? Center(
+              ? const Center(
                   child: CircularProgressIndicator(),
                 )
               : Padding(
                   padding: const EdgeInsets.all(20.0),
                   child: Column(
                     children: [
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                       Text(
@@ -292,19 +301,22 @@ class _DoctorProfileState extends State<DoctorProfile> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 30,
                       ),
                       Container(
                         height: 200,
                         width: 200,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(150),
+                            color: Color.fromARGB(255, 247, 247, 247)),
                         child: ClipOval(
                           child: _image != null
                               ? Image.file(
                                   _image!,
                                   fit: BoxFit.cover,
                                 )
-                              : Center(
+                              : const Center(
                                   child: Text(
                                   "Choose a photo",
                                   style: TextStyle(
@@ -312,9 +324,6 @@ class _DoctorProfileState extends State<DoctorProfile> {
                                       fontFamily: 'League Spartan'),
                                 )),
                         ),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(150),
-                            color: Color.fromARGB(255, 247, 247, 247)),
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -323,27 +332,26 @@ class _DoctorProfileState extends State<DoctorProfile> {
                             onPressed: () {
                               getImage(true);
                             },
-                            child: Text('Camera'),
                             style: ElevatedButton.styleFrom(
                                 backgroundColor: Color(0xFFB9A0E6)),
+                            child: const Text('Camera'),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 20,
                           ),
                           ElevatedButton(
                             onPressed: () {
                               getImage(false);
                             },
-                            child: Text('Gallery'),
                             style: ElevatedButton.styleFrom(
                                 backgroundColor: Color(0xFFB9A0E6)),
+                            child: const Text('Gallery'),
                           )
                         ],
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       ),
-
                       TextFormField(
                         controller: _contactController,
                         decoration: const InputDecoration(
@@ -366,17 +374,16 @@ class _DoctorProfileState extends State<DoctorProfile> {
                         ),
                         keyboardType: TextInputType.number,
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
-
                       if (route['role'] == 'Patient' ||
                           route['role'] == "Radiologist")
                         Padding(
                           padding: const EdgeInsets.only(bottom: 2, left: 0),
                           child: TextField(
-                            decoration: InputDecoration(
-                              border: const UnderlineInputBorder(
+                            decoration: const InputDecoration(
+                              border: UnderlineInputBorder(
                                 borderSide: BorderSide(width: 1),
                               ),
                               prefixIcon: Icon(Icons.calendar_month_outlined),
@@ -392,7 +399,6 @@ class _DoctorProfileState extends State<DoctorProfile> {
                             },
                           ),
                         ),
-
                       route['role'] != 'Doctor'
                           ? Container()
                           : TextFormField(
@@ -417,10 +423,9 @@ class _DoctorProfileState extends State<DoctorProfile> {
                               ),
                               keyboardType: TextInputType.text,
                             ),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
-
                       route['role'] != 'Doctor'
                           ? Container()
                           : TextFormField(
@@ -444,7 +449,7 @@ class _DoctorProfileState extends State<DoctorProfile> {
                               ),
                               keyboardType: TextInputType.text,
                             ),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                       route['role'] != 'Doctor'
@@ -471,16 +476,16 @@ class _DoctorProfileState extends State<DoctorProfile> {
                               ),
                               keyboardType: TextInputType.text,
                             ),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
-                      Row(
+                      const Row(
                         children: [
-                          const SizedBox(
+                          SizedBox(
                             width: 13,
                           ),
-                          const Icon(Icons.group, color: Colors.grey),
-                          const SizedBox(
+                          Icon(Icons.group, color: Colors.grey),
+                          SizedBox(
                             width: 10,
                           ),
                           Text(
@@ -509,13 +514,13 @@ class _DoctorProfileState extends State<DoctorProfile> {
                               });
                             },
                           ),
-                          Text(
+                          const Text(
                             'Male',
                             style: TextStyle(
                               fontFamily: 'League Spartan',
                               fontSize: 16,
                               fontWeight: FontWeight.w600,
-                              color: const Color(0xFF696969),
+                              color: Color(0xFF696969),
                             ),
                           ),
                           Radio(
@@ -528,31 +533,30 @@ class _DoctorProfileState extends State<DoctorProfile> {
                               });
                             },
                           ),
-                          Text(
+                          const Text(
                             'Female',
                             style: TextStyle(
                               fontFamily: 'League Spartan',
                               fontSize: 16,
                               fontWeight: FontWeight.w600,
-                              color: const Color(0xFF696969),
+                              color: Color(0xFF696969),
                             ),
                           ),
                         ],
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                       const SizedBox(
                         height: 10,
                       ),
-
                       if (route['role'] == 'Doctor')
                         Padding(
                           padding: const EdgeInsets.only(bottom: 2, left: 6),
                           child: TextField(
-                            decoration: InputDecoration(
+                            decoration: const InputDecoration(
                               prefixIcon: Icon(Icons.money),
-                              border: const UnderlineInputBorder(
+                              border: UnderlineInputBorder(
                                 borderSide: BorderSide(width: 1),
                               ),
                               label: Text('Consultation Fee'),
@@ -568,47 +572,31 @@ class _DoctorProfileState extends State<DoctorProfile> {
                             },
                           ),
                         ),
-                      // if (route['role'] == 'Doctor')
-                      //   Padding(
-                      //     padding: EdgeInsets.only(top: 0),
-                      //     child: Align(
-                      //       alignment: Alignment.topLeft,
-                      //       child: Text(
-                      //         "_errorMessage4",
-                      //         style: TextStyle(
-                      //           color: Colors.red,
-                      //           fontSize: 16,
-                      //           fontFamily: 'League Spartan',
-                      //         ),
-                      //       ),
-                      //     ),
-                      //   ),
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       ),
-
                       if (route['role'] == 'Doctor')
                         Row(
                           children: [
-                            SizedBox(
+                            const SizedBox(
                               width: 5,
                             ),
-                            Icon(
+                            const Icon(
                               Icons.watch_later_outlined,
                               color: Colors.grey,
                             ),
-                            SizedBox(
+                            const SizedBox(
                               width: 3,
                             ),
-                            Text(
+                            const Text(
                               "Timings",
-                              style: const TextStyle(
+                              style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w600,
                                 fontFamily: 'League Spartan',
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               width: 5,
                             ),
                             Container(
@@ -617,9 +605,9 @@ class _DoctorProfileState extends State<DoctorProfile> {
                                     const EdgeInsets.only(bottom: 2, left: 2),
                                 child: Row(
                                   children: [
-                                    Text(
+                                    const Text(
                                       "From: ",
-                                      style: const TextStyle(
+                                      style: TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.w600,
                                         fontFamily: 'League Spartan',
@@ -631,14 +619,14 @@ class _DoctorProfileState extends State<DoctorProfile> {
                                       },
                                       child: Container(
                                         color: Colors.grey.shade200,
-                                        padding: EdgeInsets.all(10),
+                                        padding: const EdgeInsets.all(10),
                                         child: Text(
                                             "${(selectedTime.hour % 12).toString()}:${selectedTime.minute.toString()} ${selectedTime.period.name}"),
                                       ),
                                     )
                                   ],
                                 )),
-                            SizedBox(
+                            const SizedBox(
                               width: 10,
                             ),
                             Container(
@@ -646,9 +634,9 @@ class _DoctorProfileState extends State<DoctorProfile> {
                                 padding: const EdgeInsets.only(bottom: 2),
                                 child: Row(
                                   children: [
-                                    Text(
+                                    const Text(
                                       "To: ",
-                                      style: const TextStyle(
+                                      style: TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.w600,
                                         fontFamily: 'League Spartan',
@@ -660,7 +648,7 @@ class _DoctorProfileState extends State<DoctorProfile> {
                                       },
                                       child: Container(
                                         color: Colors.grey.shade200,
-                                        padding: EdgeInsets.all(10),
+                                        padding: const EdgeInsets.all(10),
                                         child: Text(
                                             "${(selectedTime1.hour % 12).toString()}:${selectedTime1.minute.toString()} ${selectedTime1.period.name}"),
                                       ),
@@ -669,11 +657,11 @@ class _DoctorProfileState extends State<DoctorProfile> {
                                 )),
                           ],
                         ),
-                      SizedBox(
+                      const SizedBox(
                         height: 15,
                       ),
                       Container(
-                        margin: EdgeInsets.only(top: 10),
+                        margin: const EdgeInsets.only(top: 10),
                         width: double.infinity,
                         height: 50,
                         child: myButton(

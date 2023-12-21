@@ -18,7 +18,6 @@ class AppointmentServices extends ChangeNotifier {
     contact: '',
     reason: '',
     name: '',
-    age: '',
     time: '',
     date: '',
     status: '',
@@ -61,19 +60,18 @@ class AppointmentServices extends ChangeNotifier {
   }
 
   //book Appointment
-  void addAppointment({
-    required BuildContext context,
-    required String doctorId,
-    required String userId,
-    required String gender,
-    required String contact,
-    required String reason,
-    required String name,
-    required String age,
-    required String time,
-    required String date,
-    required String status,
-  }) async {
+  void addAppointment(
+      {required BuildContext context,
+      required String doctorId,
+      required String userId,
+      required String gender,
+      required String contact,
+      required String reason,
+      required String name,
+      required String time,
+      required String date,
+      required String status,
+      required bool flag}) async {
     try {
       Appointment appointment = Appointment(
         id: '',
@@ -83,7 +81,6 @@ class AppointmentServices extends ChangeNotifier {
         contact: contact,
         reason: reason,
         name: name,
-        age: age,
         time: time,
         date: date,
         status: status,
@@ -115,12 +112,11 @@ class AppointmentServices extends ChangeNotifier {
                 status: appointment['status'],
                 date: appointment['date'],
                 time: appointment['time'],
-                age: appointment['age'],
                 name: appointment['name']));
             showSnackBar(context, "Appointment scheduled successfully!");
             var count = 0;
             Navigator.of(context).popUntil(
-              (_) => count++ >= 3,
+              (_) => flag ? count++ >= 1 : count++ >= 2,
             );
           } else {
             showSnackBar(context, 'Response body is null');
@@ -129,6 +125,7 @@ class AppointmentServices extends ChangeNotifier {
       );
     } catch (error) {
       showSnackBar(context, "$error");
+      Navigator.of(context).pop();
     }
   }
 
@@ -162,7 +159,6 @@ class AppointmentServices extends ChangeNotifier {
               userId: doc['userId'],
               status: doc['status'],
               gender: doc['gender'],
-              age: doc['age'],
               contact: doc['contact'],
               reason: doc['reason'],
               name: doc['name'],
@@ -202,7 +198,6 @@ class AppointmentServices extends ChangeNotifier {
               name: appointmentData['name'],
               time: appointmentData['time'],
               date: appointmentData['date'],
-              age: appointmentData['age'],
               gender: appointmentData['gender'],
               contact: appointmentData['contact'],
               userId: appointmentData['userId'],
@@ -228,7 +223,6 @@ class AppointmentServices extends ChangeNotifier {
     required String contact,
     required String reason,
     required String name,
-    required String age,
     required String time,
     required String date,
     required String status,
@@ -242,7 +236,6 @@ class AppointmentServices extends ChangeNotifier {
         contact: contact,
         reason: reason,
         name: name,
-        age: age,
         time: time,
         date: date,
         status: status,
@@ -305,7 +298,6 @@ class AppointmentServices extends ChangeNotifier {
           date: appointmentData['date'],
           reason: appointmentData['reason'],
           name: appointmentData['name'],
-          age: appointmentData['age'],
           status: appointmentData['status'],
           doctorId: appointmentData['doctorId'],
         ),

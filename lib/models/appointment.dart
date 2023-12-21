@@ -14,7 +14,6 @@ class Appointment extends ChangeNotifier {
   String date;
   String name;
   String status;
-  String age;
   String id;
 
   Appointment({
@@ -27,7 +26,6 @@ class Appointment extends ChangeNotifier {
     required this.status,
     required this.date,
     required this.time,
-    required this.age,
     required this.name,
   });
 
@@ -42,7 +40,6 @@ class Appointment extends ChangeNotifier {
       'status': status,
       'date': date,
       'time': time,
-      'age': age,
       'name': name,
     };
   }
@@ -58,7 +55,6 @@ class Appointment extends ChangeNotifier {
       status: map['status'] ?? '',
       date: map['date'] ?? '',
       time: map['time'] ?? '',
-      age: map['age'] ?? '',
       name: map['name'] ?? '',
     );
   }

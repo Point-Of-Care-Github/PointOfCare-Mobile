@@ -36,7 +36,7 @@ class _EditProfileState extends State<EditProfile> {
                 top: deviceSize.height * 0.07,
                 left: deviceSize.width * 0.2,
               ),
-              child: Text(
+              child: const Text(
                 'Edit Profile',
                 style: TextStyle(
                     fontFamily: 'Poppins',

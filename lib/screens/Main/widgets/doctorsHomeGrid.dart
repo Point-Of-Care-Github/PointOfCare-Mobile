@@ -32,7 +32,7 @@ class DoctorsHomeGrid extends StatelessWidget {
             onTap: () async {
               Navigator.of(context).push(
                 MaterialPageRoute(
-                    builder: (context) => DoctorDetail(doctor, user)),
+                    builder: (context) => DoctorDetail(doctor, user, true)),
               );
             },
             child: Container(

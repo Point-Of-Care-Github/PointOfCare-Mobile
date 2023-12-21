@@ -11,7 +11,7 @@ import 'package:test/widgets/myButton.dart';
 
 class UploadOptions extends StatefulWidget {
   final dis;
-  UploadOptions(this.dis);
+  const UploadOptions(this.dis, {super.key});
   @override
   State<UploadOptions> createState() => _UploadOptionsState();
 }
@@ -19,7 +19,6 @@ class UploadOptions extends StatefulWidget {
 class _UploadOptionsState extends State<UploadOptions> {
   File? image;
   Map<String, dynamic>? results;
-  bool _isLoading = false;
   var res;
 
   final ImagePicker picker = ImagePicker();
@@ -30,7 +29,7 @@ class _UploadOptionsState extends State<UploadOptions> {
 
     final croppedImage = await ImageCropper().cropImage(
         sourcePath: pickedImage.path,
-        aspectRatio: CropAspectRatio(ratioX: 1, ratioY: 1),
+        aspectRatio: const CropAspectRatio(ratioX: 1, ratioY: 1),
         aspectRatioPresets: [
           CropAspectRatioPreset.square,
           CropAspectRatioPreset.ratio3x2,
@@ -57,14 +56,8 @@ class _UploadOptionsState extends State<UploadOptions> {
     final croppedFile = File(croppedImage.path);
 
     setState(() {
-      this.image = croppedFile;
+      image = croppedFile;
     });
-
-    // File file = File(imageFile!.path);
-
-    // setState(() {
-    //   image = file;
-    // });
   }
 
   @override
@@ -75,17 +68,17 @@ class _UploadOptionsState extends State<UploadOptions> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Container(
+            SizedBox(
               width: deviceSize.width * 0.3,
               height: deviceSize.height * 0.15,
               child: DottedBorder(
                   borderType: BorderType.RRect,
-                  dashPattern: [5, 5],
+                  dashPattern: const [5, 5],
                   color: Colors.grey,
                   strokeWidth: 2,
                   child: Center(
                     child: TextButton.icon(
-                        icon: Column(
+                        icon: const Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Icon(
@@ -102,63 +95,62 @@ class _UploadOptionsState extends State<UploadOptions> {
                                 )),
                           ],
                         ),
-                        label: Text(''),
+                        label: const Text(''),
                         onPressed: () {
                           getImage(ImageSource.gallery);
                         }),
                   )),
             ),
-            Container(
-              width: deviceSize.width * 0.3,
-              height: deviceSize.height * 0.15,
-              child: DottedBorder(
-                  borderType: BorderType.RRect,
-                  dashPattern: [5, 5],
-                  color: Colors.grey,
-                  strokeWidth: 2,
-                  child: Center(
-                    child: TextButton.icon(
-                        icon: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              Icons.camera_alt,
-                              size: 35,
-                              color: Colors.grey,
-                            ),
-                            Text('Take Photo',
-                                style: TextStyle(
-                                  color: Colors.grey,
-                                  fontFamily: 'Poppins',
-                                  fontSize: 11,
-                                  fontWeight: FontWeight.w500,
-                                )),
-                          ],
-                        ),
-                        label: Text(''),
-                        onPressed: () {
-                          getImage(ImageSource.camera);
-                        }),
-                  )),
-            ),
+            widget.dis == 'chest'
+                ? SizedBox(
+                    width: deviceSize.width * 0.3,
+                    height: deviceSize.height * 0.15,
+                    child: DottedBorder(
+                        borderType: BorderType.RRect,
+                        dashPattern: const [5, 5],
+                        color: Colors.grey,
+                        strokeWidth: 2,
+                        child: Center(
+                          child: TextButton.icon(
+                              icon: const Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(
+                                    Icons.camera_alt,
+                                    size: 35,
+                                    color: Colors.grey,
+                                  ),
+                                  Text('Take Photo',
+                                      style: TextStyle(
+                                        color: Colors.grey,
+                                        fontFamily: 'Poppins',
+                                        fontSize: 11,
+                                        fontWeight: FontWeight.w500,
+                                      )),
+                                ],
+                              ),
+                              label: const Text(''),
+                              onPressed: () {
+                                getImage(ImageSource.camera);
+                              }),
+                        )),
+                  )
+                : Container(),
           ],
         ),
         // ignore: unnecessary_null_comparison
-        SizedBox(
+        const SizedBox(
           height: 20,
         ),
         image != null
-            ? Container(
-                // margin: EdgeInsets.only(top: 20),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(3),
-                  child: Image.file(
-                    //to show image, you type like this.
-                    File(image!.path),
-                    fit: BoxFit.cover,
-                    // width: deviceSize.width * 0.7,
-                    // height: deviceSize.height * 0.3,
-                  ),
+            ? ClipRRect(
+                borderRadius: BorderRadius.circular(3),
+                child: Image.file(
+                  //to show image, you type like this.
+                  File(image!.path),
+                  fit: BoxFit.cover,
+                  // width: deviceSize.width * 0.7,
+                  // height: deviceSize.height * 0.3,
                 ),
               )
             : Container(),
@@ -173,28 +165,58 @@ class _UploadOptionsState extends State<UploadOptions> {
               builder: (context) => CustomProgress(
                     message: "Please wait...\n(This might take 2-4 minutes)",
                   ));
-          widget.dis == 'chest'
-              ? await Provider.of<Results>(context, listen: false)
-                  .diagnose(image)
-                  .then((_) {
-                  Navigator.pop(context);
-                  Navigator.pushNamed(context, '/result-screen', arguments: {
+          await Provider.of<Results>(context, listen: false)
+              .diagnose(image, widget.dis)
+              .then((_) {
+            Navigator.pop(context);
+            widget.dis == 'chest'
+                ? Navigator.pushNamed(context, '/result-screen', arguments: {
                     'image': image!.path,
                     "results":
                         Provider.of<Results>(context, listen: false).result
-                  });
-                })
-              : await Provider.of(context)<Results>(context, listen: false)
-                  .breast(image)
-                  .then((_) {
-                  Navigator.pop(context);
-                  showDialog(
-                      context: context,
-                      builder: (context) => SimpleDialog(
-                            title: Text("Result"),
-                            children: [Provider.of<Results>(context).breast],
-                          ));
-                });
+                  })
+                : widget.dis == 'breast'
+                    ? showDialog(
+                        context: context,
+                        builder: (context) => SimpleDialog(
+                              title: const Text(
+                                "Result",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 28),
+                              ),
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(12.0),
+                                  child: Text(
+                                    "Prediction: ${Provider.of<Results>(context, listen: false).breast}",
+                                    style: TextStyle(fontSize: 18),
+                                  ),
+                                )
+                              ],
+                            ))
+                    : showDialog(
+                        context: context,
+                        builder: (context) => SimpleDialog(
+                              title: const Text(
+                                "Result",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 28),
+                              ),
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(12.0),
+                                  child: Text(
+                                    "Prediction: " +
+                                        Provider.of<Results>(
+                                          context,
+                                          listen: false,
+                                        ).kidney,
+                                    style: TextStyle(fontSize: 18),
+                                  ),
+                                )
+                              ],
+                            ));
+          });
         }, "Submit")
       ],
     );

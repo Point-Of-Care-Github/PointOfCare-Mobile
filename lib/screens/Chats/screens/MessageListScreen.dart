@@ -1,5 +1,4 @@
 // ignore_for_file: file_names
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:test/providers/auth.dart';
@@ -11,7 +10,7 @@ import 'package:test/screens/Chats/screens/chatScreen.dart';
 class MessagesScreen extends StatefulWidget {
   static const routeName = '/message-list';
 
-  MessagesScreen({super.key});
+  const MessagesScreen({super.key});
 
   @override
   State<MessagesScreen> createState() => _MessagesScreenState();
@@ -42,7 +41,7 @@ class _MessagesScreenState extends State<MessagesScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(
+            const SizedBox(
               height: 15,
             ),
             const Padding(
@@ -111,8 +110,8 @@ class _MessagesScreenState extends State<MessagesScreen> {
               ),
             ),
             const SizedBox(height: 20),
-            displayList!.length == 0
-                ? Center(
+            displayList!.isEmpty
+                ? const Center(
                     child: Text("No messages found"),
                   )
                 : ListView.builder(
@@ -138,7 +137,7 @@ class _MessagesScreenState extends State<MessagesScreen> {
                         ),
                         title: Text(
                           user.username.toString(),
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 16,
                             fontFamily: "Poppins",
                             fontWeight: FontWeight.w500,

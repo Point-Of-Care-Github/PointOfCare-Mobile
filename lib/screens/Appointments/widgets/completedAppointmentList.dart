@@ -9,7 +9,7 @@ import 'package:test/screens/Appointments/widgets/upcomingAppointmentCard.dart';
 class CompletedSchedule extends StatelessWidget {
   final bool flag;
 
-  CompletedSchedule({required this.flag});
+  const CompletedSchedule({super.key, required this.flag});
   bool isCompletedAppointment(List<Appointment> appointmentsList) {
     for (final appointment in appointmentsList) {
       if (appointment.status != 'completed') {
@@ -23,12 +23,10 @@ class CompletedSchedule extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    AppointmentServices appointmentServices = AppointmentServices();
     final user = Provider.of<Auth>(context);
     final role = user.role;
     final appointmentsList =
         Provider.of<AppointmentServices>(context).appointmentsList;
-    print("Hello:" + appointmentsList.toString());
     final doctorAppointments = appointmentsList
         .where((element) =>
             element.doctorId == user.userId && element.status == 'completed')
@@ -46,14 +44,14 @@ class CompletedSchedule extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           role == 'Doctor'
-              ? Container(
+              ? SizedBox(
                   height: !flag ? deviceSize.height * .73 : 180,
-                  child: doctorAppointments.length == 0
-                      ? Center(
+                  child: doctorAppointments.isEmpty
+                      ? const Center(
                           child: Text("No completed appointments yet."),
                         )
                       : ListView.builder(
-                          padding: EdgeInsets.only(top: 10),
+                          padding: const EdgeInsets.only(top: 10),
                           scrollDirection:
                               flag ? Axis.horizontal : Axis.vertical,
                           itemCount: doctorAppointments.length,
@@ -65,19 +63,23 @@ class CompletedSchedule extends StatelessWidget {
                                 element.userId == appointment.doctorId);
                             return appointment.status == 'completed'
                                 ? UpcomingAppointmentCard(
-                                    us: us, doc: doc, appointment: appointment)
+                                    us: us,
+                                    doc: doc,
+                                    appointment: appointment,
+                                    flag: false,
+                                  )
                                 : Container();
                           },
                         ),
                 )
-              : Container(
+              : SizedBox(
                   height: !flag ? deviceSize.height * .73 : 180,
-                  child: userAppointments.length == 0
-                      ? Center(
+                  child: userAppointments.isEmpty
+                      ? const Center(
                           child: Text("No completed appointments yet."),
                         )
                       : ListView.builder(
-                          padding: EdgeInsets.only(top: 10),
+                          padding: const EdgeInsets.only(top: 10),
                           scrollDirection:
                               flag ? Axis.horizontal : Axis.vertical,
                           itemCount: userAppointments.length,
@@ -89,7 +91,11 @@ class CompletedSchedule extends StatelessWidget {
                                 element.userId == appointment.doctorId);
                             return appointment.status == 'completed'
                                 ? UpcomingAppointmentCard(
-                                    us: us, doc: doc, appointment: appointment)
+                                    us: us,
+                                    doc: doc,
+                                    appointment: appointment,
+                                    flag: false,
+                                  )
                                 : Container();
                           })),
         ],

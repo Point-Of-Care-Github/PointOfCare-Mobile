@@ -42,7 +42,6 @@ class _RetinopathyState extends State<Retinopathy> {
                 ),
               ),
             ),
-            backButton(context),
             SingleChildScrollView(
               child: Container(
                 padding: const EdgeInsets.all(20),
@@ -121,6 +120,7 @@ class _RetinopathyState extends State<Retinopathy> {
                 ),
               ),
             ),
+            backButton(context),
           ],
         ),
       ),

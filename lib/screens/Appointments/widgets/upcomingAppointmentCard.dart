@@ -1,17 +1,23 @@
 import 'package:flutter/material.dart';
 
+import 'dart:math' as math;
 import 'package:provider/provider.dart';
 import 'package:test/constants/const.dart';
 import 'package:test/providers/appointment_services.dart';
 import 'package:test/providers/auth.dart';
+import 'package:zego_uikit_prebuilt_call/zego_uikit_prebuilt_call.dart';
 
 class UpcomingAppointmentCard extends StatefulWidget {
   final us;
   final doc;
   final appointment;
+  final flag;
 
   UpcomingAppointmentCard(
-      {required this.us, required this.doc, required this.appointment});
+      {required this.us,
+      required this.doc,
+      required this.appointment,
+      required this.flag});
 
   @override
   _UpcomingAppointmentCardState createState() =>
@@ -21,6 +27,18 @@ class UpcomingAppointmentCard extends StatefulWidget {
 class _UpcomingAppointmentCardState extends State<UpcomingAppointmentCard> {
   @override
   Widget build(BuildContext context) {
+    RegExp regExp = RegExp(r"\s+");
+    DateTime currentTime = DateTime.now();
+
+    DateTime targetTime = DateTime(
+      int.parse(widget.appointment.date.split("-")[2]),
+      int.parse(widget.appointment.date.split("-")[1]),
+      int.parse(widget.appointment.date.split("-")[0]),
+      int.parse(widget.appointment.time.split(":")[0]),
+      int.parse(widget.appointment.time.split(":")[1].split(regExp)[0]),
+    );
+    DateTime thirtyMinutesLater = targetTime.add(Duration(minutes: 30));
+
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
       padding: const EdgeInsets.symmetric(vertical: 5),
@@ -48,11 +66,47 @@ class _UpcomingAppointmentCardState extends State<UpcomingAppointmentCard> {
                         fontWeight: FontWeight.w700,
                       ),
                     )
-                  : Text(
-                      widget.appointment.name,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.w700,
-                      ),
+                  : Row(
+                      children: [
+                        Text(
+                          widget.appointment.name,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        widget.flag
+                            // &&
+                            // currentTime.isAfter(targetTime) &&
+                            // currentTime.isBefore(thirtyMinutesLater) &&
+                            // currentTime.year == targetTime.year &&
+                            // currentTime.month == targetTime.month &&
+                            // currentTime.day == targetTime.day
+                            ? GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => LiveCall(
+                                              widget.appointment.id,
+                                              widget.appointment.name)));
+                                },
+                                child: Container(
+                                    padding: EdgeInsets.all(5),
+                                    decoration: BoxDecoration(
+                                        color: primaryColor,
+                                        borderRadius:
+                                            BorderRadius.circular(35)),
+                                    child: Icon(
+                                      Icons.call,
+                                      size: 20,
+                                      color: Colors.white,
+                                    )),
+                              )
+                            : Container()
+                      ],
                     ),
               subtitle: widget.appointment.status == 'completed' ||
                       widget.appointment.status == 'cancelled'
@@ -246,5 +300,32 @@ class _UpcomingAppointmentCardState extends State<UpcomingAppointmentCard> {
         ]),
       ),
     );
+  }
+}
+
+final String localUserID = math.Random().nextInt(100000).toString();
+
+class LiveCall extends StatefulWidget {
+  final callingId;
+  final userName;
+  const LiveCall(this.callingId, this.userName);
+
+  @override
+  State<LiveCall> createState() => _LiveCallState();
+}
+
+class _LiveCallState extends State<LiveCall> {
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+        child: ZegoUIKitPrebuiltCall(
+            appID: 257183186,
+            appSign:
+                '0cd8ec8c4b7f99ea03ffb73d585c0ca5ebd9dc0b4aaaf511b22a412134d2a7d6',
+            callID: widget.callingId,
+            userID: localUserID,
+            userName: widget.userName,
+            config: ZegoUIKitPrebuiltCallConfig.oneOnOneVideoCall()
+              ..onOnlySelfInRoom = (context) => Navigator.pop(context)));
   }
 }

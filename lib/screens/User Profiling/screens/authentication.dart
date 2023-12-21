@@ -7,7 +7,6 @@ import 'package:test/constants/const.dart';
 import 'package:test/screens/User%20Profiling/screens/email-otp.dart';
 import 'package:test/utils/customProgess.dart';
 import 'package:test/utils/snack_bar_util.dart';
-import 'package:test/widgets/inputDecoration.dart';
 
 import 'package:test/screens/User%20Profiling/screens/passwordReset.dart';
 
@@ -33,7 +32,7 @@ class _AuthenticationState extends State<Authentication> {
     return Scaffold(
       // resizeToAvoidBottomInset: false,
       body: SingleChildScrollView(
-        child: Container(
+        child: SizedBox(
           height: deviceSize.height,
           width: deviceSize.width,
           child: SafeArea(
@@ -41,7 +40,7 @@ class _AuthenticationState extends State<Authentication> {
               children: <Widget>[
                 Stack(
                   children: <Widget>[
-                    Image(
+                    const Image(
                       image: AssetImage('assets/images/eclipse.png'),
                     ),
                     Container(
@@ -143,7 +142,7 @@ class _AuthCardState extends State<AuthCard> {
     }
   }
 
-  Map<String, String> _authData = {
+  final Map<String, String> _authData = {
     'email': '',
     'password': '',
     'name': '',
@@ -183,38 +182,32 @@ class _AuthCardState extends State<AuthCard> {
           child: Column(
             children: <Widget>[
               //Login Heading
-              SizedBox(
+              const SizedBox(
                 height: 130,
               ),
               if (_authMode == AuthMode.Login)
-                Container(
-                  child: const Align(
-                    alignment: Alignment.topLeft,
-                    child: Text(
-                      'Login',
-                      style:
-                          TextStyle(fontSize: 34, fontWeight: FontWeight.bold),
-                    ),
+                const Align(
+                  alignment: Alignment.topLeft,
+                  child: Text(
+                    'Login',
+                    style: TextStyle(fontSize: 34, fontWeight: FontWeight.bold),
                   ),
                 ),
               //signup Heading
               if (_authMode == AuthMode.Signup)
-                Container(
-                  child: const Align(
-                    alignment: Alignment.topLeft,
-                    child: Text(
-                      'Create Account',
-                      style:
-                          TextStyle(fontSize: 34, fontWeight: FontWeight.bold),
-                    ),
+                const Align(
+                  alignment: Alignment.topLeft,
+                  child: Text(
+                    'Create Account',
+                    style: TextStyle(fontSize: 34, fontWeight: FontWeight.bold),
                   ),
                 ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               //Login Tagline
               if (_authMode == AuthMode.Login)
-                Align(
+                const Align(
                   alignment: Alignment.topLeft,
                   child: Text(
                     'Please Sign in to continue',
@@ -227,11 +220,11 @@ class _AuthCardState extends State<AuthCard> {
                 ),
 
               if (_authMode == AuthMode.Login)
-                SizedBox(
+                const SizedBox(
                   height: 40,
                 ),
               if (_authMode == AuthMode.Signup)
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
 
@@ -394,7 +387,7 @@ class _AuthCardState extends State<AuthCard> {
                           color: Color(0xFF949494),
                           fontWeight: FontWeight.w500),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 29,
                     ),
                     DropdownButton(
@@ -430,110 +423,10 @@ class _AuthCardState extends State<AuthCard> {
                   login,
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 50,
               ),
-              //Login and Signup Login option
-              // Text(
-              //   _authMode == AuthMode.Login
-              //       ? 'Or Login with'
-              //       : 'Or Signup with',
-              //   style: const TextStyle(
-              //       fontSize: 19,
-              //       fontFamily: 'Poppins',
-              //       fontWeight: FontWeight.w700),
-              // ),
-              // Container(
-              //   height: 20,
-              // ),
 
-              //Google facebook button
-              // FittedBox(
-              //   child: Row(children: <Widget>[
-              //     SizedBox(
-              //       width: 150,
-              //       height: 52,
-              //       child: TextButton(
-              //         onPressed: () {},
-              //         style: TextButton.styleFrom(
-              //           shape: RoundedRectangleBorder(
-              //             borderRadius: BorderRadius.circular(10), // <-- Radius
-              //           ),
-              //           side: const BorderSide(
-              //             width: 3.0,
-              //             color: Color(0xFF4267B2),
-              //           ),
-              //         ),
-              //         child: Container(
-              //           margin: const EdgeInsets.only(left: 9),
-              //           // ignore: prefer_const_literals_to_create_immutables
-              //           child: Row(children: <Widget>[
-              //             const Icon(
-              //               // <-- Icon
-              //               Icons.facebook,
-              //               size: 28.0,
-              //               color: Color(0xFF4267B2),
-              //             ),
-              //             Container(
-              //               margin: const EdgeInsets.only(left: 3),
-              //               child: const Text(
-              //                 'Facebook',
-              //                 style: TextStyle(
-              //                     fontSize: 18,
-              //                     color: Color(0xFF4267B2),
-              //                     fontFamily: 'Poppins',
-              //                     fontWeight: FontWeight.w600),
-              //               ),
-              //             ),
-              //           ]),
-              //         ),
-              //       ),
-              //     ),
-              //     Container(
-              //       width: 12,
-              //     ),
-              //     SizedBox(
-              //       width: 150,
-              //       height: 52,
-              //       child: TextButton(
-              //         onPressed: () {},
-              //         style: TextButton.styleFrom(
-              //           shape: RoundedRectangleBorder(
-              //             borderRadius: BorderRadius.circular(10), // <-- Radius
-              //           ),
-              //           side: const BorderSide(
-              //             width: 3.0,
-              //             color: Color(0xFF5C8DF0),
-              //           ),
-              //         ),
-              //         child: Container(
-              //           margin: const EdgeInsets.only(left: 16),
-              //           // ignore: prefer_const_literals_to_create_immutables
-              //           child: Row(children: <Widget>[
-              //             const Image(
-              //               image: AssetImage('assets/images/google.png'),
-              //               width: 24,
-              //               height: 24,
-              //             ),
-              //             Container(
-              //               margin: const EdgeInsets.only(left: 5),
-              //               child: const Text(
-              //                 'Google',
-              //                 style: TextStyle(
-              //                     fontSize: 18,
-              //                     color: Color(0xFF4267B2),
-              //                     fontFamily: 'Poppins',
-              //                     fontWeight: FontWeight.w600),
-              //               ),
-              //             ),
-              //           ]),
-              //         ),
-              //       ),
-              //     ),
-              //   ]),
-              // ),
-
-              //switch between signup and sign in
               Container(
                 margin: EdgeInsets.only(
                     left: MediaQuery.of(context).size.width / 5),
@@ -687,11 +580,11 @@ class _AuthCardState extends State<AuthCard> {
 
   List<DropdownMenuItem<String>> get dropdownItems {
     List<DropdownMenuItem<String>> menuItems = [
-      DropdownMenuItem(
-          child: Text("Select the type"), value: "Select the type"),
-      DropdownMenuItem(child: Text("Doctor"), value: "Doctor"),
-      DropdownMenuItem(child: Text("Radiologist"), value: "Radiologist"),
-      DropdownMenuItem(child: Text("Patient"), value: "Patient"),
+      const DropdownMenuItem(
+          value: "Select the type", child: Text("Select the type")),
+      const DropdownMenuItem(value: "Doctor", child: Text("Doctor")),
+      const DropdownMenuItem(value: "Radiologist", child: Text("Radiologist")),
+      const DropdownMenuItem(value: "Patient", child: Text("Patient")),
     ];
     return menuItems;
   }

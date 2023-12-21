@@ -9,6 +9,7 @@ class Results extends ChangeNotifier {
   List<Map<String, dynamic>> _results = [];
   var image1;
   var breast;
+  var kidney;
 
   Results();
 
@@ -16,8 +17,14 @@ class Results extends ChangeNotifier {
     return _results;
   }
 
-  Future<void> diagnose(image) async {
-    final api = Uri.parse('$flaskApi/xray');
+  Future<void> diagnose(image, dis) async {
+    String endpoint = dis == 'chest'
+        ? 'xray'
+        : dis == 'breast'
+            ? 'breast'
+            : 'kidney';
+
+    final api = Uri.parse('$flaskApi/$endpoint');
 
     if (image == null) return;
     String base64Image = base64Encode(image!.readAsBytesSync());
@@ -32,17 +39,22 @@ class Results extends ChangeNotifier {
       final response = json.decode(res.body);
       _results = [];
 
-      for (int i = 0; i < labels.length; i++) {
-        _results.add({
-          labels[i]: {
-            'percentage': response['percentages'][i],
-            'heatmap': response['heatmaps'][i]
-          }
-        });
+      if (dis == 'chest') {
+        for (int i = 0; i < labels.length; i++) {
+          _results.add({
+            labels[i]: {
+              'percentage': response['percentages'][i],
+              'heatmap': response['heatmaps'][i]
+            }
+          });
+        }
+        image1 = response['original'];
+        print(_results.length);
+      } else if (dis == 'breast') {
+        breast = response['prediction'];
+      } else {
+        kidney = response['kidney'];
       }
-      image1 = response['original'];
-
-      print(_results.length);
       notifyListeners();
     });
   }

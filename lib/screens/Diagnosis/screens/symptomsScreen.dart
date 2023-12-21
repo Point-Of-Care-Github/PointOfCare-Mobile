@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:test/screens/Diagnosis/widgets/symptomsForm.dart';
 import 'package:test/widgets/backButton.dart';
-import 'uploadScreen.dart';
 
 class SymptomsScreen extends StatelessWidget {
   static const routeName = '/symptoms-screen';
   final user;
   final dis;
-  SymptomsScreen(this.user, this.dis);
+  const SymptomsScreen(this.user, this.dis, {super.key});
 
+  @override
   Widget build(BuildContext context) {
     final deviceSize = MediaQuery.of(context).size;
 

@@ -33,7 +33,11 @@ class _UploadState extends State<Upload> {
               child: Align(
                 alignment: Alignment.topLeft,
                 child: Text(
-                  'Breast Diagnosis',
+                  widget.dis == 'chest'
+                      ? 'Chest Diagnosis'
+                      : widget.dis == 'breast'
+                          ? "Breast Diagnosis"
+                          : "Kidney Diagnosis",
                   style: TextStyle(
                     fontSize: headingFontSize,
                     fontFamily: 'Poppins',

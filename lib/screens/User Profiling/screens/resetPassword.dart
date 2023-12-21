@@ -288,21 +288,4 @@ class _ResetPasswordState extends State<ResetPassword> {
       });
     }
   }
-
-  // void validateConfirmPass(String pass) {
-  //   if (pass.isEmpty) {
-  //     ScaffoldMessenger.of(context).showSnackBar(
-  //       const SnackBar(
-  //         content: Text('Please repeat your password to confirm!'),
-  //       ),
-  //     );
-  //   }
-  //   if (_passwordController.text != pass) {
-  //     ScaffoldMessenger.of(context).showSnackBar(
-  //       const SnackBar(
-  //         content: Text('Passwords donot match!'),
-  //       ),
-  //     );
-  //   }
-  // }
 }

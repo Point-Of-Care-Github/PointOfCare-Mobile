@@ -26,6 +26,7 @@ class UpcomingSchedule extends StatelessWidget {
   Widget build(BuildContext context) {
     final user = Provider.of<Auth>(context);
     final deviceSize = MediaQuery.of(context).size;
+
     final role = user.role;
     var appointmentsList =
         Provider.of<AppointmentServices>(context).appointmentsList;
@@ -47,7 +48,7 @@ class UpcomingSchedule extends StatelessWidget {
           children: [
             role == 'Doctor'
                 ? Container(
-                    height: !flag ? deviceSize.height * .73 : 180,
+                    height: !flag ? deviceSize.height * .73 : 190,
                     child: doctorAppointments.length == 0
                         ? Center(
                             child: Text("No upcoming appointments yet."),
@@ -67,7 +68,9 @@ class UpcomingSchedule extends StatelessWidget {
                                   ? UpcomingAppointmentCard(
                                       us: us,
                                       doc: doc,
-                                      appointment: appointment)
+                                      appointment: appointment,
+                                      flag: true,
+                                    )
                                   : Container(
                                       child: Center(
                                         child: Text("No appointments yet."),
@@ -76,7 +79,7 @@ class UpcomingSchedule extends StatelessWidget {
                             }),
                   )
                 : Container(
-                    height: !flag ? deviceSize.height * .73 : 180,
+                    height: !flag ? deviceSize.height * .73 : 190,
                     child: userAppointments.length == 0
                         ? Center(
                             child: Text("No appointments yet."),
@@ -96,7 +99,9 @@ class UpcomingSchedule extends StatelessWidget {
                                   ? UpcomingAppointmentCard(
                                       us: us,
                                       doc: doc,
-                                      appointment: appointment)
+                                      appointment: appointment,
+                                      flag: true,
+                                    )
                                   : Container();
                             }))
           ],

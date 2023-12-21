@@ -46,35 +46,22 @@ class _TabsScreenState extends State<TabsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> _widgetOptions = auth.role == "Radiologist"
+    List<Widget> widgetOptions = auth.role == "Radiologist"
         ? [
             Profile(),
             HomeScreen(),
-            SettingScreen(),
+            const SettingScreen(),
           ]
         : [
             Profile(),
-            ScheduleScreen(),
+            const ScheduleScreen(),
             HomeScreen(),
-            MessagesScreen(),
-            SettingScreen(),
-          ];
-    List<String> titles = auth.role == "Radiologist"
-        ? [
-            'Profile',
-            'Home',
-            'Settings',
-          ]
-        : [
-            'Profile',
-            'Schedules'
-                'Home',
-            'Messages'
-                'Settings',
+            const MessagesScreen(),
+            const SettingScreen(),
           ];
     return Scaffold(
       // drawer: AppDrawer(),
-      backgroundColor: Color(0xFFFCFCFF),
+      backgroundColor: const Color(0xFFFCFCFF),
       body: _isLoading
           ? Center(
               child: Image.asset(
@@ -83,7 +70,7 @@ class _TabsScreenState extends State<TabsScreen> {
                 width: 100,
               ),
             )
-          : _widgetOptions.elementAt(_selectedIndex),
+          : widgetOptions.elementAt(_selectedIndex),
 
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Colors.white,

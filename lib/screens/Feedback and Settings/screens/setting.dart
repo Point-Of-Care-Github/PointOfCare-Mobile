@@ -27,8 +27,8 @@ class SettingScreen extends StatelessWidget {
           // Title
           Container(
             margin: EdgeInsets.only(
-              top: deviceSize.height * 0.06,
-              left: deviceSize.width * 0.13,
+              top: deviceSize.height * 0.09,
+              left: deviceSize.width * 0.15,
             ),
             child: Text(
               'Settings',
@@ -36,7 +36,7 @@ class SettingScreen extends StatelessWidget {
                 color: const Color(0xff200E32).withOpacity(0.8),
                 fontFamily: 'Poppins',
                 fontWeight: FontWeight.w700,
-                fontSize: 30,
+                fontSize: 34,
               ),
             ),
           ),
@@ -52,7 +52,7 @@ class SettingScreen extends StatelessWidget {
                 SizedBox(height: deviceSize.height * 0.13),
                 buildListTile(
                   context: context,
-                  icon: CupertinoIcons.question_circle,
+                  icon: Icons.question_mark,
                   text: "FAQ",
                   onTap: () {
                     Navigator.of(context).push(
@@ -132,7 +132,7 @@ class SettingScreen extends StatelessWidget {
         child: Icon(
           icon,
           color: Theme.of(context).primaryColor,
-          size: deviceSize.width * 0.1,
+          size: 34,
         ),
       ),
       title: Text(

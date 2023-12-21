@@ -95,7 +95,7 @@ class _EmailOtpState extends State<EmailOtp> {
 
     return Scaffold(
       body: _isLoading
-          ? Center(
+          ? const Center(
               child: CircularProgressIndicator(),
             )
           : Container(
@@ -133,11 +133,12 @@ class _EmailOtpState extends State<EmailOtp> {
           textAlign: TextAlign.center,
           text: TextSpan(
             children: [
-              TextSpan(
+              const TextSpan(
                   text: "We just sent a code to ",
                   style: TextStyle(color: Colors.black)),
-              TextSpan(text: email, style: TextStyle(color: Colors.black)),
               TextSpan(
+                  text: email, style: const TextStyle(color: Colors.black)),
+              const TextSpan(
                   text: "\nEnter the code here and we can continue!",
                   style: TextStyle(color: Colors.black)),
             ],
@@ -161,7 +162,7 @@ class _EmailOtpState extends State<EmailOtp> {
         RichText(
           text: TextSpan(
             children: [
-              TextSpan(
+              const TextSpan(
                   text: "Didn't receive the code? ",
                   style: TextStyle(color: Colors.black)),
               WidgetSpan(
@@ -171,7 +172,7 @@ class _EmailOtpState extends State<EmailOtp> {
                       //
                     });
                   },
-                  child: Text(
+                  child: const Text(
                     "Resend",
                   ),
                 ),

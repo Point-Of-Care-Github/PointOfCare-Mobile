@@ -26,7 +26,7 @@ class _SelectDiagnosisState extends State<SelectDiagnosis> {
             image: AssetImage('assets/images/eclipse.png'),
           ),
           Container(
-            margin: EdgeInsets.only(left: 0.0, top: 50, right: 30),
+            margin: const EdgeInsets.only(left: 0.0, top: 50, right: 30),
             child: Align(
               alignment: Alignment.topRight,
               child: Image.asset(
@@ -37,7 +37,7 @@ class _SelectDiagnosisState extends State<SelectDiagnosis> {
             ),
           ),
           backButton(context),
-          Container(
+          SizedBox(
             width: double.infinity,
             child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -49,7 +49,7 @@ class _SelectDiagnosisState extends State<SelectDiagnosis> {
                       alignment: Alignment.topLeft,
                       child: Title(
                           color: Colors.black,
-                          child: Text(
+                          child: const Text(
                             "Diagnose Now!",
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
@@ -58,7 +58,7 @@ class _SelectDiagnosisState extends State<SelectDiagnosis> {
                           )),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 50,
                   ),
                   Row(
@@ -74,15 +74,14 @@ class _SelectDiagnosisState extends State<SelectDiagnosis> {
                               });
                         },
                         child: Container(
-                          padding: EdgeInsets.all(20),
+                          padding: const EdgeInsets.all(20),
                           width: 150,
                           decoration: BoxDecoration(
                               color: Colors.white,
-                              boxShadow: [
+                              boxShadow: const [
                                 BoxShadow(
                                     blurRadius: 15,
-                                    color: const Color.fromARGB(
-                                        255, 198, 198, 198))
+                                    color: Color.fromARGB(255, 198, 198, 198))
                               ],
                               borderRadius: BorderRadius.circular(15)),
                           child: Column(children: [
@@ -90,10 +89,10 @@ class _SelectDiagnosisState extends State<SelectDiagnosis> {
                               'assets/images/lungs.png',
                               height: 60,
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 20,
                             ),
-                            Text(
+                            const Text(
                               "Chest",
                               style: TextStyle(
                                   fontSize: 18, fontWeight: FontWeight.w700),
@@ -101,7 +100,7 @@ class _SelectDiagnosisState extends State<SelectDiagnosis> {
                           ]),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 20,
                       ),
                       GestureDetector(
@@ -114,15 +113,14 @@ class _SelectDiagnosisState extends State<SelectDiagnosis> {
                               });
                         },
                         child: Container(
-                          padding: EdgeInsets.all(20),
+                          padding: const EdgeInsets.all(20),
                           width: 150,
                           decoration: BoxDecoration(
                               color: Colors.white,
-                              boxShadow: [
+                              boxShadow: const [
                                 BoxShadow(
                                     blurRadius: 15,
-                                    color: const Color.fromARGB(
-                                        255, 208, 208, 208))
+                                    color: Color.fromARGB(255, 208, 208, 208))
                               ],
                               borderRadius: BorderRadius.circular(15)),
                           child: Column(children: [
@@ -130,10 +128,10 @@ class _SelectDiagnosisState extends State<SelectDiagnosis> {
                               'assets/images/breast.png',
                               height: 60,
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 20,
                             ),
-                            Text(
+                            const Text(
                               "Breast",
                               style: TextStyle(
                                   fontSize: 18, fontWeight: FontWeight.w700),
@@ -143,7 +141,7 @@ class _SelectDiagnosisState extends State<SelectDiagnosis> {
                       ),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   Row(
@@ -152,54 +150,56 @@ class _SelectDiagnosisState extends State<SelectDiagnosis> {
                       GestureDetector(
                         onTap: () {
                           Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => Retinopathy()));
+                              builder: (context) => const Retinopathy()));
                         },
                         child: Container(
-                          padding: EdgeInsets.all(20),
+                          padding: const EdgeInsets.all(20),
                           width: 150,
                           decoration: BoxDecoration(
                               color: Colors.white,
-                              boxShadow: [
+                              boxShadow: const [
                                 BoxShadow(
                                     blurRadius: 15,
-                                    color: const Color.fromARGB(
-                                        255, 204, 204, 204))
+                                    color: Color.fromARGB(255, 204, 204, 204))
                               ],
                               borderRadius: BorderRadius.circular(15)),
                           child: Column(children: [
                             Image.asset(
-                              'assets/images/liver.png',
+                              'assets/images/retinopathy.png',
                               height: 60,
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 20,
                             ),
-                            Text(
-                              "Liver",
+                            const Text(
+                              "Retinopathy",
                               style: TextStyle(
                                   fontSize: 18, fontWeight: FontWeight.w700),
                             )
                           ]),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 20,
                       ),
                       GestureDetector(
                         onTap: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => Retinopathy()));
+                          Navigator.of(context).pushNamed(Diagnosis.routeName,
+                              arguments: {
+                                "type": type,
+                                "user": user,
+                                "dis": "kidney"
+                              });
                         },
                         child: Container(
-                          padding: EdgeInsets.all(20),
+                          padding: const EdgeInsets.all(20),
                           width: 150,
                           decoration: BoxDecoration(
                               color: Colors.white,
-                              boxShadow: [
+                              boxShadow: const [
                                 BoxShadow(
                                     blurRadius: 15,
-                                    color: const Color.fromARGB(
-                                        255, 204, 204, 204))
+                                    color: Color.fromARGB(255, 204, 204, 204))
                               ],
                               borderRadius: BorderRadius.circular(15)),
                           child: Column(children: [
@@ -207,10 +207,10 @@ class _SelectDiagnosisState extends State<SelectDiagnosis> {
                               'assets/images/kidney.png',
                               height: 60,
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 20,
                             ),
-                            Text(
+                            const Text(
                               "Kidney",
                               style: TextStyle(
                                   fontSize: 18, fontWeight: FontWeight.w700),
@@ -219,41 +219,6 @@ class _SelectDiagnosisState extends State<SelectDiagnosis> {
                         ),
                       ),
                     ],
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => Retinopathy()));
-                    },
-                    child: Container(
-                      padding: EdgeInsets.all(20),
-                      width: 150,
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          boxShadow: [
-                            BoxShadow(
-                                blurRadius: 15,
-                                color: const Color.fromARGB(255, 204, 204, 204))
-                          ],
-                          borderRadius: BorderRadius.circular(15)),
-                      child: Column(children: [
-                        Image.asset(
-                          'assets/images/retinopathy.png',
-                          height: 70,
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Text(
-                          "Retinopathy",
-                          style: TextStyle(
-                              fontSize: 17, fontWeight: FontWeight.w700),
-                        )
-                      ]),
-                    ),
                   ),
                 ]),
           ),

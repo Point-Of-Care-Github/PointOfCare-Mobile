@@ -1,20 +1,14 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:test/providers/auth.dart';
-import 'package:test/providers/doctor.dart';
-import 'package:test/providers/patient.dart';
 import 'package:test/screens/Diagnosis/screens/symptomsScreen.dart';
 import 'package:test/widgets/inputDecoration.dart';
 import 'package:test/widgets/myButton.dart';
-
-import '../../../providers/radiologist.dart';
 
 class DiagnosisForm extends StatefulWidget {
   final user;
   final type;
   final dis;
-  DiagnosisForm(this.user, this.type, this.dis);
+  const DiagnosisForm(this.user, this.type, this.dis, {super.key});
 
   @override
   State<DiagnosisForm> createState() => _DiagnosisFormState();
@@ -23,7 +17,7 @@ class DiagnosisForm extends StatefulWidget {
 class _DiagnosisFormState extends State<DiagnosisForm> {
   final GlobalKey<FormState> _formKey = GlobalKey();
 
-  Map<String, String> _authData = {
+  final Map<String, String> _authData = {
     'email': '',
     'contact': '',
     'name': '',
@@ -149,7 +143,7 @@ class _DiagnosisFormState extends State<DiagnosisForm> {
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
 
@@ -190,7 +184,7 @@ class _DiagnosisFormState extends State<DiagnosisForm> {
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
 
@@ -232,7 +226,7 @@ class _DiagnosisFormState extends State<DiagnosisForm> {
                 ),
               ),
 
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
 

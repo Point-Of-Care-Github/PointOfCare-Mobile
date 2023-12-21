@@ -12,340 +12,300 @@ class SymptomsForm extends StatefulWidget {
 }
 
 class _SymptomsFormState extends State<SymptomsForm> {
-  List<String> selectedOptions = [];
   final GlobalKey<FormState> _formKey = GlobalKey();
-  int? id1;
-  int? id2;
-  int? id3;
-  int? id4;
-  Map<String, String> _ans = {
-    'ans1': '',
-    'ans2': '',
-    'ans3': '',
-    'ans4': '',
-    'ans5': '',
-  };
+  Map<String, int?> selectedOptions = {};
+  Map<String, String> answers = {};
+
+  List<Map<String, dynamic>> symptomData = [];
+
+  List<Map<String, dynamic>> chestData = [
+    {
+      'question':
+          '1) Which of the following best describes your chest discomfort or pain?',
+      'options': [
+        'Sharp and stabbing',
+        'Dull and aching',
+        'Pressure or tightness',
+        'None of the above'
+      ]
+    },
+    {
+      'question': '2) How long have you been experiencing chest symptoms?',
+      'options': ['Less than a day', 'A few days', 'A few weeks', 'None']
+    },
+    {
+      'question':
+          '3) Are your chest symptoms associated with shortness of breath?',
+      'options': [
+        'Yes, I have shortness of breath',
+        'Sometimes I have shortness of breath',
+        'No, I do not have shortness of breath',
+        'Not sure'
+      ]
+    },
+    {
+      'question':
+          '4) Are there specific activities or times of the day that seem to trigger your chest symptoms?',
+      'options': [
+        'Yes, certain activities or times',
+        'No, they occur randomly',
+        'Not applicable',
+        'Not sure'
+      ]
+    },
+    {
+      'question':
+          '5) Do you experience chest pain or discomfort during physical exertion or exercise?',
+      'options': [
+        'Yes, during physical exertion or exercise',
+        'No, not related to physical activity',
+        'I do not engage in physical activity',
+        'Not sure'
+      ]
+    },
+  ];
+
+  List<Map<String, dynamic>> breastTumorSymptoms = [
+    {
+      'question':
+          '1) Have you noticed any changes in the size or shape of your breast?',
+      'options': [
+        'Yes, an increase in size',
+        'Yes, a decrease in size',
+        'No changes',
+        'Not sure'
+      ]
+    },
+    {
+      'question': '2) Do you experience pain or tenderness in your breast?',
+      'options': [
+        'Yes, frequent pain',
+        'Yes, occasional pain',
+        'No pain or tenderness',
+        'Not sure'
+      ]
+    },
+    {
+      'question':
+          '3) Have you observed any changes in the color or texture of your breast skin?',
+      'options': [
+        'Yes, changes in color',
+        'Yes, changes in texture',
+        'No changes',
+        'Not sure'
+      ]
+    },
+    {
+      'question':
+          '4) Do you notice any lumps or masses in your breast or underarm area?',
+      'options': [
+        'Yes, one or more lumps',
+        'No lumps or masses',
+        'Not sure',
+        'I do not check'
+      ]
+    },
+    {
+      'question':
+          '5) Have you experienced any nipple discharge or changes in nipple appearance?',
+      'options': [
+        'Yes, nipple discharge',
+        'Yes, changes in nipple appearance',
+        'No changes',
+        'Not sure'
+      ]
+    },
+  ];
+
+  List<Map<String, dynamic>> kidneyIssuesSymptoms = [
+    {
+      'question':
+          '1) Have you experienced persistent pain or discomfort in your lower back or sides?',
+      'options': [
+        'Yes, frequently',
+        'Yes, occasionally',
+        'No pain or discomfort',
+        'Not sure'
+      ]
+    },
+    {
+      'question':
+          '2) Do you notice any changes in the color or odor of your urine?',
+      'options': [
+        'Yes, changes in color',
+        'Yes, changes in odor',
+        'No changes',
+        'Not sure'
+      ]
+    },
+    {
+      'question': '3) Have you ever passed blood in your urine?',
+      'options': [
+        'Yes, multiple times',
+        'Yes, once',
+        'No blood in urine',
+        'Not sure'
+      ]
+    },
+    {
+      'question':
+          '4) Do you experience frequent urination or a sense of urgency to urinate?',
+      'options': [
+        'Yes, frequently',
+        'Yes, occasionally',
+        'No issues with urination',
+        'Not sure'
+      ]
+    },
+    {
+      'question': '5) Have you noticed any swelling in your ankles or legs?',
+      'options': [
+        'Yes, swelling present',
+        'No swelling',
+        'Not sure',
+        'I haven\'t checked'
+      ]
+    },
+  ];
+
+  @override
+  void initState() {
+    symptomData = widget.dis == 'chest'
+        ? chestData
+        : widget.dis == 'breast'
+            ? breastTumorSymptoms
+            : widget.dis == 'kidney'
+                ? kidneyIssuesSymptoms
+                : [];
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
+    print(selectedOptions);
     final deviceSize = MediaQuery.of(context).size;
     return SingleChildScrollView(
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 30),
         child: Form(
-            key: _formKey,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                SizedBox(
-                  height: 150,
+          key: _formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              SizedBox(
+                height: 150,
+              ),
+              Text(
+                'Symptoms',
+                style: TextStyle(
+                  fontSize: deviceSize.width * 0.07,
+                  fontFamily: 'Poppins',
+                  fontWeight: FontWeight.bold,
                 ),
-                Text(
-                  'Symptoms',
-                  style: TextStyle(
-                    fontSize: deviceSize.width * 0.07,
-                    fontFamily: 'Poppins',
-                    fontWeight: FontWeight.bold,
+              ),
+              SizedBox(
+                height: 5,
+              ),
+              // SubHeading
+              Text(
+                'Please enter patient\'s symptoms',
+                style: TextStyle(
+                  fontSize: deviceSize.width * 0.032,
+                  color: Colors.black38,
+                  fontFamily: 'League Spartan',
+                ),
+              ),
+              SizedBox(
+                height: 30,
+              ),
+              Container(
+                height: deviceSize.height / 1.6,
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: _buildSymptomQuestions(),
                   ),
                 ),
-                SizedBox(
-                  height: 5,
-                ),
-                // SubHeading
-                Text(
-                  'Please enter patient\'s symptoms',
-                  style: TextStyle(
-                    fontSize: deviceSize.width * 0.032,
-                    color: Colors.black38,
-                    fontFamily: 'League Spartan',
-                  ),
-                ),
-                SizedBox(
-                  height: 30,
-                ),
-                Container(
-                  height: deviceSize.height / 1.6,
-                  child: SingleChildScrollView(
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text(
-                            '1) Which of the following best describes your chest discomfort or pain?',
-                            style: TextStyle(
-                              fontFamily: 'Poppins',
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          const SizedBox(height: 8),
-                          RadioListTile(
-                            title: const Text(
-                              'Sharp and stabbing',
-                              style: TextStyle(
-                                  fontFamily: 'Poppins', fontSize: 12),
-                            ),
-                            value: 1,
-                            groupValue: id1,
-                            onChanged: (value) => {
-                              setState(() {
-                                _ans['ans1'] = 'Sharp and stabbing';
-                                id1 = 1;
-                                print(_ans['ans1']);
-                              })
-                            },
-                          ),
-                          RadioListTile(
-                            title: const Text(
-                              'Dull and aching',
-                              style: TextStyle(
-                                  fontFamily: 'Poppins', fontSize: 12),
-                            ),
-                            value: 2,
-                            groupValue: id1,
-                            onChanged: (value) => {
-                              setState(() {
-                                _ans['ans1'] = 'Dull and aching';
-                                id1 = 2;
-                                print(_ans['ans1']);
-                              })
-                            },
-                          ),
-                          RadioListTile(
-                            title: const Text(
-                              'Pressure or tightness',
-                              style: TextStyle(
-                                  fontFamily: 'Poppins', fontSize: 12),
-                            ),
-                            value: 3,
-                            groupValue: id1,
-                            onChanged: (value) => {
-                              setState(() {
-                                _ans['ans1'] = 'Pressure or tightness';
-                                id1 = 3;
-                                print(_ans['ans1']);
-                              })
-                            },
-                          ),
-                          RadioListTile(
-                            title: const Text(
-                              'None of the above',
-                              style: TextStyle(
-                                  fontFamily: 'Poppins', fontSize: 12),
-                            ),
-                            value: 4,
-                            groupValue: id1,
-                            onChanged: (value) => {
-                              setState(() {
-                                _ans['ans1'] = 'None of the above';
-                                id1 = 4;
-                                print(_ans['ans1']);
-                              })
-                            },
-                          ),
-                          RadioListTile(
-                            title: const Text(
-                              'None of the above',
-                              style: TextStyle(
-                                  fontFamily: 'Poppins', fontSize: 12),
-                            ),
-                            value: 5,
-                            groupValue: id1,
-                            onChanged: (value) => {
-                              setState(() {
-                                _ans['ans1'] = 'None of the above';
-                                id1 = 5;
-                                print(_ans['ans1']);
-                              })
-                            },
-                          ),
-                          const SizedBox(height: 8),
-                          const Text(
-                            '2) How long have you been experiencing chest symptoms?',
-                            style: TextStyle(
-                              fontFamily: 'Poppins',
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          const SizedBox(height: 8),
-                          RadioListTile(
-                            title: const Text(
-                              'Less than a day',
-                              style: TextStyle(
-                                  fontFamily: 'Poppins', fontSize: 12),
-                            ),
-                            value: 1,
-                            groupValue: id2,
-                            onChanged: (value) => {
-                              setState(() {
-                                _ans['ans2'] = 'Less than a day';
-                                id2 = 1;
-                                print(_ans['ans2']);
-                              })
-                            },
-                          ),
-                          RadioListTile(
-                            title: const Text(
-                              'A few days',
-                              style: TextStyle(
-                                  fontFamily: 'Poppins', fontSize: 12),
-                            ),
-                            value: 2,
-                            groupValue: id2,
-                            onChanged: (value) => {
-                              setState(() {
-                                _ans['ans2'] = 'A few days';
-                                id2 = 2;
-                                print(_ans['ans2']);
-                              })
-                            },
-                          ),
-                          RadioListTile(
-                            title: const Text(
-                              'A few weeks.',
-                              style: TextStyle(
-                                  fontFamily: 'Poppins', fontSize: 12),
-                            ),
-                            value: 3,
-                            groupValue: id2,
-                            onChanged: (value) => {
-                              setState(() {
-                                _ans['ans1'] = 'A few weeks.';
-                                id2 = 3;
-                                print(_ans['ans2']);
-                              })
-                            },
-                          ),
-                          RadioListTile(
-                            title: const Text(
-                              'None',
-                              style: TextStyle(
-                                  fontFamily: 'Poppins', fontSize: 12),
-                            ),
-                            value: 4,
-                            groupValue: id2,
-                            onChanged: (value) => {
-                              setState(() {
-                                _ans['ans1'] = 'None';
-                                id2 = 4;
-                                print(_ans['ans2']);
-                              })
-                            },
-                          ),
-                          const SizedBox(
-                            height: 8,
-                          ),
-                          const Text(
-                            '3) Are your chest symptoms associated with shortness of breath?',
-                            style: TextStyle(
-                              fontFamily: 'Poppins',
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          const SizedBox(height: 8),
-                          RadioListTile(
-                            title: const Text(
-                              'Yes, I have shortness of breathe.',
-                              style: TextStyle(
-                                  fontFamily: 'Poppins', fontSize: 12),
-                            ),
-                            value: 1,
-                            groupValue: id3,
-                            onChanged: (value) => {
-                              setState(() {
-                                _ans['ans3'] =
-                                    'Yes, I have shortness of breathe.';
-                                id3 = 1;
-                                print(_ans['ans3']);
-                              })
-                            },
-                          ),
-                          RadioListTile(
-                            title: const Text(
-                              'Sometimes I have shortness of breathe.',
-                              style: TextStyle(
-                                  fontFamily: 'Poppins', fontSize: 12),
-                            ),
-                            value: 2,
-                            groupValue: id3,
-                            onChanged: (value) => {
-                              setState(() {
-                                _ans['ans3'] =
-                                    'Sometimes I have shortness of breathe.';
-                                id3 = 2;
-                                print(_ans['ans3']);
-                              })
-                            },
-                          ),
-                          const SizedBox(height: 8),
-                          const Text(
-                            '4) Are there specific activities or times of the day that seem to trigger your chest symptoms?',
-                            style: TextStyle(
-                              fontFamily: 'Poppins',
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          const SizedBox(height: 8),
-                          RadioListTile(
-                            title: const Text(
-                              'Yes, certain activities or times',
-                              style: TextStyle(
-                                  fontFamily: 'Poppins', fontSize: 12),
-                            ),
-                            value: 1,
-                            groupValue: id4,
-                            onChanged: (value) => {
-                              setState(() {
-                                _ans['ans4'] =
-                                    'Yes, certain activities or times';
-                                id4 = 1;
-                                print(_ans['ans4']);
-                              })
-                            },
-                          ),
-                          RadioListTile(
-                            title: const Text(
-                              ' No, they occur randomly',
-                              style: TextStyle(
-                                  fontFamily: 'Poppins', fontSize: 12),
-                            ),
-                            value: 2,
-                            groupValue: id4,
-                            onChanged: (value) => {
-                              setState(() {
-                                _ans['ans4'] = ' No, they occur randomly';
-                                id4 = 2;
-                                print(_ans['ans4']);
-                              })
-                            },
-                          ),
-                          const SizedBox(height: 8),
-                          // Next button
-                        ]),
-                  ),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                myButton1(() {
-                  if (_ans['ans1'] != '' &&
-                      _ans['ans2'] != '' &&
-                      _ans['ans3'] != '' &&
-                      _ans['ans4'] != '') {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            UploadScreen(widget.user, widget.dis),
-                      ),
-                    );
-                  }
-                }, "Submit")
-              ],
-            )),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              myButton1(() {
+                if (selectedOptions['ans1'] != null &&
+                    selectedOptions['ans2'] != null &&
+                    selectedOptions['ans3'] != null &&
+                    selectedOptions['ans4'] != null &&
+                    selectedOptions['ans5'] != null) {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          UploadScreen(widget.user, widget.dis),
+                    ),
+                  );
+                }
+              }, "Submit"),
+            ],
+          ),
+        ),
       ),
+    );
+  }
+
+  List<Widget> _buildSymptomQuestions() {
+    List<Widget> symptomWidgets = [];
+
+    for (int i = 0; i < symptomData.length; i++) {
+      String question = symptomData[i]['question'];
+      List<String> options = List<String>.from(symptomData[i]['options']);
+
+      symptomWidgets.add(
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              '$question',
+              style: TextStyle(
+                fontFamily: 'Poppins',
+                fontSize: 15,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            SizedBox(height: 8),
+            _buildRadioListTiles(options, 'ans${i + 1}'),
+            SizedBox(height: 8),
+          ],
+        ),
+      );
+    }
+
+    return symptomWidgets;
+  }
+
+  Widget _buildRadioListTiles(List<String> options, String ansKey) {
+    return Column(
+      children: options.asMap().entries.map((entry) {
+        int index = entry.key;
+        String option = entry.value;
+
+        return RadioListTile(
+          title: Text(
+            '$option',
+            style: TextStyle(
+              fontFamily: 'Poppins',
+              fontSize: 12,
+            ),
+          ),
+          value: index + 1,
+          groupValue: selectedOptions[ansKey],
+          onChanged: (value) {
+            setState(() {
+              selectedOptions[ansKey] = value;
+              answers[ansKey] = option;
+            });
+          },
+        );
+      }).toList(),
     );
   }
 }

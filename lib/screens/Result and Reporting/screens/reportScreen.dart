@@ -13,7 +13,6 @@ import 'package:test/providers/doctor.dart';
 import 'package:test/providers/patient.dart';
 import 'package:test/providers/radiologist.dart';
 import 'package:http/http.dart' as http;
-import 'package:test/providers/results.dart';
 import 'package:test/utils/customProgess.dart';
 import 'package:test/utils/labelColors.dart';
 
@@ -60,7 +59,6 @@ class _ResultScreenState extends State<ReportScreen> {
   void initState() {
     results = widget.report['results'];
     image1 = widget.report['image'];
-    print(results);
     user = Provider.of<Auth>(context, listen: false);
     if (user.role == "Doctor") {
       type =
@@ -85,25 +83,25 @@ class _ResultScreenState extends State<ReportScreen> {
 
     page.graphics.drawString(
         "Name: " + user.username, PdfStandardFont(PdfFontFamily.helvetica, 10),
-        bounds: Rect.fromLTRB(0, 50, 0, 0));
+        bounds: const Rect.fromLTRB(0, 50, 0, 0));
 
     page.graphics.drawString(
         "Age: " + type.age, PdfStandardFont(PdfFontFamily.helvetica, 10),
-        bounds: Rect.fromLTRB(0, 70, 0, 0));
+        bounds: const Rect.fromLTRB(0, 70, 0, 0));
 
     page.graphics.drawString(
         "Gender: " + type.gender, PdfStandardFont(PdfFontFamily.helvetica, 10),
-        bounds: Rect.fromLTRB(0, 90, 0, 0));
+        bounds: const Rect.fromLTRB(0, 90, 0, 0));
 
     page.graphics.drawString("Contact: " + type.contact,
         PdfStandardFont(PdfFontFamily.helvetica, 10),
-        bounds: Rect.fromLTRB(0, 110, 0, 0));
+        bounds: const Rect.fromLTRB(0, 110, 0, 0));
 
     page.graphics.drawImage(
         PdfBitmap(
           await imageUrlToUint8List(type.image!),
         ),
-        Rect.fromLTWH(300, 50, 150, 150));
+        const Rect.fromLTWH(300, 50, 150, 150));
 
     page.graphics.drawImage(
         PdfBitmap(
@@ -112,7 +110,7 @@ class _ResultScreenState extends State<ReportScreen> {
         Rect.fromLTWH(0, 300, 70, 70));
     page.graphics.drawString(
         "Original Image", PdfStandardFont(PdfFontFamily.helvetica, 7),
-        bounds: Rect.fromLTWH(0, 380, 150, 50));
+        bounds: const Rect.fromLTWH(0, 380, 150, 50));
     double left = 100;
     double top = 300;
     for (int i = 0; i < 14; i++) {
@@ -198,7 +196,7 @@ class _ResultScreenState extends State<ReportScreen> {
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(35),
                       color: primaryColor.withOpacity(0.8)),
-                  child: Row(
+                  child: const Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Icon(
@@ -246,7 +244,7 @@ class _ResultScreenState extends State<ReportScreen> {
                         ],
                       ),
                     ),
-                    Text(
+                    const Text(
                       'Result',
                       style:
                           TextStyle(fontWeight: FontWeight.w700, fontSize: 24),
@@ -271,7 +269,7 @@ class _ResultScreenState extends State<ReportScreen> {
 
                         saveAndLaunchFile(bytes!, 'Report.pdf');
                       },
-                      color: Color(0xFF200e32),
+                      color: const Color(0xFF200e32),
                     )
                   ],
                 ),
@@ -287,72 +285,69 @@ class _ResultScreenState extends State<ReportScreen> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
                         Container(
-                          margin: EdgeInsets.only(top: 0, bottom: 10),
+                          margin: const EdgeInsets.only(top: 0, bottom: 10),
                           child: Stack(
                             children: [
-                              Container(
-                                // margin: EdgeInsets.only(top: 20),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(3),
-                                  child: Image.memory(base64Decode(image1)),
-                                ),
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(3),
+                                child: Image.memory(base64Decode(image1)),
                               ),
                               flags[0]
                                   ? Image.memory(base64Decode(
                                       results[0].values.first['heatmap']))
-                                  : SizedBox(),
+                                  : const SizedBox(),
                               flags[1]
                                   ? Image.memory(base64Decode(
                                       results[1].values.first['heatmap']))
-                                  : SizedBox(),
+                                  : const SizedBox(),
                               flags[2]
                                   ? Image.memory(base64Decode(
                                       results[2].values.first['heatmap']))
-                                  : SizedBox(),
+                                  : const SizedBox(),
                               flags[3]
                                   ? Image.memory(base64Decode(
                                       results[3].values.first['heatmap']))
-                                  : SizedBox(),
+                                  : const SizedBox(),
                               flags[4]
                                   ? Image.memory(base64Decode(
                                       results[4].values.first['heatmap']))
-                                  : SizedBox(),
+                                  : const SizedBox(),
                               flags[5]
                                   ? Image.memory(base64Decode(
                                       results[5].values.first['heatmap']))
-                                  : SizedBox(),
+                                  : const SizedBox(),
                               flags[6]
                                   ? Image.memory(base64Decode(
                                       results[6].values.first['heatmap']))
-                                  : SizedBox(),
+                                  : const SizedBox(),
                               flags[7]
                                   ? Image.memory(base64Decode(
                                       results[7].values.first['heatmap']))
-                                  : SizedBox(),
+                                  : const SizedBox(),
                               flags[8]
                                   ? Image.memory(base64Decode(
                                       results[8].values.first['heatmap']))
-                                  : SizedBox(),
+                                  : const SizedBox(),
                               flags[9]
                                   ? Image.memory(base64Decode(
                                       results[9].values.first['heatmap']))
-                                  : SizedBox(),
+                                  : const SizedBox(),
                               flags[10]
                                   ? Image.memory(base64Decode(
                                       results[10].values.first['heatmap']))
-                                  : SizedBox(),
+                                  : const SizedBox(),
                               flags[11]
                                   ? Image.memory(base64Decode(
                                       results[11].values.first['heatmap']))
-                                  : SizedBox(),
+                                  : const SizedBox(),
                               flags[12]
                                   ? Image.memory(base64Decode(
                                       results[12].values.first['heatmap']))
-                                  : SizedBox(),
+                                  : const SizedBox(),
                               flags[13]
                                   ? Image.memory(base64Decode(
                                       results[13].values.first['heatmap']))
-                                  : SizedBox(),
+                                  : const SizedBox(),
                             ],
                           ),
                         ),
@@ -412,15 +407,15 @@ class _ResultScreenState extends State<ReportScreen> {
                                           ),
                                         ),
                                         leading: Padding(
-                                            padding: EdgeInsets.only(
+                                            padding: const EdgeInsets.only(
                                                 top: 10, left: 8),
                                             child: IconButton(
                                               icon: flags[position]
-                                                  ? Icon(
+                                                  ? const Icon(
                                                       Icons.remove_red_eye,
                                                       color: Colors.white,
                                                     )
-                                                  : Icon(Icons
+                                                  : const Icon(Icons
                                                       .remove_red_eye_outlined),
                                               onPressed: () {
                                                 setState(() {
@@ -428,17 +423,13 @@ class _ResultScreenState extends State<ReportScreen> {
                                                       !flags[position];
                                                 });
                                               },
-                                              color: Color(0xFF200e32),
+                                              color: const Color(0xFF200e32),
                                             )),
                                         trailing: Container(
-                                          margin: EdgeInsets.only(top: 17),
+                                          margin:
+                                              const EdgeInsets.only(top: 17),
                                           child: Text(
-                                            (results[position][key]
-                                                            ['percentage'] *
-                                                        100)
-                                                    .round()
-                                                    .toString() +
-                                                "%",
+                                            "${(results[position][key]['percentage'] * 100).round()}%",
                                             style: TextStyle(
                                               fontSize: 18,
                                               fontFamily: 'Poppins',
